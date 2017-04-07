@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_search_events"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.8"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#000000"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etSearchCategory"
+                android:layout_width="248dp"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="30dp"
+                android:paddingRight="35dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
+
+            <Button
+                android:id="@+id/searchBtn"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@drawable/search" />
+
+            <TextView
+                android:id="@+id/tvCloseSearchEvents"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="CANCELAR"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/searchTipTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Procure por artistas, Lugares, Festas, Bandas e etc..." />
+
+        <TextView
+            android:id="@+id/tvStatusSearchEvents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Nenhum evento encontrado" />
+
+        <ListView
+            android:id="@+id/listEventsSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ext="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:minHeight="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="Sugestões"
+                android:textColor="#fff" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/closeSuggestion"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:src="@drawable/close_black"
+                app:civ_border_color="#FFffff"
+                app:civ_border_width="1dp" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <com.bluejamesbond.text.DocumentView xmlns:ext="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            ext:documentView_antialias="true"
+            ext:documentView_cacheConfig="auto_quality"
+            ext:documentView_lineHeightMultiplier="1.0"
+            ext:documentView_maxLines="100"
+            ext:documentView_reverse="false"
+            ext:documentView_text="@string/suggestionText"
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textColor="#000"
+            ext:documentView_textFormat="plain"
+            ext:documentView_textSize="16sp"
+            ext:documentView_textSubPixel="true"
+            ext:documentView_wordSpacingMultiplier="1.0" />
+
+        <EditText
+            android:id="@+id/edit_texto"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            android:focusable="false"
+            android:gravity="top"
+            android:imeOptions="actionDone"
+            android:inputType="text|textMultiLine"
+            android:textCursorDrawable="@null" />
+
+        <View
+            android:id="@+id/lineSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="#000000" />
+
+        <Button
+            android:id="@+id/sendSuggestion"
+            android:layout_width="125dp"
+
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:background="#1a1a1a"
+            android:text="ENVIAR"
+            android:textColor="#fff" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "244336476947",
+    "project_id": "brasolia-2ea71"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244336476947:android:21ace2c00bae6f89",
+        "android_client_info": {
+          "package_name": "br.com.brasolia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244336476947-4mlfa9jmlhl30to0fra8nb8uu43c1cl8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.brasolia",
+            "certificate_hash": "325CF803EFB8A1C558C6EFA707A630BA7D12BE94"
+          }
+        },
+        {
+          "client_id": "244336476947-7mfgse79kimsih5glpfn50fiajifgdrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0F7XosWAYVNVoX7g4MKXKQUzCTBTmT8k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
