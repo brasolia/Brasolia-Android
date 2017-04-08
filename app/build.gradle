@@ -61,6 +61,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
 
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 
     compile 'com.android.support:mediarouter-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'

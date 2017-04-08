@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import br.com.brasolia.homeTabs.CategoryFragment;
 import br.com.brasolia.homeTabs.EventsFragment;
 import br.com.brasolia.homeTabs.ProfileFragment;
+import br.com.brasolia.models.BSTest;
 import br.com.brasolia.models.Category;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //todo comentar antes de upar
+        BSTest.init();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -19,15 +19,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Matheus on 19/07/2016.
  */
 public class BrasoliaApplication extends Application {
+    //todo apagar
     Retrofit retrofit;
     BrasoliaAPI api;
 
-
+    private static Context context;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
+
+        BrasoliaApplication.context =  getApplicationContext();
+    }
+
+    public static Context getAppContext() {
+        return BrasoliaApplication.context;
     }
 
     @Override
@@ -36,6 +43,7 @@ public class BrasoliaApplication extends Application {
         MultiDex.install(this);
     }
 
+    //todo apagar
     public BrasoliaAPI getApi(){
         Gson gson = new GsonBuilder()
                 .setExclusionStrategies(new ExclusionStrategy() {
