@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.brasolia.R;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.webserver.BrasoliaAPI;
 import io.realm.RealmObject;
 import retrofit2.Retrofit;
@@ -24,6 +25,7 @@ public class BrasoliaApplication extends Application {
     BrasoliaAPI api;
 
     private static Context context;
+    private static BSUser user;
 
     @Override
     public void onCreate()
@@ -31,6 +33,8 @@ public class BrasoliaApplication extends Application {
         super.onCreate();
 
         BrasoliaApplication.context =  getApplicationContext();
+
+        user = BSUser.loadUserFromDevice();
     }
 
     public static Context getAppContext() {
