@@ -14,13 +14,19 @@ public class BSCategory {
 
     BSCategory(Map<String, Object> dictionary) {
         Map<String, Object> temp = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
-        id = (String) BSDictionary.getValueWithKeyAndType(temp, "$oid", String.class);
-
-        //id = (String) BSDictionary.getValueWithKeyAndType(dictionary, "id", String.class); //todo ta vindo errado do server
+        if (temp != null)
+            id = (String) BSDictionary.getValueWithKeyAndType(temp, "$oid", String.class);
+        else
+            id = (String) BSDictionary.getValueWithKeyAndType(dictionary, "id", String.class);
 
         name = (String) BSDictionary.getValueWithKeyAndType(dictionary, "name", String.class);
         image = (String) BSDictionary.getValueWithKeyAndType(dictionary, "image", String.class);
-        order = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "order", Double.class)).intValue();
+        try {
+            order = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "order", Double.class)).intValue();
+        }
+        catch (Exception e) {
+            order = 0;
+        }
     }
 
     public String getId() {

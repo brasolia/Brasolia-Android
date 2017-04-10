@@ -20,8 +20,8 @@ import retrofit2.Response;
 
 public class BSTest {
     public static void init() {
-        getCategories();
-        //getEvents();
+        //getCategories();
+        getEvents();
     }
 
     private static void getCategories() {
@@ -72,16 +72,12 @@ public class BSTest {
                 if (response.isSuccessful()) {
                     BSResponse bsResponse = new BSResponse(response.body());
                     if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        //todo pegar o dado
+                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
 
-
-//                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) ibResponse.getData();
-//
-//                        ArrayList<IBStore> array = new ArrayList<IBStore>();
-//                        for (Map<String, Object> dictionary : data) {
-//                            IBStore store = new IBStore(dictionary);
-//                            array.add(store);
-//                        }
+                        ArrayList<BSEvent> array = new ArrayList<BSEvent>();
+                        for (Map<String, Object> dictionary : data) {
+                            array.add(new BSEvent(dictionary));
+                        }
 
                     }
                     else {
