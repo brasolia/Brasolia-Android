@@ -12,7 +12,7 @@ public class BSCategory {
     private String image;
     private int order;
 
-    BSCategory(Map<String, Object> dictionary) {
+    public BSCategory(Map<String, Object> dictionary) {
         Map<String, Object> temp = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
         if (temp != null)
             id = (String) BSDictionary.getValueWithKeyAndType(temp, "$oid", String.class);

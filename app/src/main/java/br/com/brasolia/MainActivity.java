@@ -18,14 +18,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
-import br.com.brasolia.homeTabs.CategoryFragment;
+import br.com.brasolia.homeTabs.BSCategoryFragment;
 import br.com.brasolia.homeTabs.EventsFragment;
 import br.com.brasolia.homeTabs.ProfileFragment;
 import br.com.brasolia.models.BSTest;
-import br.com.brasolia.models.Category;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
 import br.com.brasolia.util.PermissionUtil;
@@ -161,23 +159,6 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         return true;
     }
 
-    public void loadEventsCategory(int position) {
-        Category c = null;
-        for (Fragment f : getSupportFragmentManager().getFragments()) {
-            if (f instanceof CategoryFragment) {
-                c = ((CategoryFragment) f).getCategory(position);
-            }
-        }
-
-
-        for (Fragment f : getSupportFragmentManager().getFragments()) {
-            if (f instanceof EventsFragment) {
-                ((EventsFragment) f).loadCategoryEvents(c);
-            }
-        }
-        mViewPager.setCurrentItem(1);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -251,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return CategoryFragment.newInstance();
+                    return new BSCategoryFragment();
                 case 1:
                     return EventsFragment.newInstance();
                 case 2:

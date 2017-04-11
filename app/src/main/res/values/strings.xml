@@ -114,4 +114,6 @@
     <string name="drawer_opened">Aberto</string>
     <string name="drawer_closed">Fechado</string>
 
+    <string name="category_name">DESTAQUES</string>
+
 </resources>

@@ -7,4 +7,7 @@
     <color name = "defaultAccent">#FF4081</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+
+    <color name="blackTranslucent">#8C000000</color>
+    <color name="blackTranslucent2">#66000000</color>
 </resources>
