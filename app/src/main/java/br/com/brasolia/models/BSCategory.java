@@ -17,7 +17,7 @@ public class BSCategory {
         if (temp != null)
             id = (String) BSDictionary.getValueWithKeyAndType(temp, "$oid", String.class);
         else
-            id = (String) BSDictionary.getValueWithKeyAndType(dictionary, "id", String.class);
+            id = (String) BSDictionary.getValueWithKeyAndType(dictionary, "$oid", String.class);
 
         name = (String) BSDictionary.getValueWithKeyAndType(dictionary, "name", String.class);
         image = (String) BSDictionary.getValueWithKeyAndType(dictionary, "image", String.class);
