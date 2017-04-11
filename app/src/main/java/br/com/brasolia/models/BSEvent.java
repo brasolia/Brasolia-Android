@@ -32,7 +32,7 @@ public class BSEvent {
     private String name;
     private List<BSEventPrice> prices;
 
-    BSEvent(Map<String, Object> dictionary) {
+    public BSEvent(Map<String, Object> dictionary) {
         Map<String, Object> idDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
         id = (String) BSDictionary.getValueWithKeyAndType(idDict, "$oid", String.class);
 
@@ -93,5 +93,89 @@ public class BSEvent {
         List<Double> coordinates = (List<Double>) BSDictionary.getValueWithKeyAndType(point, "coordinates", List.class);
         longitude = coordinates.get(0);
         latitute = coordinates.get(1);
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Date getEndHour() {
+        return endHour;
+    }
+
+    public Date getStartHour() {
+        return startHour;
+    }
+
+    public Date getClosingEvent() {
+        return closingEvent;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Double getLatitute() {
+        return latitute;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public String getTicketLink() {
+        return ticketLink;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getCoverImageKey() {
+        return coverImageKey;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFacebookEventID() {
+        return facebookEventID;
+    }
+
+    public Double getLikes() {
+        return likes;
+    }
+
+    public String getListLink() {
+        return listLink;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public List<BSCategory> getCategories() {
+        return categories;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<BSEventPrice> getPrices() {
+        return prices;
     }
 }

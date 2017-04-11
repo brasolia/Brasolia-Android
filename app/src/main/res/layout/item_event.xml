@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<br.com.brasolia.util.EventFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="8dp"
+    >
+
+    <ImageView
+        android:id="@+id/item_event_cover"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:scaleType="fitXY"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/blackTranslucent2"
+        >
+
+    </RelativeLayout>
+
+
+</br.com.brasolia.util.EventFrameLayout>
