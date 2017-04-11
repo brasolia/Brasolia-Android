@@ -21,7 +21,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import br.com.brasolia.homeTabs.BSCategoryFragment;
-import br.com.brasolia.homeTabs.EventsFragment;
+import br.com.brasolia.homeTabs.BSEventsFragment;
 import br.com.brasolia.homeTabs.ProfileFragment;
 import br.com.brasolia.models.BSTest;
 import br.com.brasolia.util.AlertUtil;
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
                 case 0:
                     return new BSCategoryFragment();
                 case 1:
-                    return EventsFragment.newInstance();
+                    return new BSEventsFragment();
                 case 2:
                     return ProfileFragment.newInstance();
             }
