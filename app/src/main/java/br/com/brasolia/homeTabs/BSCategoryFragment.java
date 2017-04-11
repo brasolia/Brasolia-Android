@@ -138,7 +138,12 @@ public class BSCategoryFragment extends Fragment {
                             categories.add(category);
                         }
 
-                        Collections.sort(categories, new CategoryOrderSort());
+                        Collections.sort(categories, new Comparator<BSCategory>() {
+                            @Override
+                            public int compare(BSCategory category, BSCategory t1) {
+                                return category.getOrder() - t1.getOrder();
+                            }
+                        });
 
                         mountRecycler();
                         Log.d("getCategories", "success");
@@ -176,16 +181,9 @@ public class BSCategoryFragment extends Fragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
+                        //todo chamar tela de eventos passando categoria
                 }
             });
         }
-    }
-}
-
-class CategoryOrderSort implements Comparator<BSCategory> {
-    @Override
-    public int compare(BSCategory p1, BSCategory p2) {
-        return p1.getOrder() - p2.getOrder();
     }
 }
