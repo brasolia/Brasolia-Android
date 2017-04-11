@@ -21,7 +21,7 @@ import retrofit2.Response;
 public class BSTest {
     public static void init() {
         //getCategories();
-        getEvents();
+        //getEvents();
         //logUser();
         //registerUser();
         //getUserInfo();
