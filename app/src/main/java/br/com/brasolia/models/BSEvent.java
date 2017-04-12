@@ -1,5 +1,8 @@
 package br.com.brasolia.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +12,7 @@ import java.util.Map;
  * Created by cayke on 10/04/17.
  */
 
-public class BSEvent {
+public class BSEvent implements Parcelable {
     private Date createdAt;
     private Date updatedAt;
     private Date endHour;
@@ -31,6 +34,7 @@ public class BSEvent {
     private List<BSCategory> categories;
     private String name;
     private List<BSEventPrice> prices;
+    private Double rating;
 
     public BSEvent(Map<String, Object> dictionary) {
         Map<String, Object> idDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
@@ -74,6 +78,9 @@ public class BSEvent {
                 categories.add(new BSCategory(category));
             }
         }
+
+        //todo pegar o rating
+        rating = 0d;
     }
 
     private void initDates(List<Map<String, Object>> dates) {
@@ -178,4 +185,82 @@ public class BSEvent {
     public List<BSEventPrice> getPrices() {
         return prices;
     }
+
+    public Double getRating() {
+        return rating;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
+        dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
+        dest.writeLong(this.endHour != null ? this.endHour.getTime() : -1);
+        dest.writeLong(this.startHour != null ? this.startHour.getTime() : -1);
+        dest.writeLong(this.closingEvent != null ? this.closingEvent.getTime() : -1);
+        dest.writeString(this.description);
+        dest.writeValue(this.latitute);
+        dest.writeValue(this.longitude);
+        dest.writeString(this.address);
+        dest.writeString(this.locality);
+        dest.writeString(this.ticketLink);
+        dest.writeStringList(this.tags);
+        dest.writeString(this.coverImageKey);
+        dest.writeString(this.phone);
+        dest.writeString(this.facebookEventID);
+        dest.writeValue(this.likes);
+        dest.writeString(this.listLink);
+        dest.writeString(this.id);
+        dest.writeTypedList(this.categories);
+        dest.writeString(this.name);
+        dest.writeTypedList(this.prices);
+        dest.writeValue(this.rating);
+    }
+
+    protected BSEvent(Parcel in) {
+        long tmpCreatedAt = in.readLong();
+        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
+        long tmpUpdatedAt = in.readLong();
+        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+        long tmpEndHour = in.readLong();
+        this.endHour = tmpEndHour == -1 ? null : new Date(tmpEndHour);
+        long tmpStartHour = in.readLong();
+        this.startHour = tmpStartHour == -1 ? null : new Date(tmpStartHour);
+        long tmpClosingEvent = in.readLong();
+        this.closingEvent = tmpClosingEvent == -1 ? null : new Date(tmpClosingEvent);
+        this.description = in.readString();
+        this.latitute = (Double) in.readValue(Double.class.getClassLoader());
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.address = in.readString();
+        this.locality = in.readString();
+        this.ticketLink = in.readString();
+        this.tags = in.createStringArrayList();
+        this.coverImageKey = in.readString();
+        this.phone = in.readString();
+        this.facebookEventID = in.readString();
+        this.likes = (Double) in.readValue(Double.class.getClassLoader());
+        this.listLink = in.readString();
+        this.id = in.readString();
+        this.categories = in.createTypedArrayList(BSCategory.CREATOR);
+        this.name = in.readString();
+        this.prices = in.createTypedArrayList(BSEventPrice.CREATOR);
+        this.rating = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<BSEvent> CREATOR = new Parcelable.Creator<BSEvent>() {
+        @Override
+        public BSEvent createFromParcel(Parcel source) {
+            return new BSEvent(source);
+        }
+
+        @Override
+        public BSEvent[] newArray(int size) {
+            return new BSEvent[size];
+        }
+    };
 }
