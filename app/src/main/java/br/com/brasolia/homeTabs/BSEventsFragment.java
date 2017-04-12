@@ -89,6 +89,7 @@ public class BSEventsFragment extends Fragment{
 
 
     private void setSelectedMenu(int selectedMenu) {
+        //HORARIO
         if (selectedMenu == 1) {
             imageView1.setImageResource(R.drawable.menu1);
             relativeLayout1.setBackgroundResource(R.color.black);
@@ -97,6 +98,8 @@ public class BSEventsFragment extends Fragment{
             imageView1.setImageResource(R.drawable.selectedmenu1);
             relativeLayout1.setBackgroundResource(R.color.white);
         }
+
+        //LOCALIZAÇÃO
         if (selectedMenu == 2) {
             imageView2.setImageResource(R.drawable.menu2);
             relativeLayout2.setBackgroundResource(R.color.black);
@@ -105,6 +108,8 @@ public class BSEventsFragment extends Fragment{
             imageView2.setImageResource(R.drawable.selectedmenu2);
             relativeLayout2.setBackgroundResource(R.color.white);
         }
+
+        //PREÇO
         if (selectedMenu == 3) {
             imageView3.setImageResource(R.drawable.menu4);
             relativeLayout3.setBackgroundResource(R.color.black);

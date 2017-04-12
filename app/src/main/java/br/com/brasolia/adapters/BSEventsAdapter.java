@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.R;
@@ -38,20 +40,26 @@ public class BSEventsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BSEventViewHolder holder, int position) {
+    public void onBindViewHolder(final BSEventViewHolder holder, int position) {
         holder.bindEvent(events.get(position));
+
     }
 }
 
 class BSEventViewHolder extends RecyclerView.ViewHolder {
-    ImageView cover;
 
-    Context context;
+    private ImageView cover;
+    private TextView title, place, date, price;
+    private Context context;
 
     public BSEventViewHolder(View itemView) {
         super(itemView);
 
         context = itemView.getContext();
+        price = (TextView) itemView.findViewById(R.id.item_event_price);
+        title = (TextView) itemView.findViewById(R.id.item_event_title);
+        place = (TextView) itemView.findViewById(R.id.item_event_place);
+        date = (TextView) itemView.findViewById(R.id.item_event_date);
 
         cover = (ImageView) itemView.findViewById(R.id.item_event_cover);
     }
@@ -63,10 +71,52 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             int width = displaymetrics.widthPixels;
             int height = (int) (width*0.67);
 
+            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
+            title.setText(event.getName());
+            place.setText(event.getLocality());
+
+            if(event.getStartHour().getDate() == event.getEndHour().getDate() &&
+                    event.getStartHour().getMonth() == event.getEndHour().getMonth())
+                date.setText(String.format(Locale.getDefault(), "%s/%s",
+                        getDate(event.getStartHour().getDate()),
+                        getDate(event.getStartHour().getMonth())));
+            else
+                date.setText(String.format(Locale.getDefault(), "%s/%s a %s/%s",
+                        getDate(event.getStartHour().getDate()),
+                        getDate(event.getStartHour().getMonth()),
+                        getDate(event.getEndHour().getDate()),
+                        getDate(event.getEndHour().getMonth())));
+
+
+            /*if(event.getStartHour().compareTo(event.getEndHour()) == 0)
+                date.setText(String.format(Locale.getDefault(), "%s/%s",
+                        getDate(event.getStartHour().getDate()),
+                        getDate(event.getStartHour().getMonth())));
+            else
+                date.setText(String.format(Locale.getDefault(), "%s/%s a %s/%s",
+                        getDate(event.getStartHour().getDate()),
+                        getDate(event.getStartHour().getMonth()),
+                        getDate(event.getEndHour().getDate()),
+                        getDate(event.getEndHour().getMonth())));*/
+
+
             BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height);
-        }
-        else {
+
+        } else {
+
+            title.setText(event.getName());
+            place.setText(event.getLocality());
+            date.setText(event.getStartHour() + " - " + event.getEndHour());
+
             BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, 600, 400);
         }
+    }
+
+    public String getDate(int date){
+
+        if(date < 10)
+            return "0" + date;
+        else
+            return Integer.toString(date);
     }
 }
