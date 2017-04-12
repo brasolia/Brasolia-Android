@@ -6,10 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:layout_marginBottom="50dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="50dp">
+    android:background="@color/blackTranslucent2">
 
     <TextView
         android:id="@+id/no_login_text"
@@ -17,19 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
 
         android:layout_alignParentBottom="true"
 
         android:text="entrar sem login"
         android:textAlignment="center"
         android:textColor="#fff"
-        android:textSize="14dp" />
+        android:textSize="16sp" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+
         android:orientation="vertical">
 
 
@@ -103,12 +106,12 @@
         android:layout_above="@id/face_login"
 
         android:layout_centerInParent="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="20dp"
 
-        android:text="Para utilizar todos os recursos do \n aplicativo, entre com o Facebook."
+        android:text="@string/login_text"
         android:textAlignment="center"
         android:textColor="#fff"
-        android:textSize="14dp" />
+        android:textSize="16sp" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"

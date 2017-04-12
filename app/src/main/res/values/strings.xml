@@ -2,7 +2,7 @@
     <string name="app_name">Brasolia</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="login_text">Para utilizar todos os recursos do aplicativo, entre com o Facebook.</string>
+    <string name="login_text">Para utilizar todos os recursos do \naplicativo, entre com o Facebook.</string>
     <string name="facebook_app_id">625558210885740</string>
     <string name="fb_login_protocol_scheme">fb625558210885740</string>
     <string name="title_activity_first_steps">FirstStepsActivity</string>

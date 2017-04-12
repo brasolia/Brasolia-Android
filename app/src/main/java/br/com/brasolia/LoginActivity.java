@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
 
-        getWindow().setBackgroundDrawableResource(R.drawable.bg_login_2);
+        getWindow().setBackgroundDrawableResource(R.drawable.login_background);
 
         loadingView = new LoadingView(this);
         fromComments = getIntent().getBooleanExtra("fromComments", false);
