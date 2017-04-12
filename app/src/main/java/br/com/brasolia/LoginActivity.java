@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         callbackManager = CallbackManager.Factory.create();
 
-        ImageButton fb = (ImageButton) findViewById(R.id.face_login);
+        LinearLayout fb = (LinearLayout) findViewById(R.id.face_login);
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
 
         api = ((BrasoliaApplication) this.getApplication()).getApi();
@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Plus.API)
                 .build();
 
+        /*
         ImageButton signInButton = (ImageButton) findViewById(R.id.sign_in_button);
 
 
@@ -119,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 signIn();
             }
         });
+        */
 
         TextView noLogin = (TextView) findViewById(R.id.no_login_text);
         noLogin.setOnClickListener(new View.OnClickListener() {
