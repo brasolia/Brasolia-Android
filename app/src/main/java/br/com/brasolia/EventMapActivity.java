@@ -2,28 +2,20 @@ package br.com.brasolia;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.util.Locale;
-
+import br.com.brasolia.models.BSEvent;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EventMapActivity extends FragmentActivity  {
@@ -39,16 +31,13 @@ public class EventMapActivity extends FragmentActivity  {
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
 
+        final BSEvent event = getIntent().getParcelableExtra("eventMap");
+
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                Intent in= getIntent();
-                Bundle b = in.getExtras();
-                String extra = getIntent().getStringExtra("eventMap");
-                JsonParser jsonParser = new JsonParser();
-                final JsonObject event = (JsonObject) jsonParser.parse(extra);
-                LatLng eventMarker = new LatLng(event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble(), event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble());
-                googleMap.addMarker(new MarkerOptions().position(eventMarker).title(event.get("name").getAsString()).icon(BitmapDescriptorFactory.fromResource(R.drawable.brasolia_marker)));
+                LatLng eventMarker = new LatLng(event.getLatitute(), event.getLongitude());
+                googleMap.addMarker(new MarkerOptions().position(eventMarker).title(event.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.brasolia_marker)));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventMarker, 15));
             }
         });
@@ -61,18 +50,12 @@ public class EventMapActivity extends FragmentActivity  {
             }
         });
 
-        Intent in= getIntent();
-        Bundle b = in.getExtras();
-        String extra = getIntent().getStringExtra("eventMap");
-        JsonParser jsonParser = new JsonParser();
-        final JsonObject event = (JsonObject) jsonParser.parse(extra);
-
-        if(b!=null) {
+        if(event != null) {
             RelativeLayout openGoogleMaps = (RelativeLayout) findViewById(R.id.open_maps);
             openGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(1) + "," +  event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(0)));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + event.getLatitute() + "," +  event.getLongitude()));
                 startActivity(intent);
                 }
             });

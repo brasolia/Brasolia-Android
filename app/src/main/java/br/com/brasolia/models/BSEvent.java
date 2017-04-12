@@ -35,6 +35,7 @@ public class BSEvent implements Parcelable {
     private String name;
     private List<BSEventPrice> prices;
     private Double rating;
+    private List<String> images;
 
     public BSEvent(Map<String, Object> dictionary) {
         Map<String, Object> idDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
@@ -81,6 +82,14 @@ public class BSEvent implements Parcelable {
 
         //todo pegar o rating
         rating = 0d;
+
+        //todo pegar imagens
+        images = new ArrayList<>();
+        images.add(coverImageKey);
+        images.add(coverImageKey);
+        images.add(coverImageKey);
+        images.add(coverImageKey);
+        images.add(coverImageKey);
     }
 
     private void initDates(List<Map<String, Object>> dates) {
@@ -190,6 +199,9 @@ public class BSEvent implements Parcelable {
         return rating;
     }
 
+    public List<String> getImages() {
+        return images;
+    }
 
     @Override
     public int describeContents() {
@@ -220,6 +232,7 @@ public class BSEvent implements Parcelable {
         dest.writeString(this.name);
         dest.writeTypedList(this.prices);
         dest.writeValue(this.rating);
+        dest.writeStringList(this.images);
     }
 
     protected BSEvent(Parcel in) {
@@ -250,9 +263,10 @@ public class BSEvent implements Parcelable {
         this.name = in.readString();
         this.prices = in.createTypedArrayList(BSEventPrice.CREATOR);
         this.rating = (Double) in.readValue(Double.class.getClassLoader());
+        this.images = in.createStringArrayList();
     }
 
-    public static final Parcelable.Creator<BSEvent> CREATOR = new Parcelable.Creator<BSEvent>() {
+    public static final Creator<BSEvent> CREATOR = new Creator<BSEvent>() {
         @Override
         public BSEvent createFromParcel(Parcel source) {
             return new BSEvent(source);

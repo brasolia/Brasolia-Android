@@ -73,5 +73,7 @@ public class BrasoliaApplication extends Application {
         return api;
     }
 
-
+    public static BSUser getUser() {
+        return user;
+    }
 }

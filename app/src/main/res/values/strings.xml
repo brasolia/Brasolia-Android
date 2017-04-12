@@ -115,5 +115,7 @@
     <string name="drawer_closed">Fechado</string>
 
     <string name="category_name">DESTAQUES</string>
+    <string name="share">Compartilhar</string>
+    <string name="hours">Horário de funcionamento</string>
 
 </resources>

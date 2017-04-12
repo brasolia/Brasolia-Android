@@ -3,33 +3,37 @@ package br.com.brasolia;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
+import br.com.brasolia.Connectivity.BSConnection;
+import br.com.brasolia.Connectivity.BSImageStorage;
+import br.com.brasolia.Connectivity.BSRequests;
+import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.adapters.BSImagesCarrouselAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
-import br.com.brasolia.eventbus.UpdateLike;
-import br.com.brasolia.models.User;
+import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.models.BSEventPrice;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.AlertUtil;
-import br.com.brasolia.webserver.BrasoliaAPI;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,14 +41,16 @@ import retrofit2.Response;
 
 public class EventActivity extends AppCompatActivity {
 
-    private TextView tvDistance;
-    private ImageView btshareEvent;
-    private ImageButton btleaveComment, btmakeCall, imageButtonComprarIngresso, imageButtonNomeLista;
-    private SharedPreferences sp;
-    private User user;
-    private double latitude, longitude;
+    private TextView tvDistance, tvPhone;
+    private ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
+    private LinearLayout btShare, btCall, btHour;
+    private RecyclerView recyclerView;
+
     private boolean liked;
     private ProgressDialog loading;
+
+    private BSEvent event;
+    private BSUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +58,15 @@ public class EventActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_event);
 
-        // SCREEN ELEMENTS -------------------------------------------------------------------------
-        btshareEvent = (ImageView) findViewById(R.id.btshareEvent);
-        btleaveComment = (ImageButton) findViewById(R.id.btleaveComment);
-        btmakeCall = (ImageButton) findViewById(R.id.btCall);
+        event = getIntent().getParcelableExtra("event");
+
+
+        //region SCREEN ELEMENTS
+        recyclerView = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
+        btShare = (LinearLayout) findViewById(R.id.activity_event_share);
+        btCall = (LinearLayout) findViewById(R.id.activity_event_call);
+        btHour = (LinearLayout) findViewById(R.id.activity_event_hour);
+        tvPhone = (TextView) findViewById(R.id.activity_event_textview_phone);
         imageButtonComprarIngresso = (ImageButton) findViewById(R.id.imageButtonComprarIngresso);
         imageButtonNomeLista = (ImageButton) findViewById(R.id.imageButtonNomeLista);
 
@@ -69,14 +80,12 @@ public class EventActivity extends AppCompatActivity {
         ImageView eventCover = (ImageView) findViewById(R.id.eventCover);
         TextView eventName = (TextView) findViewById(R.id.eventName);
         TextView addressTitle = (TextView) findViewById(R.id.addressTitle);
+        TextView rating = (TextView) findViewById(R.id.activity_event_rating);
 
 
         imageButtonComprarIngresso.setVisibility(View.GONE);
         imageButtonNomeLista.setVisibility(View.GONE);
-
-        sp = PreferenceManager.getDefaultSharedPreferences(EventActivity.this);
-        latitude = Double.parseDouble(sp.getString("latitude", "-1.0"));
-        longitude = Double.parseDouble(sp.getString("longitude", "-1.0"));
+        //endregion
 
         loading = new ProgressDialog(this);
         loading.setTitle("Aguarde");
@@ -84,157 +93,146 @@ public class EventActivity extends AppCompatActivity {
         loading.setCancelable(false);
         loading.setCanceledOnTouchOutside(false);
 
-        final BrasoliaAPI api = ((BrasoliaApplication) EventActivity.this.getApplication()).getApi();
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EventActivity.this);
 
-        Intent in = getIntent();
-        Bundle b = in.getExtras();
+        //region Set Values on Screen
+        if (event != null) {
+            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), eventCover, 750, 500);
 
-        String extra = getIntent().getStringExtra("event");
-        JsonParser jsonParser = new JsonParser();
+            if (event.getPrices().size() > 0) {
+                BSEventPrice price = event.getPrices().get(0);
+                tvEventPrice.setText(String.format(Locale.getDefault(), "R$%.2f", price.getPrice()));
 
-        final JsonObject event = (JsonObject) jsonParser.parse(extra);
-
-        if (b != null) {
-
-            ImageLoader imageLoader = ImageLoader.getInstance();
-
-            if (!event.get("cover").isJsonNull()) {
-                String imageUrl = "https://s3-us-west-2.amazonaws.com/bs.cover/" + event.get("cover").getAsString();
-                imageLoader.displayImage(imageUrl, eventCover);
-            } else {
-                eventCover.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                eventCover.setImageResource(R.drawable.brasolia_logo_preto);
             }
-
-            if (event.get("prices").getAsJsonArray().size() > 0) {
-                double _price = -1;
-                int i = 0;
-
-                while (i < event.get("prices").getAsJsonArray().size()) {
-                    if (_price == -1 || _price > event.get("prices").getAsJsonArray().get(i).getAsJsonObject().get("value").getAsDouble())
-                        _price = event.get("prices").getAsJsonArray().get(i).getAsJsonObject().get("value").getAsDouble();
-
-                    i++;
-                }
-
-                if (i > 2)
-                    tvEventPrice.setText("R$ " + String.format("%.2f", event.get("prices").getAsJsonArray().get(0).getAsJsonObject().get("value").getAsDouble() + "+"));
-                else
-                    tvEventPrice.setText("R$ " + String.format("%.2f", event.get("prices").getAsJsonArray().get(0).getAsJsonObject().get("value").getAsDouble()));
-            } else
+            else
                 tvEventPrice.setText("Free");
 
-            eventName.setText(event.get("name").getAsString());
+            if (event.getRating() > 0)
+                rating.setText("8.5/10");
+            else
+                rating.setVisibility(View.GONE);
 
-            addressTitle.setText(event.get("locality").getAsJsonObject().get("title").getAsString());
-
-            secondAddressTitle.setText(event.get("locality").getAsJsonObject().get("title").getAsString());
-
-            eventFullAddress.setText(event.get("locality").getAsJsonObject().get("address").getAsString());
-
-            eventDescription.setText(event.get("description").getAsString());
+            eventName.setText(event.getName());
+            addressTitle.setText(event.getLocality());
+            secondAddressTitle.setText(event.getLocality());
+            eventFullAddress.setText(event.getAddress());
+            eventDescription.setText(event.getDescription());
+            tvPhone.setText(event.getPhone());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(event.get("dates").getAsJsonArray().get(0).getAsJsonObject().get("datehour_init").getAsJsonObject().get("$date").getAsLong());
+            calendar.setTime(event.getStartHour());
             eventDate.setText(formatter.format(calendar.getTime()));
             final int zoom = 11; // Requisitado para remover zoom.
 
-            String staticMapUrl = "http://maps.google.com/maps/api/staticmap?center=" + event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(1) + "," + event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(0) + "&markers=icon:https://s3-us-west-2.amazonaws.com/s.cdpn.io/766702/tag_brasolia_2.png|" + event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(1) + "," + event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(0) + "&zoom=" + zoom + "&size=480x200&sensor=false";
+            String staticMapUrl = "http://maps.google.com/maps/api/staticmap?center=" + event.getLatitute() + "," + event.getLongitude() + "&markers=icon:https://s3-us-west-2.amazonaws.com/s.cdpn.io/766702/tag_brasolia_2.png|" + event.getLatitute() + "," + event.getLongitude() + "&zoom=" + zoom + "&size=480x200&sensor=false";
+            ImageLoader imageLoader = ImageLoader.getInstance();
             imageLoader.displayImage(staticMapUrl, staticMapImage);
 
-            if (!event.get("ticket_link").getAsString().isEmpty()) {
+            if (!event.getTicketLink().isEmpty()) {
                 imageButtonComprarIngresso.setVisibility(View.VISIBLE);
                 imageButtonComprarIngresso.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.get("ticket_link").getAsString()));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getTicketLink()));
                         startActivity(browserIntent);
                     }
                 });
-            } else if (!event.get("list_link").getAsString().isEmpty()) {
+            } else if (!event.getListLink().isEmpty()) {
                 imageButtonNomeLista.setVisibility(View.VISIBLE);
                 imageButtonNomeLista.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.get("list_link").getAsString()));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getListLink()));
                         startActivity(browserIntent);
                     }
                 });
             }
+
+            mountRecycler();
         }
+        //endregion
 
-        CircleImageView profilePictureEvent = (CircleImageView) findViewById(R.id.profile_picture_event);
-
-        user = User.getUser(this);
-
-        if (user != null) {
-            String imageUrl = user.getPhoto();
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(imageUrl, profilePictureEvent);
-        }
+        user = BrasoliaApplication.getUser();
 
         final ImageView likeEvent = (ImageView) findViewById(R.id.likeEvent);
 
-        Call<JsonObject> getLikeEvent = api.getLikeEvent(preferences.getString("cookie", ""), event.get("id").getAsJsonObject().get("$oid").getAsString());
+        //region get if User liked event
+        if (user != null) {
+            BSRequests requests = BSConnection.createService(BSRequests.class);
+            Call<JsonObject> call = requests.getLikeEvent(event.getId());
 
-        getLikeEvent.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getAsJsonObject().get("data").getAsString() == "true") {
-                        liked = true;
-                        likeEvent.setImageResource(R.drawable.event_heart_pressed);
-                    } else liked = false;
-                } else {
-                    liked = false;
-
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    if (response.isSuccessful()) {
+                        BSResponse bsResponse = new BSResponse(response.body());
+                        if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+                            //todo testar isso
+                            liked = (boolean) bsResponse.getData();
+                            if (liked)
+                                likeEvent.setImageResource(R.drawable.event_heart_pressed);
+                        }
+                        else {
+                            liked = false;
+                        }
+                    }
+                    else {
+                        liked = false;
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                loading.dismiss();
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
+        //endregion
 
-
+        //region buttons listeners
         likeEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preferences.getString("cookie", "").equals("")) {
-                    likeLogout();
-                    return;
+                if (user == null) {
+                    toLikeUserShouldLogin();
                 }
+                else {
+                    liked = !liked;
+                    if (liked)
+                        likeEvent.setImageResource(R.drawable.event_heart_pressed);
+                    else
+                        likeEvent.setImageResource(R.drawable.event_heart);
 
-                Call<JsonObject> likeEventService = api.likeEventService(preferences.getString("cookie", ""), event.get("id").getAsJsonObject().get("$oid").getAsString(), String.valueOf(!liked));
+                    BSRequests requests = BSConnection.createService(BSRequests.class);
+                    Call<JsonObject> call = requests.likeEvent(event.getId(), liked);
 
-                likeEventService.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if (response.isSuccessful()) {
-
-                            liked = !liked;
-
-                            if (liked) likeEvent.setImageResource(R.drawable.event_heart_pressed);
-                            else likeEvent.setImageResource(R.drawable.event_heart);
-
-                            EventBus.getDefault().post(new UpdateLike());
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            if (response.isSuccessful()) {
+                                BSResponse bsResponse = new BSResponse(response.body());
+                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+                                    Log.d("likeEvent", "success");
+                                }
+                                else {
+                                    Log.d("likeEvent", "server error");
+                                }
+                            }
+                            else {
+                                Log.d("likeEvent", "conection failure");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Log.d("likeEvent", "conection failure");
+                        }
+                    });
+                }
             }
         });
 
-
-        btshareEvent.setOnClickListener(new View.OnClickListener() {
+        btShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView eventDate = (TextView) findViewById(R.id.eventDate);
@@ -242,8 +240,8 @@ public class EventActivity extends AppCompatActivity {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "" +
-                        "Venha conferir o evento *" + event.get("name").getAsString() + "* no " +
-                        "*" + event.get("locality").getAsJsonObject().get("title").getAsString() + "* no dia " +
+                        "Venha conferir o evento *" + event.getName() + "* no " +
+                        "*" + event.getLocality() + "* no dia " +
                         "*" + eventDate.getText().toString().replace(" ", " ás ") +
                         "*.\n\nConfira outros eventos no *app Brasólia!*");
                 sendIntent.setType("text/plain");
@@ -251,29 +249,11 @@ public class EventActivity extends AppCompatActivity {
             }
         });
 
-        RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
-        openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(EventActivity.this, EventMapActivity.class);
-                i.putExtra("eventMap", getIntent().getStringExtra("event"));
-                startActivity(i);
-            }
-        });
-
-        CircleImageView closeEvent = (CircleImageView) findViewById(R.id.closeEvent);
-        closeEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        btmakeCall.setOnClickListener(new View.OnClickListener() {
+        btCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String phone = event.get("phone").getAsString();
+                String phone = event.getPhone();
 
                 if (phone != null && !phone.equals("?") && phone.length() >= 8 && phone != "") {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -284,44 +264,45 @@ public class EventActivity extends AppCompatActivity {
             }
         });
 
-        btleaveComment.setOnClickListener(new View.OnClickListener() {
+        //todo mudar
+        btHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loading.show();
 
                 Intent i = new Intent(EventActivity.this, CommentActivity.class);
 
-                i.putExtra("eventId", event.get("id").getAsJsonObject().get("$oid").getAsString());
+                i.putExtra("eventId", event.getId());
                 startActivity(i);
 
                 loading.dismiss();
 
             }
         });
+        //endregion
 
-        if (latitude != -1.0 && longitude != -1.0) {
-            Location userLocation = new Location("pointA");
+        //region maps
+        RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
+        openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(EventActivity.this, EventMapActivity.class);
+                i.putExtra("eventMap", event);
+                startActivity(i);
+            }
+        });
+        //endregion
 
-            userLocation.setLatitude(latitude);
-            userLocation.setLongitude(longitude);
-
-            Double eventLatitude = event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble();
-            Double eventLongitude = event.get("locality").getAsJsonObject().get("point").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();
-
-            Location eventLocation = new Location("pointB");
-
-            eventLocation.setLatitude(eventLatitude);
-            eventLocation.setLongitude(eventLongitude);
-
-            Float distance = userLocation.distanceTo(eventLocation);
-
-            distance = distance / 1000; // in kilometers
-
-            tvDistance.setText("(" + String.format("%.2f", distance) + " km) ");
-        }
+        CircleImageView closeEvent = (CircleImageView) findViewById(R.id.closeEvent);
+        closeEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
-    private void likeLogout() {
+    private void toLikeUserShouldLogin() {
         AlertUtil.confirm(this, "Entrar", getString(R.string.liked_logout), "Cancelar", "Conectar",
                 new DialogInterface.OnClickListener() {
             @Override
@@ -338,5 +319,17 @@ public class EventActivity extends AppCompatActivity {
         });
     }
 
+    private void mountRecycler() {
+        if (event.getImages() != null && event.getImages().size() > 0) {
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new BSImagesCarrouselAdapter(event.getImages()));
+        }
+        else {
+            recyclerView.setVisibility(View.GONE);
+        }
+    }
 }
 

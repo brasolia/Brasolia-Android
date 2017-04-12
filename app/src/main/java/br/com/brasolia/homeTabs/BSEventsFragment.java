@@ -1,6 +1,7 @@
 package br.com.brasolia.homeTabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import java.util.Map;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.EventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSEventsAdapter;
 import br.com.brasolia.models.BSEvent;
@@ -162,7 +164,9 @@ public class BSEventsFragment extends Fragment{
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    //todo chamar tela de eventos passando categoria
+                    Intent i = new Intent(getActivity(), EventActivity.class);
+                    i.putExtra("event", events.get(position));
+                    startActivity(i);
                 }
             });
         }
