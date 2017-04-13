@@ -8,15 +8,11 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#000000"
-        android:orientation="vertical">
-
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="40dp"
+            android:background="@color/black"
+            >
 
             <EditText
                 android:id="@+id/etSearchCategory"
@@ -50,8 +46,6 @@
 
         </FrameLayout>
 
-    </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -59,29 +53,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
 
         <TextView
             android:id="@+id/searchTipTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="Procure por artistas, Lugares, Festas, Bandas e etc..." />
 
         <TextView
             android:id="@+id/tvStatusSearchEvents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="Nenhum evento encontrado" />
 
-        <ListView
-            android:id="@+id/listEventsSearch"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_search_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
 
     </LinearLayout>

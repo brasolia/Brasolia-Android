@@ -4,30 +4,42 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import br.com.brasolia.adapters.ItemEventSearchAdapter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import br.com.brasolia.Connectivity.BSConnection;
+import br.com.brasolia.Connectivity.BSRequests;
+import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.adapters.BSSearchAdapter;
+import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.util.ItemClickSupport;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchEventsActivity extends Activity {
 
-    private ListView listEvents;
+    private RecyclerView recyclerView;
     private Button btSearch;
     private EditText etSearch;
-    private JsonArray searchEvents;
-    private ItemEventSearchAdapter adapter;
     private TextView tvStatus, tvClose, searchTipTextView;
+    private Call<JsonObject> call;
+    private List<BSEvent> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +47,7 @@ public class SearchEventsActivity extends Activity {
         setContentView(R.layout.activity_search_events);
 
         // SCREEN ELEMENTS -------------------------------------------------------------------------
-        listEvents = (ListView) findViewById(R.id.listEventsSearch);
+        recyclerView = (RecyclerView) findViewById(R.id.activity_search_recycler);
         btSearch = (Button) findViewById(R.id.searchBtn);
         etSearch = (EditText) findViewById(R.id.etSearchCategory);
         tvStatus = (TextView) findViewById(R.id.tvStatusSearchEvents);
@@ -76,27 +88,8 @@ public class SearchEventsActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchEvents = searchEvents(s.toString());
-
-                adapter = new ItemEventSearchAdapter(SearchEventsActivity.this, SearchEventsActivity.this, searchEvents);
-                listEvents.setAdapter(adapter);
-
-                if (s.length() != 0) {
-
-                    if (searchEvents.size() != 0) {
-                        tvStatus.setVisibility(View.GONE);
-                        listEvents.setVisibility(View.VISIBLE);
-                    } else {
-                        tvStatus.setVisibility(View.VISIBLE);
-                    }
-
-                } else {
-
-                    if (searchEvents.size() != 0) {
-                        listEvents.setVisibility(View.VISIBLE);
-                        tvStatus.setVisibility(View.GONE);
-                    }
-                }
+                if (s.length() >= 3)
+                    searchEvents(s.toString());
             }
 
             @Override
@@ -104,25 +97,76 @@ public class SearchEventsActivity extends Activity {
             }
         });
 
-        listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                JsonObject event = searchEvents.get(position).getAsJsonObject();
-
-                Intent i = new Intent(SearchEventsActivity.this, BSEventActivity.class);
-                i.putExtra("event", event.toString());
-                startActivity(i);
-            }
-        });
-
         searchTipTextView.setVisibility(View.VISIBLE);
         tvStatus.setVisibility(View.GONE);
     }
 
-    public JsonArray searchEvents(String word) {
+    public void searchEvents(String search) {
+        if (call != null)
+            call.cancel(); //cancelar se tivesse uma chamada antiga
 
-        //todo implementar
-        return null;
+        BSRequests requests = BSConnection.createService(BSRequests.class);
+        call = requests.searchEvent(search);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    BSResponse bsResponse = new BSResponse(response.body());
+                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
+
+                        events = new ArrayList<BSEvent>();
+                        for (Map<String, Object> dictionary : data) {
+                            events.add(new BSEvent(dictionary));
+                        }
+
+                        mountRecycler();
+                    }
+                    else {
+                        Log.d("search", "server error");
+                        events = null;
+                        mountRecycler();
+                    }
+                }
+                else {
+                    Log.d("search", "conection failure");
+                    events = null;
+                    mountRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("search", "conection failure");
+                events = null;
+                mountRecycler();
+            }
+        });
+    }
+
+    private void mountRecycler() {
+        if (events != null && events.size() > 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+            tvStatus.setVisibility(View.GONE);
+
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new BSSearchAdapter(events));
+
+            ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                @Override
+                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                    Intent i = new Intent(SearchEventsActivity.this, BSEventActivity.class);
+                    i.putExtra("event", events.get(position));
+                    startActivity(i);
+                }
+            });
+        }
+        else {
+            recyclerView.setVisibility(View.GONE);
+            tvStatus.setVisibility(View.VISIBLE);
+        }
     }
 }
