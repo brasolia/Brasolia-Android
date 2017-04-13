@@ -1,43 +1,22 @@
 package br.com.brasolia;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashActivity extends AppCompatActivity {
+import br.com.brasolia.application.BrasoliaApplication;
 
-    private SharedPreferences sp;
-    private String cookie;
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        sp = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this);
-
-        if (sp != null)
-            cookie = sp.getString("cookie", ""); // if there is a valid cookie, go to the main actvity, else go to the login activity
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true).cacheOnDisc(true).build();
-
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                getApplicationContext()).defaultDisplayImageOptions(options)
-                .build();
-
-        ImageLoader.getInstance().init(config);
 
         //creating timer
         Timer timer_interact = new Timer();
@@ -46,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 UpdateGUI();
             }
-        }, 0);
+        }, 1);
 
         timer_interact.schedule(new TimerTask() {
             @Override
@@ -82,12 +61,12 @@ public class SplashActivity extends AppCompatActivity {
     private int splash = 0;
 
     private void UpdateGUI() {
-        if (splash == 4) {
-            if (!cookie.equals("")) {
+        if (splash >= 4) {
+            if (BrasoliaApplication.getUser() != null) {
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             } else {
-                Intent i = new Intent(this, LoginActivity.class);
+                Intent i = new Intent(this, BSLoginActivity.class);
                 startActivity(i);
             }
             finish();
@@ -109,5 +88,4 @@ public class SplashActivity extends AppCompatActivity {
             splash++;
         }
     };
-
 }
