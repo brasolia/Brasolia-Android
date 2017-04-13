@@ -41,6 +41,7 @@ public class BSLoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
     private ProgressDialog loading;
+    private boolean alreadyCameFromApp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class BSLoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(this);
 
         setContentView(R.layout.activity_login);
+
+        alreadyCameFromApp = getIntent().getBooleanExtra("cameFromApp", false);
 
         TextView btNoLogin = (TextView) findViewById(R.id.no_login_text);
         LinearLayout btFacebook = (LinearLayout) findViewById(R.id.face_login);
@@ -102,6 +105,9 @@ public class BSLoginActivity extends AppCompatActivity {
         });
 
         //endregion
+
+        if (alreadyCameFromApp)
+            btNoLogin.setVisibility(View.INVISIBLE);
 
         btNoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,8 +217,12 @@ public class BSLoginActivity extends AppCompatActivity {
     }
 
     private void goToMainApp() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
+        if (alreadyCameFromApp)
+            finish();
+        else {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 }
