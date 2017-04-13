@@ -26,6 +26,7 @@ import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSEventsAdapter;
+import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.util.ItemClickSupport;
 import retrofit2.Call;
@@ -44,6 +45,7 @@ public class BSEventsFragment extends Fragment{
     RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
 
     List<BSEvent> events;
+    BSCategory filterCategory;
 
     @Nullable
     @Override
@@ -82,9 +84,15 @@ public class BSEventsFragment extends Fragment{
 
         setSelectedMenu(1);
 
-        getEvents();
+        getAllEvents();
 
         return rootView;
+    }
+
+    public void setCategory(BSCategory category) {
+        filterCategory =  category;
+
+        getEventsFromCategory(filterCategory);
     }
 
 
@@ -122,9 +130,46 @@ public class BSEventsFragment extends Fragment{
         //todo fazer a logica necessaria para as celulas
     }
 
-    private void getEvents() {
+    private void getAllEvents() {
         BSRequests requests = BSConnection.createService(BSRequests.class);
         Call<JsonObject> call = requests.getEvents();
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    BSResponse bsResponse = new BSResponse(response.body());
+                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
+
+                        events = new ArrayList<BSEvent>();
+                        for (Map<String, Object> dictionary : data) {
+                            events.add(new BSEvent(dictionary));
+                        }
+
+                        mountRecycler();
+
+                        Log.d("getEvents", "success");
+                    }
+                    else {
+                        Log.d("getEvents", "server error");
+                    }
+                }
+                else {
+                    Log.d("getEvents", "conection failure");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("getEvents", "conection failure");
+            }
+        });
+    }
+
+    private void getEventsFromCategory(BSCategory category) {
+        BSRequests requests = BSConnection.createService(BSRequests.class);
+        Call<JsonObject> call = requests.getEventsByCategory(category.getId());
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

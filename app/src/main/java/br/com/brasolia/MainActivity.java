@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import br.com.brasolia.homeTabs.BSCategoryFragment;
 import br.com.brasolia.homeTabs.BSEventsFragment;
 import br.com.brasolia.homeTabs.BSProfileFragment;
+import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSTest;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+
+    private BSCategoryFragment categoryFragment;
+    private BSEventsFragment eventsFragment;
+    private BSProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         fab[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewPager.setCurrentItem(0, true);
+                scrollToIndex(0);
             }
         });
 
@@ -232,11 +237,14 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new BSCategoryFragment();
+                    categoryFragment = new BSCategoryFragment();
+                    return categoryFragment;
                 case 1:
-                    return new BSEventsFragment();
+                    eventsFragment = new BSEventsFragment();
+                    return eventsFragment;
                 case 2:
-                    return new BSProfileFragment();
+                    profileFragment = new BSProfileFragment();
+                    return profileFragment;
             }
             return null;
         }
@@ -260,5 +268,14 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         }
     }
 
+    public void scrollToIndex(int index) {
+        mViewPager.setCurrentItem(index, true);
+    }
+
+    public void setSelectedCategory(BSCategory category) {
+        eventsFragment.setCategory(category);
+
+        scrollToIndex(1);
+    }
 
 }
