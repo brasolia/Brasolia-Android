@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 
 import br.com.brasolia.homeTabs.BSCategoryFragment;
 import br.com.brasolia.homeTabs.BSEventsFragment;
-import br.com.brasolia.homeTabs.ProfileFragment;
+import br.com.brasolia.homeTabs.BSProfileFragment;
 import br.com.brasolia.models.BSTest;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
                 case 1:
                     return new BSEventsFragment();
                 case 2:
-                    return ProfileFragment.newInstance();
+                    return new BSProfileFragment();
             }
             return null;
         }

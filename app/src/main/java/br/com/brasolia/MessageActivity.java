@@ -1,8 +1,8 @@
 package br.com.brasolia;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.gson.JsonObject;
 
-import br.com.brasolia.application.BrasoliaApplication;
-import br.com.brasolia.webserver.BrasoliaAPI;
+import br.com.brasolia.Connectivity.BSConnection;
+import br.com.brasolia.Connectivity.BSRequests;
+import br.com.brasolia.Connectivity.BSResponse;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +26,6 @@ public class MessageActivity extends AppCompatActivity {
     CircleImageView btcloseSuggestions;
     EditText etComment;
     Button btsuggestionSend;
-
-    BrasoliaAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +38,6 @@ public class MessageActivity extends AppCompatActivity {
         btsuggestionSend = (Button) findViewById(R.id.sendSuggestion);
         final View line = (View) findViewById(R.id.lineSuggestion);
         // ----------------------------------------------------------------------
-
-        api = ((BrasoliaApplication) this.getApplication()).getApi();
 
         etComment.setHint("Escreva o que gostaria de nos dizer...");
 
@@ -90,36 +86,34 @@ public class MessageActivity extends AppCompatActivity {
                     Toast.makeText(MessageActivity.this, "Escreva algo", Toast.LENGTH_LONG).show();
 
                 else{
-
-                    Call<JsonObject> call = api.sendSugestion(message);
+                    BSRequests requests = BSConnection.createService(BSRequests.class);
+                    Call<JsonObject> call = requests.sendSugestion(message);
 
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
+                                BSResponse bsResponse = new BSResponse(response.body());
+                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
 
-                                JsonObject resp = response.body().getAsJsonObject();
-                                String status = resp.get("status").getAsString();
-
-                                if(status.equals("success")) {
                                     Toast.makeText(MessageActivity.this, "Obrigado pela participação", Toast.LENGTH_LONG).show();
                                     finish();
-
-                                }else Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
-                                        .show();
+                                }
+                                else {
+                                    Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
+                                            .show();
+                                }
                             }
-
-                            else
+                            else {
                                 Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
                                         .show();
-
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<JsonObject> call, Throwable t) {
-                            t.printStackTrace();
                             Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
-                                .show();
+                                    .show();
                         }
                     });
                 }

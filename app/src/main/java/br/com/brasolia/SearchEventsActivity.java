@@ -18,11 +18,7 @@ import android.widget.TextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.text.Normalizer;
-import java.util.Calendar;
-
 import br.com.brasolia.adapters.ItemEventSearchAdapter;
-import br.com.brasolia.homeTabs.EventsFragment;
 
 public class SearchEventsActivity extends Activity {
 
@@ -114,7 +110,7 @@ public class SearchEventsActivity extends Activity {
 
                 JsonObject event = searchEvents.get(position).getAsJsonObject();
 
-                Intent i = new Intent(SearchEventsActivity.this, EventActivity.class);
+                Intent i = new Intent(SearchEventsActivity.this, BSEventActivity.class);
                 i.putExtra("event", event.toString());
                 startActivity(i);
             }
@@ -126,27 +122,7 @@ public class SearchEventsActivity extends Activity {
 
     public JsonArray searchEvents(String word) {
 
-        JsonArray search = new JsonArray();
-        for (int i = 0; i < EventsFragment.allCast.size(); i++) {
-
-            JsonObject event = EventsFragment.allCast.get(i).getAsJsonObject();
-
-            String name = event.get("name").getAsString();
-            String place = event.get("locality").getAsJsonObject().get("address").getAsString();
-            String description = event.get("description").getAsString();
-
-
-            if ((Normalizer
-                    .normalize(name, Normalizer.Form.NFD)
-                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase().trim().contains(word.toLowerCase().trim()) || name.toLowerCase().trim().contains(word.toLowerCase().trim())) || (place != null && (Normalizer.normalize(place, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase().trim().contains(word.toLowerCase().trim()) || place.toLowerCase().trim().contains(word.toLowerCase().trim()))) || (description != null && (Normalizer.normalize(description, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                    .toLowerCase().trim().contains(word.toLowerCase().trim()) || description.toLowerCase().trim().contains(word.toLowerCase().trim())))) {
-
-                search.add(event);
-            }
-        }
-
-        return search;
+        //todo implementar
+        return null;
     }
 }

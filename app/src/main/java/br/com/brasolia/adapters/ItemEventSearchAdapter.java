@@ -1,9 +1,7 @@
 package br.com.brasolia.adapters;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,11 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.R;
 
 
@@ -68,8 +65,7 @@ public class ItemEventSearchAdapter extends BaseAdapter {
 
 
         if(!item.get("cover").getAsString().equals("")) {
-            ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage("https://s3-us-west-2.amazonaws.com/bs.cover/" + item.get("cover").getAsString(), imgEvent);
+            BSImageStorage.setEventImageNamed(item.get("cover").getAsString(), imgEvent, 200,200);
 
         } else imgEvent.setImageResource(R.drawable.brasolia_logo);
 
