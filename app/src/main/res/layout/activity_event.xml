@@ -402,7 +402,68 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorAccent"
+            />
+
+        <LinearLayout
+            android:id="@+id/fieldTypeComment"
+
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+
+            android:padding="10dp"
+
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/userComment"
+
+                android:layout_width="0dp"
+                android:layout_weight="0.75"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+
+                android:hint="@string/leave_comment"
+
+                android:background="#E8E9E8"
+                android:inputType="text"
+                />
+
+            <Button
+                android:id="@+id/sendComment"
+
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="match_parent"
+
+                android:textColor="#fff"
+                android:text="ENVIAR"
+                android:background="#808080"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorAccent"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_event_recycler_comments"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
-
-
 </ScrollView>

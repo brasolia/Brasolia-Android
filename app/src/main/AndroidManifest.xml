@@ -86,7 +86,7 @@
             </activity><![CDATA[>
         ]]>
         <activity
-            android:name=".EventActivity"
+            android:name=".BSEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/EventTheme" />
         <!--

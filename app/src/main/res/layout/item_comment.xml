@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_comment_user_image"
+
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+        android:src="@drawable/profile"
+
+        app:civ_border_color="#FFffff"
+        app:civ_border_width="1dp"
+        />
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            
+            <TextView
+                android:id="@+id/item_comment_name"
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                
+                android:text="Cayke Prudente"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+            
+            <TextView
+                android:id="@+id/item_comment_date"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="2 dias atras"
+                android:textSize="17sp"
+                />
+            
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_comment_text"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/lorem_ipsum"
+            android:textColor="@color/black"
+            />
+        
+    </LinearLayout>
+
+
+</LinearLayout>

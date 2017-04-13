@@ -23,7 +23,7 @@ import java.util.Map;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
-import br.com.brasolia.EventActivity;
+import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSEventsAdapter;
 import br.com.brasolia.models.BSEvent;
@@ -169,7 +169,7 @@ public class BSEventsFragment extends Fragment{
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Intent i = new Intent(getActivity(), EventActivity.class);
+                    Intent i = new Intent(getActivity(), BSEventActivity.class);
                     i.putExtra("event", events.get(position));
                     startActivity(i);
                 }

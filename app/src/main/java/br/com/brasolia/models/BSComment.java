@@ -14,7 +14,7 @@ public class BSComment {
     Date createAt;
     String message;
 
-    BSComment(Map<String, Object> dictionary) {
+    public BSComment(Map<String, Object> dictionary) {
         Map<String, Object> idDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
         id = (String) BSDictionary.getValueWithKeyAndType(idDict, "$oid", String.class);
 
@@ -25,5 +25,25 @@ public class BSComment {
         createAt = BSDate.getDateWithKey("created_at", dictionary);
 
         message = (String) BSDictionary.getValueWithKeyAndType(dictionary, "message", String.class);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public BSUser getOwner() {
+        return owner;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
