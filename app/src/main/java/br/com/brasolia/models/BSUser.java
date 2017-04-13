@@ -19,6 +19,8 @@ public class BSUser {
 
     private static final String USER_PREFS = "br.com.brasolia.UserPrefsFile";
 
+    public BSUser(){}
+
     public BSUser(Map<String, Object> dictionary) {
         email = (String) BSDictionary.getValueWithKeyAndType(dictionary, "email", String.class);
         fName = (String) BSDictionary.getValueWithKeyAndType(dictionary, "fName", String.class);
@@ -44,6 +46,8 @@ public class BSUser {
         editor.putString("lName", lName);
         editor.putString("gender", gender);
         editor.apply();
+
+        BrasoliaApplication.setUser(this);
     }
 
     public static BSUser loadUserFromDevice() {
@@ -91,5 +95,25 @@ public class BSUser {
 
     public String getGender() {
         return gender;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
+    }
+
+    public void setImageKey(String imageKey) {
+        this.imageKey = imageKey;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
