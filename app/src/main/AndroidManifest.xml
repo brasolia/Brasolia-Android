@@ -73,13 +73,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".BSLoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".FirstStepsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/FirstStepsTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+            </activity><![CDATA[>
+        ]]>
         <activity
             android:name=".EventActivity"
             android:screenOrientation="portrait"
@@ -106,18 +111,6 @@
         <activity
             android:name=".MessageActivity"
             android:theme="@style/MessageTheme" />
-        <activity
-            android:name=".CommentActivity"
-            android:theme="@style/CommentTheme" />
-        <activity
-            android:name=".TicketActivity"
-            android:theme="@style/CommentTheme" />
-        <activity
-            android:name=".SummaryTicketActivity"
-            android:theme="@style/CommentTheme" />
-        <activity
-            android:name=".ProfileActivity"
-            android:theme="@style/CommentTheme" />
 
         <activity
             android:name=".SearchEventsActivity"
