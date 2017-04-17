@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/black"
-            >
+            android:background="@color/black">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_picture"
@@ -25,8 +23,7 @@
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
 
-                android:src="@drawable/profile"
-                />
+                android:src="@drawable/profile" />
 
             <TextView
                 android:id="@+id/tvNameProfileFragment"
@@ -39,9 +36,7 @@
                 android:text="Cayke Prudente"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-
-                />
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <LinearLayout
@@ -54,38 +49,33 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_send_message"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_follow_face"
@@ -97,38 +87,33 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_follow_face"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_follow_insta"
@@ -140,38 +125,33 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_follow_instagram"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_share"
@@ -183,38 +163,33 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_share"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_rate_app"
@@ -226,38 +201,33 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_rate_app"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_privacy"
@@ -269,21 +239,19 @@
 
             android:gravity="center"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
 
-                android:src="@drawable/profile_message"
-                />
+                android:src="@drawable/profile_message" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_weight="1"
 
                 android:text="@string/profile_privacy"
                 android:textColor="@color/black"
@@ -293,15 +261,13 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/right_gray"
-                />
+                android:src="@drawable/right_gray" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
 
     </LinearLayout>

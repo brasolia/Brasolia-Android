@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
-import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSEventsAdapter;
 import br.com.brasolia.models.BSEvent;
@@ -91,6 +91,7 @@ public class BSEventsFragment extends Fragment{
     private void setSelectedMenu(int selectedMenu) {
         //HORARIO
         if (selectedMenu == 1) {
+            mountRecycler(1);
             imageView1.setImageResource(R.drawable.menu1);
             relativeLayout1.setBackgroundResource(R.color.black);
         }
@@ -101,6 +102,7 @@ public class BSEventsFragment extends Fragment{
 
         //LOCALIZAÇÃO
         if (selectedMenu == 2) {
+            mountRecycler(2);
             imageView2.setImageResource(R.drawable.menu2);
             relativeLayout2.setBackgroundResource(R.color.black);
         }
@@ -111,6 +113,7 @@ public class BSEventsFragment extends Fragment{
 
         //PREÇO
         if (selectedMenu == 3) {
+            mountRecycler(3);
             imageView3.setImageResource(R.drawable.menu4);
             relativeLayout3.setBackgroundResource(R.color.black);
         }
@@ -118,8 +121,6 @@ public class BSEventsFragment extends Fragment{
             imageView3.setImageResource(R.drawable.selectedmenu4);
             relativeLayout3.setBackgroundResource(R.color.white);
         }
-
-        //todo fazer a logica necessaria para as celulas
     }
 
     private void getEvents() {
@@ -139,7 +140,7 @@ public class BSEventsFragment extends Fragment{
                             events.add(new BSEvent(dictionary));
                         }
 
-                        mountRecycler();
+                        mountRecycler(1);
 
                         Log.d("getEvents", "success");
                     }
@@ -159,12 +160,12 @@ public class BSEventsFragment extends Fragment{
         });
     }
 
-    private void mountRecycler() {
+    private void mountRecycler(int choice) {
         if (events != null) {
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new BSEventsAdapter(events));
+            recyclerView.setAdapter(new BSEventsAdapter(events, choice));
 
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
