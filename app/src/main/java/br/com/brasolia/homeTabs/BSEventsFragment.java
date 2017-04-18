@@ -168,9 +168,6 @@ public class BSEventsFragment extends Fragment{
         });
     }
 
-<<<<<<< HEAD
-    private void mountRecycler(int choice) {
-=======
     private void getEventsFromCategory(BSCategory category) {
         BSRequests requests = BSConnection.createService(BSRequests.class);
         Call<JsonObject> call = requests.getEventsByCategory(category.getId());
@@ -188,7 +185,7 @@ public class BSEventsFragment extends Fragment{
                             events.add(new BSEvent(dictionary));
                         }
 
-                        mountRecycler();
+                        mountRecycler(1);
 
                         Log.d("getEvents", "success");
                     }
@@ -208,8 +205,7 @@ public class BSEventsFragment extends Fragment{
         });
     }
 
-    private void mountRecycler() {
->>>>>>> 916b84d8e592a12e3d9a58328b5b3e5e97525199
+    private void mountRecycler(int choice) {
         if (events != null) {
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
@@ -226,4 +222,6 @@ public class BSEventsFragment extends Fragment{
             });
         }
     }
+
+
 }
