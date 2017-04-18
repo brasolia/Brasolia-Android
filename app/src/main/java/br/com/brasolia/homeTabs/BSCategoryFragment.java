@@ -26,6 +26,7 @@ import java.util.Map;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.MainActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.SearchEventsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
@@ -42,7 +43,7 @@ import retrofit2.Response;
 public class BSCategoryFragment extends Fragment {
     private static final int DEFAULT_SPAN_COUNT = 2;
 
-    Context mContext;
+    MainActivity mainActivity;
     RecyclerView recyclerView;
     private Button btSearch;
     private Button btProfile;
@@ -77,7 +78,11 @@ public class BSCategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_categories, container, false);
-        mContext = rootView.getContext();
+        Context context = rootView.getContext();
+
+        if (context instanceof MainActivity) {
+            mainActivity = (MainActivity) context;
+        }
 
         //SCREEN ELEMENTS -----------------------------------------------------------------
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerCategories);
@@ -96,9 +101,7 @@ public class BSCategoryFragment extends Fragment {
         btProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo go to profile
-                Intent it = new Intent(getActivity(), SearchEventsActivity.class);
-                startActivity(it);
+                    mainActivity.scrollToIndex(2);
             }
         });
 
@@ -113,7 +116,7 @@ public class BSCategoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (isLoading)
-            progress = ProgressDialog.show(mContext, "", "Carregando dados...");
+            progress = ProgressDialog.show(mainActivity, "", "Carregando dados...");
     }
 
     private void getCategories() {
@@ -150,11 +153,11 @@ public class BSCategoryFragment extends Fragment {
                     }
                     else {
                         Log.d("getCategories", "server error");
-                        Toast.makeText(mContext, "Erro ao obter categorias. \n" + bsResponse.getData().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(mainActivity, "Erro ao obter categorias. \n" + bsResponse.getData().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
-                    Toast.makeText(mContext, "Erro ao obter categorias. Verifique sua conexao com a internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity, "Erro ao obter categorias. Verifique sua conexao com a internet", Toast.LENGTH_LONG).show();
                     Log.d("getCategories", "conection failure");
                 }
             }
@@ -164,7 +167,7 @@ public class BSCategoryFragment extends Fragment {
                 isLoading = false;
                 progress.dismiss();
                 Log.d("getCategories", "conection failure");
-                Toast.makeText(mContext, "Erro ao obter categorias. Verifique sua conexao com a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity, "Erro ao obter categorias. Verifique sua conexao com a internet", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -172,7 +175,7 @@ public class BSCategoryFragment extends Fragment {
     private void mountRecycler() {
         if (categories != null) {
             recyclerView.setHasFixedSize(true);
-            GridLayoutManager layoutManager = new GridLayoutManager(mContext, DEFAULT_SPAN_COUNT);
+            GridLayoutManager layoutManager = new GridLayoutManager(mainActivity, DEFAULT_SPAN_COUNT);
             BSCategoriesAdapter adapter = new BSCategoriesAdapter(categories);
             adapter.setLayoutManager(layoutManager, DEFAULT_SPAN_COUNT);
             recyclerView.setLayoutManager(layoutManager);
@@ -181,7 +184,7 @@ public class BSCategoryFragment extends Fragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        //todo chamar tela de eventos passando categoria
+                        mainActivity.setSelectedCategory(categories.get(position));
                 }
             });
         }

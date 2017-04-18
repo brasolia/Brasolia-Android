@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,6 +56,8 @@ public class BSEventActivity extends AppCompatActivity {
     private ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
     private LinearLayout btShare, btCall, btHour;
     private RecyclerView recyclerViewImages, recyclerViewComments;
+    private EditText editText;
+    private Button btSendMessage;
 
     private boolean liked;
     private ProgressDialog loading;
@@ -80,6 +84,8 @@ public class BSEventActivity extends AppCompatActivity {
         tvPhone = (TextView) findViewById(R.id.activity_event_textview_phone);
         imageButtonComprarIngresso = (ImageButton) findViewById(R.id.imageButtonComprarIngresso);
         imageButtonNomeLista = (ImageButton) findViewById(R.id.imageButtonNomeLista);
+        editText = (EditText) findViewById(R.id.userComment);
+        btSendMessage = (Button) findViewById(R.id.sendComment);
 
         tvDistance = (TextView) findViewById(R.id.tvEventDistance);
         TextView secondAddressTitle = (TextView) findViewById(R.id.secondAddressTitle);
@@ -285,6 +291,13 @@ public class BSEventActivity extends AppCompatActivity {
 
             }
         });
+
+        btSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage();
+            }
+        });
         //endregion
 
         //region maps
@@ -317,8 +330,8 @@ public class BSEventActivity extends AppCompatActivity {
                     case DialogInterface.BUTTON_POSITIVE:
                         Intent i = new Intent(BSEventActivity.this, BSLoginActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("cameFromApp", true);
                         startActivity(i);
-                        finish();
                         break;
                 }
             }
@@ -385,6 +398,50 @@ public class BSEventActivity extends AppCompatActivity {
                 Log.d("getComments", "conection failure");
             }
         });
+    }
+
+    private void makeComment(String comment) {
+        BSRequests requests = BSConnection.createService(BSRequests.class);
+        Call<JsonObject> call = requests.makeComment(event.getId(), comment);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    BSResponse bsResponse = new BSResponse(response.body());
+                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+
+                        getComments();
+                        editText.setText("");
+                        editText.setEnabled(true);
+                    }
+                    else {
+                        Toast.makeText(BSEventActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
+                        editText.setEnabled(true);
+                    }
+                }
+                else {
+                    Toast.makeText(BSEventActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
+                    editText.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(BSEventActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
+                editText.setEnabled(true);
+            }
+        });
+    }
+
+    private void sendMessage() {
+        if (BrasoliaApplication.getUser() == null) {
+            toLikeUserShouldLogin();
+        }
+        else {
+            editText.setEnabled(false);
+            makeComment(editText.getText().toString());
+        }
     }
 }
 
