@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/login_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:src="@drawable/login_background"
-
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
 
@@ -25,27 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="80dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
 
             android:gravity="center"
 
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
 
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
 
-                android:src="@drawable/brasolia_logo"
-                />
+                android:src="@drawable/brasolia_logo" />
 
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/brasolia_texto"
-                />
+                android:src="@drawable/brasolia_texto" />
 
 
         </LinearLayout>
@@ -61,8 +54,7 @@
             android:text="@string/login_text"
             android:textAlignment="center"
             android:textColor="#fff"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
         <LinearLayout
 
@@ -71,15 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/no_login_text"
-            android:layout_marginBottom="40dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
 
             android:background="@drawable/border_button"
 
             android:foregroundGravity="center_vertical"
 
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <ImageView
 
@@ -102,27 +93,25 @@
 
                 android:gravity="center_vertical"
                 android:text="@string/enter_fb"
-                android:textColor="@color/white"
-                />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/no_login_text"
 
-            android:gravity="center"
-
             android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
 
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
 
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+
             android:text="@string/enter_no_login"
             android:textColor="#fff"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

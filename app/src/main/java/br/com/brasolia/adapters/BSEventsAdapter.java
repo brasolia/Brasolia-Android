@@ -82,13 +82,16 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                     break;
                 case 2:
                     price.setVisibility(View.GONE);
+                    if (event.getDistance() > 100)
+                        distance.setVisibility(View.GONE);
+                    else
+                        distance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
                     break;
                 case 3:
                     distance.setVisibility(View.GONE);
                     break;
             }
 
-            distance.setText(Double.toString(event.getLikes()));
             price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
             title.setText(event.getName());
             place.setText(event.getLocality());
@@ -105,19 +108,6 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                         getDate(event.getEndHour().getDate()),
                         getDate(event.getEndHour().getMonth())));
 
-
-            /*if(event.getStartHour().compareTo(event.getEndHour()) == 0)
-                date.setText(String.format(Locale.getDefault(), "%s/%s",
-                        getDate(event.getStartHour().getDate()),
-                        getDate(event.getStartHour().getMonth())));
-            else
-                date.setText(String.format(Locale.getDefault(), "%s/%s a %s/%s",
-                        getDate(event.getStartHour().getDate()),
-                        getDate(event.getStartHour().getMonth()),
-                        getDate(event.getEndHour().getDate()),
-                        getDate(event.getEndHour().getMonth())));*/
-
-
             BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height);
 
         } else {
@@ -131,10 +121,10 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     }
 
     public String getDate(int date) {
-
         if (date < 10)
             return "0" + date;
         else
             return Integer.toString(date);
     }
+
 }

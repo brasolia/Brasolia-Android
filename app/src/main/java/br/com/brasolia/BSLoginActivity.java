@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -42,6 +44,7 @@ public class BSLoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private ProgressDialog loading;
     private boolean alreadyCameFromApp;
+    private ImageView login_background;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +56,14 @@ public class BSLoginActivity extends AppCompatActivity {
 
         alreadyCameFromApp = getIntent().getBooleanExtra("cameFromApp", false);
 
+        login_background = (ImageView) findViewById(R.id.login_background);
         TextView btNoLogin = (TextView) findViewById(R.id.no_login_text);
         LinearLayout btFacebook = (LinearLayout) findViewById(R.id.face_login);
         loginButton = (LoginButton) findViewById(R.id.fb_login_button);
 
         //region fbbutton methods
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        Picasso.with(this).load(R.drawable.login_background).resize(781,1390).into(login_background);
 
         callbackManager = CallbackManager.Factory.create();
 

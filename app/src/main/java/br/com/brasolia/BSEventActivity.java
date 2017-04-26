@@ -88,6 +88,7 @@ public class BSEventActivity extends AppCompatActivity {
         btSendMessage = (Button) findViewById(R.id.sendComment);
 
         tvDistance = (TextView) findViewById(R.id.tvEventDistance);
+        tvDistance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
         TextView secondAddressTitle = (TextView) findViewById(R.id.secondAddressTitle);
         TextView eventFullAddress = (TextView) findViewById(R.id.eventFullAddress);
         TextView eventDescription = (TextView) findViewById(R.id.eventDescription);

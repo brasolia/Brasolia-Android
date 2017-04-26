@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
     private RelativeLayout mainContent;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private SharedPreferences sp;
-    private LocationUtil locationUtil;
+    private static LocationUtil locationUtil;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -278,4 +278,8 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
         scrollToIndex(1);
     }
 
+
+    public static LocationUtil getLocationUtil(){
+        return locationUtil;
+    }
 }

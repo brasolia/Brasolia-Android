@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +39,7 @@ import retrofit2.Response;
  * Created by cayke on 11/04/17.
  */
 
-public class BSEventsFragment extends Fragment{
+public class BSEventsFragment extends Fragment {
     Context mContext;
 
     RecyclerView recyclerView;
@@ -90,7 +92,7 @@ public class BSEventsFragment extends Fragment{
     }
 
     public void setCategory(BSCategory category) {
-        filterCategory =  category;
+        filterCategory = category;
 
         getEventsFromCategory(filterCategory);
     }
@@ -102,8 +104,7 @@ public class BSEventsFragment extends Fragment{
             mountRecycler(1);
             imageView1.setImageResource(R.drawable.menu1);
             relativeLayout1.setBackgroundResource(R.color.black);
-        }
-        else {
+        } else {
             imageView1.setImageResource(R.drawable.selectedmenu1);
             relativeLayout1.setBackgroundResource(R.color.white);
         }
@@ -113,8 +114,7 @@ public class BSEventsFragment extends Fragment{
             mountRecycler(2);
             imageView2.setImageResource(R.drawable.menu2);
             relativeLayout2.setBackgroundResource(R.color.black);
-        }
-        else {
+        } else {
             imageView2.setImageResource(R.drawable.selectedmenu2);
             relativeLayout2.setBackgroundResource(R.color.white);
         }
@@ -124,8 +124,7 @@ public class BSEventsFragment extends Fragment{
             mountRecycler(3);
             imageView3.setImageResource(R.drawable.menu4);
             relativeLayout3.setBackgroundResource(R.color.black);
-        }
-        else {
+        } else {
             imageView3.setImageResource(R.drawable.selectedmenu4);
             relativeLayout3.setBackgroundResource(R.color.white);
         }
@@ -151,12 +150,10 @@ public class BSEventsFragment extends Fragment{
                         mountRecycler(1);
 
                         Log.d("getEvents", "success");
-                    }
-                    else {
+                    } else {
                         Log.d("getEvents", "server error");
                     }
-                }
-                else {
+                } else {
                     Log.d("getEvents", "conection failure");
                 }
             }
@@ -188,12 +185,10 @@ public class BSEventsFragment extends Fragment{
                         mountRecycler(1);
 
                         Log.d("getEvents", "success");
-                    }
-                    else {
+                    } else {
                         Log.d("getEvents", "server error");
                     }
-                }
-                else {
+                } else {
                     Log.d("getEvents", "conection failure");
                 }
             }
@@ -207,6 +202,37 @@ public class BSEventsFragment extends Fragment{
 
     private void mountRecycler(int choice) {
         if (events != null) {
+
+            switch (choice) {
+
+                case 1:
+                    Collections.sort(events, new Comparator<BSEvent>() {
+                        @Override
+                        public int compare(BSEvent o1, BSEvent o2) {
+                            return Long.valueOf(o1.getStartHour().getTime()).compareTo(o2.getStartHour().getTime());
+                        }
+                    });
+                    break;
+
+                case 2:
+                    Collections.sort(events, new Comparator<BSEvent>() {
+                        public int compare(BSEvent obj1, BSEvent obj2) {
+                            return Double.valueOf(obj1.getDistance()).compareTo(Double.valueOf(obj2.getDistance()));
+                        }
+                    });
+                    break;
+
+                case 3 :
+                    Collections.sort(events, new Comparator<BSEvent>() {
+                        public int compare(BSEvent obj1, BSEvent obj2) {
+                            return Double.valueOf(obj1.getPrices().get(0).getPrice()).compareTo(Double.valueOf(obj2.getPrices().get(0).getPrice()
+                            ));
+                        }
+                    });
+                    break;
+
+            }
+
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);

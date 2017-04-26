@@ -8,11 +8,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import br.com.brasolia.MainActivity;
+
 /**
  * Created by cayke on 10/04/17.
  */
 
 public class BSEvent implements Parcelable {
+    private double distance;
     private Date createdAt;
     private Date updatedAt;
     private Date endHour;
@@ -46,6 +49,8 @@ public class BSEvent implements Parcelable {
 
         Map<String, Object> localityDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "locality", Map.class);
         initLocality(localityDict);
+
+        distance = distance(getLatitute(), getLongitude(), MainActivity.getLocationUtil().getLatitude(), MainActivity.getLocationUtil().getLongitude());
 
         ticketLink = (String) BSDictionary.getValueWithKeyAndType(dictionary, "ticket_link", String.class);
 
@@ -90,6 +95,8 @@ public class BSEvent implements Parcelable {
         images.add(coverImageKey);
         images.add(coverImageKey);
         images.add(coverImageKey);
+
+
     }
 
     private void initDates(List<Map<String, Object>> dates) {
@@ -109,6 +116,27 @@ public class BSEvent implements Parcelable {
         List<Double> coordinates = (List<Double>) BSDictionary.getValueWithKeyAndType(point, "coordinates", List.class);
         longitude = coordinates.get(0);
         latitute = coordinates.get(1);
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
     public Date getCreatedAt() {
@@ -203,6 +231,10 @@ public class BSEvent implements Parcelable {
         return images;
     }
 
+    public double getDistance(){
+        return distance;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -210,6 +242,7 @@ public class BSEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.distance);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
         dest.writeLong(this.endHour != null ? this.endHour.getTime() : -1);
@@ -236,6 +269,7 @@ public class BSEvent implements Parcelable {
     }
 
     protected BSEvent(Parcel in) {
+        this.distance = in.readDouble();
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         long tmpUpdatedAt = in.readLong();
