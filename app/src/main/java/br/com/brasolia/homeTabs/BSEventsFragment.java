@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,10 +113,10 @@ public class BSEventsFragment extends Fragment {
         //LOCALIZAÇÃO
         if (selectedMenu == 2) {
             mountRecycler(2);
-            imageView2.setImageResource(R.drawable.menu2);
+            Picasso.with(getContext()).load(R.drawable.ic_distance_white).into(imageView2);
             relativeLayout2.setBackgroundResource(R.color.black);
         } else {
-            imageView2.setImageResource(R.drawable.selectedmenu2);
+            Picasso.with(getContext()).load(R.drawable.ic_distance_black).into(imageView2);
             relativeLayout2.setBackgroundResource(R.color.white);
         }
 

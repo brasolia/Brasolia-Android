@@ -148,6 +148,7 @@ public class BSProfileFragment extends Fragment {
         }
         else {
             tvNameProfile.setText("");
+            Picasso.with(getContext()).load(R.drawable.profile).resize(598, 416).into(profilePicture);
         }
 
         return rootView;

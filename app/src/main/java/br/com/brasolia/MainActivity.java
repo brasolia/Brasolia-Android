@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
     protected void onCreate(Bundle savedInstanceState) {
         //todo comentar antes de upar
         BSTest.init();
+        //BSUser.removeUserFromDevice();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
