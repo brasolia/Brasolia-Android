@@ -131,5 +131,7 @@
     <string name="profile_logout">Desconectar conta</string>
     <string name="profile_login">Clique aqui para fazer login</string>
 
+    <string name="free">Gratuito</string>
+
 
 </resources>

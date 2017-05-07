@@ -10,4 +10,8 @@
 
     <color name="blackTranslucent">#8C000000</color>
     <color name="blackTranslucent2">#66000000</color>
+
+
+    <color name="bs_lightGray">#EBEAE6</color>
+    <color name="bs_black">#000000</color>
 </resources>

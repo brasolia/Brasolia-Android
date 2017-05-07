@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        >
 
+        <!-- Event cover and close button -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            >
 
             <ImageView
                 android:id="@+id/eventCover"
@@ -34,18 +38,18 @@
 
         </RelativeLayout>
 
+        <!-- Nome, endereco, like -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#1a1a1a"
+            android:background="@color/bs_black"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -81,65 +85,50 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
+                android:id="@+id/buttonLikeEvent"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                <ImageView
+                    android:id="@+id/likeEvent"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_love" />
 
-                    <ImageView
-                        android:id="@+id/likeEvent"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="30dp"
-                        android:src="@drawable/event_heart" />
-
-
-                </RelativeLayout>
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <RelativeLayout
+        <!-- Rating and price -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:gravity="center"
+            android:padding="16dp"
+            >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_picture_event"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/brasolia_logo_preto"
+                />
+            <TextView
+                android:id="@+id/activity_event_rating"
+
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:orientation="horizontal"
-                android:gravity="center"
-                >
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_picture_event"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/brasolia_logo_preto"
-                    />
-                <TextView
-                    android:id="@+id/activity_event_rating"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-
-                    android:text="8.5/10"
-                    />
-
-            </LinearLayout>
+                android:text="8.5/10"
+                />
 
             <TextView
                 android:id="@+id/tvMaleTicketPrice"
@@ -154,8 +143,7 @@
                 android:textStyle="bold"
                 />
 
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -166,27 +154,20 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:orientation="vertical"
-            android:padding="10dp">
-
+        <!-- Descricao -->
             <TextView
                 android:id="@+id/eventDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
+                android:padding="16dp" />
 
-        </LinearLayout>
-
-
+        <!-- Mapa -->
         <RelativeLayout
             android:id="@+id/map_photo_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -250,12 +231,13 @@
 
         </RelativeLayout>
 
+        <!-- Botoes share, hour, phone-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#FFFFFF"
             android:orientation="vertical"
+
+            android:layout_marginTop="16dp"
             >
 
 
@@ -264,21 +246,20 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
 
-                android:background="@color/colorAccent"
-
+                android:background="@color/bs_lightGray"
                 android:orientation="horizontal"
                 >
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/event_share"
+                    android:src="@drawable/ic_event_share"
+                    android:adjustViewBounds="true"
                     />
 
                 <TextView
@@ -300,18 +281,19 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
 
-                android:background="@color/colorAccent"
+                android:background="@color/bs_lightGray"
 
                 android:orientation="horizontal"
                 >
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/event_phone"
+                    android:src="@drawable/ic_event_phone"
+                    android:adjustViewBounds="true"
                     />
 
                 <TextView
@@ -334,18 +316,19 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
 
-                android:background="@color/colorAccent"
+                android:background="@color/bs_lightGray"
 
                 android:orientation="horizontal"
                 >
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/event_calendar"
+                    android:src="@drawable/ic_event_hour"
+                    android:adjustViewBounds="true"
                     />
 
                 <TextView
@@ -360,44 +343,42 @@
             </LinearLayout>
         </LinearLayout>
 
-
+        <!-- Comprar ingresso -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="5dp">
+            >
 
             <ImageButton
                 android:id="@+id/imageButtonComprarIngresso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:background="@android:color/transparent"
-                android:padding="0dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/btn_comprar_ingresso" />
+                android:src="@drawable/btn_comprar_ingresso"
+                android:background="@color/white"
+                />
 
             <ImageButton
                 android:id="@+id/imageButtonNomeLista"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:background="@android:color/transparent"
-                android:padding="0dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/btn_nome_lista" />
+                android:src="@drawable/btn_nome_lista"
+                android:background="@color/white"
+                />
 
         </LinearLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_event_photos_recycler"
 
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             >
 
         </android.support.v7.widget.RecyclerView>

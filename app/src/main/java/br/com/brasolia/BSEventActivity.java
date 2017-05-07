@@ -54,7 +54,7 @@ public class BSEventActivity extends AppCompatActivity {
 
     private TextView tvDistance, tvPhone;
     private ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
-    private LinearLayout btShare, btCall, btHour;
+    private LinearLayout btShare, btCall, btHour, btLike;
     private RecyclerView recyclerViewImages, recyclerViewComments;
     private EditText editText;
     private Button btSendMessage;
@@ -81,6 +81,7 @@ public class BSEventActivity extends AppCompatActivity {
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
         btCall = (LinearLayout) findViewById(R.id.activity_event_call);
         btHour = (LinearLayout) findViewById(R.id.activity_event_hour);
+        btLike = (LinearLayout) findViewById(R.id.buttonLikeEvent);
         tvPhone = (TextView) findViewById(R.id.activity_event_textview_phone);
         imageButtonComprarIngresso = (ImageButton) findViewById(R.id.imageButtonComprarIngresso);
         imageButtonNomeLista = (ImageButton) findViewById(R.id.imageButtonNomeLista);
@@ -118,16 +119,19 @@ public class BSEventActivity extends AppCompatActivity {
 
             if (event.getPrices().size() > 0) {
                 BSEventPrice price = event.getPrices().get(0);
-                tvEventPrice.setText(String.format(Locale.getDefault(), "R$%.2f", price.getPrice()));
+                if (price.getPrice() == 0)
+                    tvEventPrice.setText("Gratuito");
+                else
+                    tvEventPrice.setText(String.format(Locale.getDefault(), "R$%.2f", price.getPrice()));
 
             }
             else
-                tvEventPrice.setText("Free");
+                tvEventPrice.setText("Gratuito");
 
             if (event.getRating() > 0)
-                rating.setText("8.5/10");
+                rating.setText(String.format(Locale.getDefault(), "%.1f/10", event.getRating()));
             else
-                rating.setVisibility(View.GONE);
+                rating.setVisibility(View.INVISIBLE);
 
             eventName.setText(event.getName());
             addressTitle.setText(event.getLocality());
@@ -187,10 +191,9 @@ public class BSEventActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         BSResponse bsResponse = new BSResponse(response.body());
                         if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                            //todo testar isso
                             liked = (boolean) bsResponse.getData();
                             if (liked)
-                                likeEvent.setImageResource(R.drawable.event_heart_pressed);
+                                likeEvent.setImageResource(R.drawable.ic_love_filled);
                         }
                         else {
                             liked = false;
@@ -210,7 +213,7 @@ public class BSEventActivity extends AppCompatActivity {
         //endregion
 
         //region buttons listeners
-        likeEvent.setOnClickListener(new View.OnClickListener() {
+        btLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (user == null) {
@@ -354,6 +357,7 @@ public class BSEventActivity extends AppCompatActivity {
 
     private void mountRecyclerComments() {
         if (comments != null && comments.size() > 0) {
+            recyclerViewComments.setVisibility(View.VISIBLE);
             recyclerViewComments.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
