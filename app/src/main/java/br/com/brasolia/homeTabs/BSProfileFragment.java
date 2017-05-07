@@ -34,7 +34,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class BSProfileFragment extends Fragment {
-    BSUser user;
     TextView tvNameProfile;
     LinearLayout shareBrasolia, reviewBrasolia, facebook, instagram, sendMessage;
     CircleImageView profilePicture;
@@ -138,8 +137,14 @@ public class BSProfileFragment extends Fragment {
 
         //endregion
 
+        updateUserInfo();
+
+        return rootView;
+    }
+
+    public void updateUserInfo() {
         if (BrasoliaApplication.getUser() != null) {
-            user = BrasoliaApplication.getUser();
+            BSUser user = BrasoliaApplication.getUser();
             tvNameProfile.setText(user.getfName() + " " + user.getlName());
 
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
@@ -150,7 +155,5 @@ public class BSProfileFragment extends Fragment {
             tvNameProfile.setText("");
             Picasso.with(getContext()).load(R.drawable.profile).resize(598, 416).into(profilePicture);
         }
-
-        return rootView;
     }
 }

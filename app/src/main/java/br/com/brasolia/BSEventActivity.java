@@ -39,7 +39,6 @@ import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSEventPrice;
-import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.AlertUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -63,7 +62,6 @@ public class BSEventActivity extends AppCompatActivity {
     private ProgressDialog loading;
 
     private BSEvent event;
-    private BSUser user;
     private List<BSComment> comments;
 
     @Override
@@ -176,12 +174,11 @@ public class BSEventActivity extends AppCompatActivity {
         }
         //endregion
 
-        user = BrasoliaApplication.getUser();
 
         final ImageView likeEvent = (ImageView) findViewById(R.id.likeEvent);
 
         //region get if user liked event
-        if (user != null) {
+        if (BrasoliaApplication.getUser() != null) {
             BSRequests requests = BSConnection.createService(BSRequests.class);
             Call<JsonObject> call = requests.getLikeEvent(event.getId());
 
@@ -216,7 +213,7 @@ public class BSEventActivity extends AppCompatActivity {
         btLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user == null) {
+                if (BrasoliaApplication.getUser() == null) {
                     toLikeUserShouldLogin();
                 }
                 else {

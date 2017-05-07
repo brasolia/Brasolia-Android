@@ -24,7 +24,6 @@ import br.com.brasolia.homeTabs.BSCategoryFragment;
 import br.com.brasolia.homeTabs.BSEventsFragment;
 import br.com.brasolia.homeTabs.BSProfileFragment;
 import br.com.brasolia.models.BSCategory;
-import br.com.brasolia.models.BSTest;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
 import br.com.brasolia.util.PermissionUtil;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LocationUtil.Loca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //todo comentar antes de upar
-        BSTest.init();
+        //BSTest.init();
         //BSUser.removeUserFromDevice();
 
         super.onCreate(savedInstanceState);
