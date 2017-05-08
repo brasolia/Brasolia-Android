@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import br.com.brasolia.AppActivity;
 import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
@@ -31,6 +31,7 @@ import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSEventsAdapter;
 import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,20 +42,48 @@ import retrofit2.Response;
  */
 
 public class BSEventsFragment extends Fragment {
-    Context mContext;
+    AppActivity mContext;
 
     RecyclerView recyclerView;
     ImageView imageView1, imageView2, imageView3;
     RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
 
+    Call<JsonObject> call;
     List<BSEvent> events;
     BSCategory filterCategory;
+    int selectedFilter = 1;
+
+    private FragmentDataAndConnectionHandler dataAndConnectionHandler;
+    private boolean isLoading = false;
+
+    @Override
+    public void onDestroy() {
+        if (call != null)
+            call.cancel();
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            filterCategory = bundle.getParcelable("category");
+        }
+
+        getEventsFromCategory(filterCategory);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_events_list, container, false);
-        mContext = rootView.getContext();
+
+        Context context = rootView.getContext();
+        if (context instanceof AppActivity)
+            mContext = (AppActivity) context;
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_events_list_recycler);
         imageView1 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_1);
@@ -85,24 +114,38 @@ public class BSEventsFragment extends Fragment {
             }
         });
 
-        setSelectedMenu(1);
+        //-------------------- INIT CONNECTION AND EMPTY DATA HANDLER -------------------------------
+        dataAndConnectionHandler = new FragmentDataAndConnectionHandler(inflater, container, rootView);
+        dataAndConnectionHandler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getEventsFromCategory(filterCategory);
+                dataAndConnectionHandler.showLoadingLayout();
+            }
+        });
+        dataAndConnectionHandler.setLoadingMessage("Carregando eventos...");
+        //----------------------------------------------------------------------------------
 
-        getAllEvents();
+        setSelectedMenu(selectedFilter);
 
         return rootView;
     }
 
-    public void setCategory(BSCategory category) {
-        filterCategory = category;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        getEventsFromCategory(filterCategory);
+        if (isLoading) {
+            dataAndConnectionHandler.showLoadingLayout();
+        }
     }
 
 
     private void setSelectedMenu(int selectedMenu) {
+        selectedFilter = selectedMenu;
+
         //HORARIO
         if (selectedMenu == 1) {
-            mountRecycler(1);
             imageView1.setImageResource(R.drawable.menu1);
             relativeLayout1.setBackgroundResource(R.color.black);
         } else {
@@ -112,7 +155,6 @@ public class BSEventsFragment extends Fragment {
 
         //LOCALIZAÇÃO
         if (selectedMenu == 2) {
-            mountRecycler(2);
             Picasso.with(getContext()).load(R.drawable.ic_distance_white).into(imageView2);
             relativeLayout2.setBackgroundResource(R.color.black);
         } else {
@@ -122,81 +164,52 @@ public class BSEventsFragment extends Fragment {
 
         //PREÇO
         if (selectedMenu == 3) {
-            mountRecycler(3);
             imageView3.setImageResource(R.drawable.menu4);
             relativeLayout3.setBackgroundResource(R.color.black);
         } else {
             imageView3.setImageResource(R.drawable.selectedmenu4);
             relativeLayout3.setBackgroundResource(R.color.white);
         }
-    }
 
-    private void getAllEvents() {
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        Call<JsonObject> call = requests.getEvents();
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
-
-                        events = new ArrayList<BSEvent>();
-                        for (Map<String, Object> dictionary : data) {
-                            events.add(new BSEvent(dictionary));
-                        }
-
-                        mountRecycler(1);
-
-                        Log.d("getEvents", "success");
-                    } else {
-                        Log.d("getEvents", "server error");
-                    }
-                } else {
-                    Log.d("getEvents", "conection failure");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("getEvents", "conection failure");
-            }
-        });
+        mountRecycler(selectedFilter);
     }
 
     private void getEventsFromCategory(BSCategory category) {
+        isLoading = true;
+
         BSRequests requests = BSConnection.createService(BSRequests.class);
         Call<JsonObject> call = requests.getEventsByCategory(category.getId());
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                isLoading = false;
+
                 if (response.isSuccessful()) {
                     BSResponse bsResponse = new BSResponse(response.body());
                     if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
                         ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
 
-                        events = new ArrayList<BSEvent>();
+                        events = new ArrayList<>();
                         for (Map<String, Object> dictionary : data) {
                             events.add(new BSEvent(dictionary));
                         }
 
-                        mountRecycler(1);
-
-                        Log.d("getEvents", "success");
+                        mountRecycler(selectedFilter);
+                        dataAndConnectionHandler.showMainView();
                     } else {
-                        Log.d("getEvents", "server error");
+                        dataAndConnectionHandler.showExceptionLayout();
                     }
                 } else {
-                    Log.d("getEvents", "conection failure");
+                    dataAndConnectionHandler.showExceptionLayout();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("getEvents", "conection failure");
+                isLoading = false;
+
+                dataAndConnectionHandler.showInternetOffLayout();
             }
         });
     }
@@ -249,6 +262,4 @@ public class BSEventsFragment extends Fragment {
             });
         }
     }
-
-
 }

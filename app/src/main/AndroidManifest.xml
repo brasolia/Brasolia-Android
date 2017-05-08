@@ -57,7 +57,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AppActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MainTheme"

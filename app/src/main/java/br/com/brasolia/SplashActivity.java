@@ -25,35 +25,35 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 UpdateGUI();
             }
-        }, 1);
+        }, 100);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 300);
+        }, 400);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 600);
+        }, 700);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 900);
+        }, 1000);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 1200);
+        }, 1300);
 
     }
 
@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
     private void UpdateGUI() {
         if (splash >= 4) {
             if (BrasoliaApplication.getUser() != null) {
-                Intent i = new Intent(this, MainActivity.class);
+                Intent i = new Intent(this, AppActivity.class);
                 startActivity(i);
             } else {
                 Intent i = new Intent(this, BSLoginActivity.class);

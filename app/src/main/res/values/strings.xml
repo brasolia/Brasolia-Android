@@ -133,5 +133,16 @@
 
     <string name="free">Gratuito</string>
 
+    # No Internet
+    <string name="dynamicbox_retry">Tentar novamente</string>
+
+    <string name="dynamicbox_loading_title"></string>
+    <string name="dynamicbox_loading_message"></string>
+
+    <string name="dynamicbox_internet_off_title">Erro</string>
+    <string name="dynamicbox_internet_off_message">Erro de conexão. Conecte-se a internet e tente novamente.</string>
+
+    <string name="dynamicbox_exception_title">Erro</string>
+    <string name="dynamicbox_exception_message">Algum erro ocorreu, tente novamente mais tarde.</string>
 
 </resources>

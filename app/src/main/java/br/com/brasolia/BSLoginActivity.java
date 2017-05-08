@@ -118,7 +118,7 @@ public class BSLoginActivity extends AppCompatActivity {
         btNoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(BSLoginActivity.this, MainActivity.class));
+                startActivity(new Intent(BSLoginActivity.this, AppActivity.class));
 
                 finish();
             }
@@ -228,7 +228,7 @@ public class BSLoginActivity extends AppCompatActivity {
         if (alreadyCameFromApp)
             finish();
         else {
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, AppActivity.class);
             startActivity(i);
             finish();
         }

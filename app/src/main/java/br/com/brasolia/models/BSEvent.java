@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import br.com.brasolia.MainActivity;
+import br.com.brasolia.AppActivity;
 
 /**
  * Created by cayke on 10/04/17.
@@ -50,7 +50,7 @@ public class BSEvent implements Parcelable {
         Map<String, Object> localityDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "locality", Map.class);
         initLocality(localityDict);
 
-        distance = distance(getLatitute(), getLongitude(), MainActivity.getLocationUtil().getLatitude(), MainActivity.getLocationUtil().getLongitude());
+        distance = distance(getLatitute(), getLongitude(), AppActivity.getLocationUtil().getLatitude(), AppActivity.getLocationUtil().getLongitude());
 
         ticketLink = (String) BSDictionary.getValueWithKeyAndType(dictionary, "ticket_link", String.class);
 
