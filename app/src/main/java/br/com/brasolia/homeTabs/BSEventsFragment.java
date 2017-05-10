@@ -146,10 +146,10 @@ public class BSEventsFragment extends Fragment {
 
         //HORARIO
         if (selectedMenu == 1) {
-            imageView1.setImageResource(R.drawable.menu1);
+            Picasso.with(getContext()).load(R.drawable.ic_hour_white).into(imageView1);
             relativeLayout1.setBackgroundResource(R.color.black);
         } else {
-            imageView1.setImageResource(R.drawable.selectedmenu1);
+            Picasso.with(getContext()).load(R.drawable.ic_hour_black).into(imageView1);
             relativeLayout1.setBackgroundResource(R.color.white);
         }
 
@@ -164,10 +164,10 @@ public class BSEventsFragment extends Fragment {
 
         //PREÇO
         if (selectedMenu == 3) {
-            imageView3.setImageResource(R.drawable.menu4);
+            Picasso.with(getContext()).load(R.drawable.ic_price_white).into(imageView3);
             relativeLayout3.setBackgroundResource(R.color.black);
         } else {
-            imageView3.setImageResource(R.drawable.selectedmenu4);
+            Picasso.with(getContext()).load(R.drawable.ic_price_black).into(imageView3);
             relativeLayout3.setBackgroundResource(R.color.white);
         }
 

@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,7 +67,7 @@ public class BSEventsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
 class BSEventViewHolder extends RecyclerView.ViewHolder {
 
     private FrameLayout frameLayout;
-    private ImageButton heart_icon;
+    private ImageView heart_icon;
     private ImageView cover;
     private TextView title, place, date, price, distance;
     private Context context;
@@ -80,7 +79,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         context = itemView.getContext();
-        heart_icon = (ImageButton) itemView.findViewById(R.id.item_event_heart_icon);
+        heart_icon = (ImageView) itemView.findViewById(R.id.item_event_heart_icon);
         distance = (TextView) itemView.findViewById(R.id.item_event_distance);
         price = (TextView) itemView.findViewById(R.id.item_event_price);
         title = (TextView) itemView.findViewById(R.id.item_event_title);
@@ -96,12 +95,13 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
 
                 if (BrasoliaApplication.getUser() == null) {
                     toLikeUserShouldLogin();
-                } else {
+                }
+                else {
                     liked = !liked;
                     if (liked)
-                        heart_icon.setImageResource(R.drawable.event_heart_pressed);
+                        heart_icon.setImageResource(R.drawable.ic_love_filled);
                     else
-                        heart_icon.setImageResource(R.drawable.event_heart);
+                        heart_icon.setImageResource(R.drawable.ic_love);
 
                     BSRequests requests = BSConnection.createService(BSRequests.class);
                     Call<JsonObject> call = requests.likeEvent(event.getId(), liked);
@@ -171,7 +171,9 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                         if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
                             liked = (boolean) bsResponse.getData();
                             if (liked)
-                                heart_icon.setBackground(context.getResources().getDrawable(R.drawable.event_heart_pressed));
+                                heart_icon.setImageResource(R.drawable.ic_love_filled);
+                            else
+                                heart_icon.setImageResource(R.drawable.ic_love);
                         } else {
                             liked = false;
                         }
