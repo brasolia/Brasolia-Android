@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -199,56 +200,42 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             frameLayout.getLayoutParams().width = width;
             frameLayout.getLayoutParams().height = height;
 
-            switch (choice) {
-                case 1:
-                    price.setVisibility(View.GONE);
-                    distance.setVisibility(View.GONE);
-                    break;
-                case 2:
-                    price.setVisibility(View.GONE);
-                    if (event.getDistance() > 100)
-                        distance.setVisibility(View.GONE);
-                    else
-                        distance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
-                    break;
-                case 3:
-                    distance.setVisibility(View.GONE);
-                    break;
-            }
-
-            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
-            title.setText(event.getName());
-            place.setText(event.getLocality());
-
-            if (event.getStartHour().getDate() == event.getEndHour().getDate() &&
-                    event.getStartHour().getMonth() == event.getEndHour().getMonth())
-                date.setText(String.format(Locale.getDefault(), "%s/%s",
-                        getDate(event.getStartHour().getDate()),
-                        getDate(event.getStartHour().getMonth())));
-            else
-                date.setText(String.format(Locale.getDefault(), "%s/%s a %s/%s",
-                        getDate(event.getStartHour().getDate()),
-                        getDate(event.getStartHour().getMonth()),
-                        getDate(event.getEndHour().getDate()),
-                        getDate(event.getEndHour().getMonth())));
-
             BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height);
+        }
 
-        } else {
+        switch (choice) {
+            case 1:
+                price.setVisibility(View.GONE);
+                distance.setVisibility(View.GONE);
+                break;
+            case 2:
+                price.setVisibility(View.GONE);
+                if (event.getDistance() > 100)
+                    distance.setVisibility(View.GONE);
+                else
+                    distance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
+                break;
+            case 3:
+                distance.setVisibility(View.GONE);
+                break;
+        }
 
-            title.setText(event.getName());
-            place.setText(event.getLocality());
-            date.setText(event.getStartHour() + " - " + event.getEndHour());
+        if (event.getPrices().get(0).getPrice() == 0)
+            price.setText("Gratuito");
+        else
+            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
+        
+        title.setText(event.getName());
+        place.setText(event.getLocality());
 
-            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, 600, 400);
+        if (event.getStartHour().getDay() == event.getEndHour().getDay() &&
+                event.getStartHour().getMonth() == event.getEndHour().getMonth()) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+            date.setText(formatter.format(event.getStartHour()));
+        }
+        else {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+            date.setText(formatter.format(event.getStartHour()) + " a " + formatter.format(event.getEndHour()));
         }
     }
-
-    public String getDate(int date) {
-        if (date < 10)
-            return "0" + date;
-        else
-            return Integer.toString(date);
-    }
-
 }

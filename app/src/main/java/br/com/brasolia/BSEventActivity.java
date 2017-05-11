@@ -24,7 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -139,11 +138,9 @@ public class BSEventActivity extends AppCompatActivity {
             tvPhone.setText(event.getPhone());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(event.getStartHour());
-            eventDate.setText(formatter.format(calendar.getTime()));
-            final int zoom = 11; // Requisitado para remover zoom.
+            eventDate.setText(formatter.format(event.getStartHour()));
 
+            final int zoom = 11; // Requisitado para remover zoom.
             String staticMapUrl = "http://maps.google.com/maps/api/staticmap?center=" + event.getLatitute() + "," + event.getLongitude() + "&markers=icon:https://s3-us-west-2.amazonaws.com/s.cdpn.io/766702/tag_brasolia_2.png|" + event.getLatitute() + "," + event.getLongitude() + "&zoom=" + zoom + "&size=480x200&sensor=false";
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
             picasso.setIndicatorsEnabled(false);
