@@ -154,6 +154,8 @@ public class BSLoginActivity extends AppCompatActivity {
     }
 
     private void logUser(final BSUser user, final String fbID) {
+        LoginManager.getInstance().logOut();
+
         BSRequests requests = BSConnection.createService(BSRequests.class);
         Call<JsonObject> call = requests.logUser(user.getEmail(), fbID, null, "on");
 
@@ -166,8 +168,6 @@ public class BSLoginActivity extends AppCompatActivity {
                          user.saveUser();
 
                         //todo enviar imagem do user
-
-                        LoginManager.getInstance().logOut();
 
                         goToMainApp();
                     }
