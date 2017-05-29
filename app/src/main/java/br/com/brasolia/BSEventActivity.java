@@ -97,6 +97,7 @@ public class BSEventActivity extends AppCompatActivity {
         TextView eventName = (TextView) findViewById(R.id.eventName);
         TextView addressTitle = (TextView) findViewById(R.id.addressTitle);
         TextView rating = (TextView) findViewById(R.id.activity_event_rating);
+        CircleImageView brasolia = (CircleImageView) findViewById(R.id.profile_picture_event);
 
 
         imageButtonComprarIngresso.setVisibility(View.GONE);
@@ -127,8 +128,10 @@ public class BSEventActivity extends AppCompatActivity {
 
             if (event.getRating() > 0)
                 rating.setText(String.format(Locale.getDefault(), "%.1f/10", event.getRating()));
-            else
+            else {
                 rating.setVisibility(View.INVISIBLE);
+                brasolia.setVisibility(View.INVISIBLE);
+            }
 
             eventName.setText(event.getName());
             addressTitle.setText(event.getLocality());

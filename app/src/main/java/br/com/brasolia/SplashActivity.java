@@ -32,28 +32,28 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 UpdateGUI();
             }
-        }, 400);
+        }, 800);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 700);
+        }, 1500);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 1000);
+        }, 2200);
 
         timer_interact.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdateGUI();
             }
-        }, 1300);
+        }, 3000);
 
     }
 
