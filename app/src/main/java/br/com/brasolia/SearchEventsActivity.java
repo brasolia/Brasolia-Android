@@ -88,8 +88,14 @@ public class SearchEventsActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 3)
+                if (s.length() >= 1) {
                     searchEvents(s.toString());
+
+                    searchTipTextView.setVisibility(View.GONE);
+                }
+                else {
+                    searchTipTextView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -97,7 +103,6 @@ public class SearchEventsActivity extends Activity {
             }
         });
 
-        searchTipTextView.setVisibility(View.VISIBLE);
         tvStatus.setVisibility(View.GONE);
     }
 
