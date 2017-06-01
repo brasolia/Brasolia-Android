@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
@@ -47,6 +48,7 @@ public class BSEventsFragment extends Fragment {
     RecyclerView recyclerView;
     ImageView imageView1, imageView2, imageView3;
     RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
+    private LinearLayout bottomBar;
 
     Call<JsonObject> call;
     List<BSEvent> events;
@@ -69,7 +71,7 @@ public class BSEventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             filterCategory = bundle.getParcelable("category");
         }
 
@@ -85,6 +87,7 @@ public class BSEventsFragment extends Fragment {
         if (context instanceof AppActivity)
             mContext = (AppActivity) context;
 
+        bottomBar = (LinearLayout) rootView.findViewById(R.id.bottom_bar);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_events_list_recycler);
         imageView1 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_1);
         imageView2 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_2);
@@ -236,7 +239,7 @@ public class BSEventsFragment extends Fragment {
                     });
                     break;
 
-                case 3 :
+                case 3:
                     Collections.sort(events, new Comparator<BSEvent>() {
                         public int compare(BSEvent obj1, BSEvent obj2) {
                             return Double.valueOf(obj1.getPrices().get(0).getPrice()).compareTo(Double.valueOf(obj2.getPrices().get(0).getPrice()
@@ -248,9 +251,25 @@ public class BSEventsFragment extends Fragment {
             }
 
             recyclerView.setHasFixedSize(true);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(new BSEventsAdapter(events, choice));
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    if (dy > 0)
+                        bottomBar.setVisibility(View.GONE);
+                    else
+                        bottomBar.setVisibility(View.VISIBLE);
+                }
+            });
 
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
