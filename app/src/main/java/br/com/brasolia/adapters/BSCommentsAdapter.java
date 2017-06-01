@@ -21,9 +21,13 @@ import br.com.brasolia.models.BSComment;
  */
 
 public class BSCommentsAdapter extends RecyclerView.Adapter<BSCommentsViewHolder> {
+
     List<BSComment> comments;
-    public BSCommentsAdapter (List<BSComment> comments) {
+    boolean shouldShowMore;
+
+    public BSCommentsAdapter(List<BSComment> comments, boolean shouldShowMore) {
         this.comments = comments;
+        this.shouldShowMore = shouldShowMore;
     }
 
     @Override
@@ -34,12 +38,19 @@ public class BSCommentsAdapter extends RecyclerView.Adapter<BSCommentsViewHolder
 
     @Override
     public void onBindViewHolder(BSCommentsViewHolder holder, int position) {
-            holder.bindComment(comments.get(position));
+        holder.bindComment(comments.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return comments.size();
+        if (comments.size() > 5) {
+            if (shouldShowMore)
+                return comments.size();
+            else
+                return 5;
+        } else
+            return comments.size();
+
     }
 }
 

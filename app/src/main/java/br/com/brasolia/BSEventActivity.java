@@ -57,6 +57,8 @@ public class BSEventActivity extends AppCompatActivity {
     private EditText editText;
     private Button btSendMessage;
 
+    private TextView showMore;
+
     private boolean liked;
     private ProgressDialog loading;
 
@@ -73,6 +75,7 @@ public class BSEventActivity extends AppCompatActivity {
 
 
         //region SCREEN ELEMENTS
+        showMore = (TextView) findViewById(R.id.activity_event_showMore);
         recyclerViewImages = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
@@ -122,8 +125,7 @@ public class BSEventActivity extends AppCompatActivity {
                 else
                     tvEventPrice.setText(String.format(Locale.getDefault(), "R$%.2f", price.getPrice()));
 
-            }
-            else
+            } else
                 tvEventPrice.setText("Gratuito");
 
             if (event.getRating() > 0)
@@ -191,12 +193,10 @@ public class BSEventActivity extends AppCompatActivity {
                             liked = (boolean) bsResponse.getData();
                             if (liked)
                                 likeEvent.setImageResource(R.drawable.ic_love_filled);
-                        }
-                        else {
+                        } else {
                             liked = false;
                         }
-                    }
-                    else {
+                    } else {
                         liked = false;
                     }
                 }
@@ -210,13 +210,23 @@ public class BSEventActivity extends AppCompatActivity {
         //endregion
 
         //region buttons listeners
+
+        showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (comments != null) {
+                    mountRecyclerComments(true);
+                    showMore.setVisibility(View.GONE);
+                }
+            }
+        });
+
         btLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (BrasoliaApplication.getUser() == null) {
                     toLikeUserShouldLogin();
-                }
-                else {
+                } else {
                     liked = !liked;
                     if (liked)
                         likeEvent.setImageResource(R.drawable.event_heart_pressed);
@@ -233,12 +243,10 @@ public class BSEventActivity extends AppCompatActivity {
                                 BSResponse bsResponse = new BSResponse(response.body());
                                 if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
                                     Log.d("likeEvent", "success");
-                                }
-                                else {
+                                } else {
                                     Log.d("likeEvent", "server error");
                                 }
-                            }
-                            else {
+                            } else {
                                 Log.d("likeEvent", "conection failure");
                             }
                         }
@@ -325,18 +333,18 @@ public class BSEventActivity extends AppCompatActivity {
     private void toLikeUserShouldLogin() {
         AlertUtil.confirm(this, "Entrar", getString(R.string.liked_logout), "Cancelar", "Conectar",
                 new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        Intent i = new Intent(BSEventActivity.this, BSLoginActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("cameFromApp", true);
-                        startActivity(i);
-                        break;
-                }
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Intent i = new Intent(BSEventActivity.this, BSLoginActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.putExtra("cameFromApp", true);
+                                startActivity(i);
+                                break;
+                        }
+                    }
+                });
     }
 
     private void mountRecyclerImages() {
@@ -346,22 +354,20 @@ public class BSEventActivity extends AppCompatActivity {
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             recyclerViewImages.setLayoutManager(layoutManager);
             recyclerViewImages.setAdapter(new BSImagesCarrouselAdapter(event.getImages()));
-        }
-        else {
+        } else {
             recyclerViewImages.setVisibility(View.GONE);
         }
     }
 
-    private void mountRecyclerComments() {
+    private void mountRecyclerComments(boolean shouldShowMore) {
         if (comments != null && comments.size() > 0) {
             recyclerViewComments.setVisibility(View.VISIBLE);
             recyclerViewComments.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerViewComments.setLayoutManager(layoutManager);
-            recyclerViewComments.setAdapter(new BSCommentsAdapter(comments));
-        }
-        else {
+            recyclerViewComments.setAdapter(new BSCommentsAdapter(comments, shouldShowMore));
+        } else {
             recyclerViewComments.setVisibility(View.GONE);
         }
     }
@@ -384,13 +390,15 @@ public class BSEventActivity extends AppCompatActivity {
                         }
 
                         Log.d("getComments", "success");
-                        mountRecyclerComments();
-                    }
-                    else {
+                        if (comments.size() > 5) {
+                            showMore.setVisibility(View.VISIBLE);
+                            mountRecyclerComments(false);
+                        } else
+                            mountRecyclerComments(false);
+                    } else {
                         Log.d("getComments", "server error");
                     }
-                }
-                else {
+                } else {
                     Log.d("getComments", "conection failure");
                 }
             }
@@ -416,13 +424,11 @@ public class BSEventActivity extends AppCompatActivity {
                         getComments();
                         editText.setText("");
                         editText.setEnabled(true);
-                    }
-                    else {
+                    } else {
                         Toast.makeText(BSEventActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
                         editText.setEnabled(true);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(BSEventActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
                     editText.setEnabled(true);
                 }
@@ -439,8 +445,7 @@ public class BSEventActivity extends AppCompatActivity {
     private void sendMessage() {
         if (BrasoliaApplication.getUser() == null) {
             toLikeUserShouldLogin();
-        }
-        else {
+        } else {
             editText.setEnabled(false);
             makeComment(editText.getText().toString());
         }

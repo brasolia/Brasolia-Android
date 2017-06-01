@@ -2,21 +2,18 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="#FFFFFF"
-        >
+        android:orientation="vertical">
 
         <!-- Event cover and close button -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/eventCover"
@@ -106,29 +103,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
-            android:padding="16dp"
-            >
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_picture_event"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/brasolia_logo_preto"
-                />
+                android:src="@drawable/brasolia_logo_preto" />
+
             <TextView
                 android:id="@+id/activity_event_rating"
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_weight="1"
 
-                android:text="8.5/10"
-                />
+                android:text="8.5/10" />
 
             <TextView
                 android:id="@+id/tvMaleTicketPrice"
@@ -140,8 +135,7 @@
                 android:layout_centerVertical="true"
 
                 android:text="R$ 30+"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -155,19 +149,18 @@
         </LinearLayout>
 
         <!-- Descricao -->
-            <TextView
-                android:id="@+id/eventDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp" />
+        <TextView
+            android:id="@+id/eventDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" />
 
         <!-- Mapa -->
         <RelativeLayout
             android:id="@+id/map_photo_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -235,10 +228,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
             android:layout_marginTop="16dp"
-            >
+
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -246,11 +238,10 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:gravity="center_vertical"
-
                 android:background="@color/bs_lightGray"
-                android:orientation="horizontal"
-                >
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -258,18 +249,16 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/ic_event_share"
                     android:adjustViewBounds="true"
-                    />
+                    android:src="@drawable/ic_event_share" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:text="@string/share"
-                    android:textSize="20sp"
                     android:textColor="@color/black"
-                    />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -279,12 +268,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="2dp"
-                android:gravity="center_vertical"
-
                 android:background="@color/bs_lightGray"
 
-                android:orientation="horizontal"
-                >
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -292,9 +280,8 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/ic_event_phone"
                     android:adjustViewBounds="true"
-                    />
+                    android:src="@drawable/ic_event_phone" />
 
                 <TextView
                     android:id="@+id/activity_event_textview_phone"
@@ -302,9 +289,8 @@
                     android:layout_height="wrap_content"
 
                     android:text="(61) 99999-9999"
-                    android:textSize="20sp"
                     android:textColor="@color/black"
-                    />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -314,12 +300,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="2dp"
-                android:gravity="center_vertical"
-
                 android:background="@color/bs_lightGray"
 
-                android:orientation="horizontal"
-                >
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -327,18 +312,16 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="16dp"
 
-                    android:src="@drawable/ic_event_hour"
                     android:adjustViewBounds="true"
-                    />
+                    android:src="@drawable/ic_event_hour" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:text="@string/hours"
-                    android:textSize="20sp"
                     android:textColor="@color/black"
-                    />
+                    android:textSize="20sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -348,26 +331,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/imageButtonComprarIngresso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:src="@drawable/btn_comprar_ingresso"
                 android:background="@color/white"
-                />
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_comprar_ingresso" />
 
             <ImageButton
                 android:id="@+id/imageButtonNomeLista"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:src="@drawable/btn_nome_lista"
                 android:background="@color/white"
-                />
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_nome_lista" />
 
         </LinearLayout>
 
@@ -377,17 +357,15 @@
 
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            >
+            android:layout_marginTop="16dp">
 
         </android.support.v7.widget.RecyclerView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fieldTypeComment"
@@ -395,56 +373,64 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
 
-            android:padding="10dp"
-
             android:orientation="horizontal"
-            >
+
+            android:padding="10dp">
 
             <EditText
                 android:id="@+id/userComment"
 
                 android:layout_width="0dp"
-                android:layout_weight="0.75"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-
-                android:hint="@string/leave_comment"
+                android:layout_weight="0.75"
 
                 android:background="#E8E9E8"
+                android:hint="@string/leave_comment"
+
                 android:inputType="text"
-                />
+
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
 
             <Button
                 android:id="@+id/sendComment"
 
                 android:layout_width="0dp"
-                android:layout_weight="0.25"
                 android:layout_height="match_parent"
+                android:layout_weight="0.25"
 
-                android:textColor="#fff"
-                android:text="ENVIAR"
                 android:background="#808080"
-                />
+                android:text="ENVIAR"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorAccent"
-            />
+            android:background="@color/colorAccent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_event_recycler_comments"
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/activity_event_showMore"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:drawableRight="@drawable/forward"
+            android:paddingLeft="50dp"
+            android:paddingRight="15dp"
+            android:text="Ver mais..."
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
