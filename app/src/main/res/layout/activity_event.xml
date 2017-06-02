@@ -79,12 +79,23 @@
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
                     android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/activity_event_qtd_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/comment"
+                    android:drawablePadding="5dp"
+                    android:text="11"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/buttonLikeEvent"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal">
 

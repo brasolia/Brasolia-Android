@@ -57,6 +57,7 @@ public class BSEventActivity extends AppCompatActivity {
     private EditText editText;
     private Button btSendMessage;
 
+    private TextView qtd_comments;
     private TextView showMore;
 
     private boolean liked;
@@ -76,6 +77,7 @@ public class BSEventActivity extends AppCompatActivity {
 
         //region SCREEN ELEMENTS
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
+        qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
         recyclerViewImages = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
@@ -395,6 +397,14 @@ public class BSEventActivity extends AppCompatActivity {
                             mountRecyclerComments(false);
                         } else
                             mountRecyclerComments(false);
+
+                        if (comments.size() == 0)
+                            qtd_comments.setVisibility(View.GONE);
+                        else {
+                            qtd_comments.setVisibility(View.VISIBLE);
+                            qtd_comments.setText(Integer.toString(comments.size()));
+                        }
+
                     } else {
                         Log.d("getComments", "server error");
                     }
