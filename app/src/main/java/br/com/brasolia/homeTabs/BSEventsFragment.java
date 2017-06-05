@@ -43,12 +43,15 @@ import retrofit2.Response;
  */
 
 public class BSEventsFragment extends Fragment {
+
     AppActivity mContext;
 
     RecyclerView recyclerView;
     ImageView imageView1, imageView2, imageView3;
     RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
     private LinearLayout bottomBar;
+
+    private ImageView backToCategories;
 
     Call<JsonObject> call;
     List<BSEvent> events;
@@ -87,6 +90,7 @@ public class BSEventsFragment extends Fragment {
         if (context instanceof AppActivity)
             mContext = (AppActivity) context;
 
+        backToCategories = (ImageView) rootView.findViewById(R.id.backToCategories);
         bottomBar = (LinearLayout) rootView.findViewById(R.id.bottom_bar);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_events_list_recycler);
         imageView1 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_1);
@@ -114,6 +118,13 @@ public class BSEventsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 setSelectedMenu(3);
+            }
+        });
+
+        backToCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.popFragment();
             }
         });
 
