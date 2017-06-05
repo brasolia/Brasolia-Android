@@ -11,31 +11,38 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fragment_events_list_recycler"
-
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/backToCategories"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_arrow"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_events_list_recycler"
 
-        <!--
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/closeEvent"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="15dp"
-            android:src="@drawable/back_arrow"
-            app:civ_border_color="#000"
-            app:civ_border_width="1dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        -->
+            <!--
+           <ImageView
+               android:id="@+id/backToCategories"
+               android:layout_marginTop="30dp"
+               android:layout_marginLeft="15dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/back_arrow"/>
+
+           -->
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/backToCategories"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/back_arrow"
+                app:civ_border_color="#FFF"
+                app:civ_border_width="1dp" />
+
+        </RelativeLayout>
 
     </FrameLayout>
 
