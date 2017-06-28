@@ -73,7 +73,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     private ImageView cover;
     private TextView title, place, date, price, distance;
     private Context context;
-
+    private FrameLayout heart_icon_frameLayout;
     private boolean liked;
     private BSEvent event;
 
@@ -81,10 +81,10 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         context = itemView.getContext();
+        heart_icon_frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout_item_event_heart_icon);
         heart_icon = (ImageView) itemView.findViewById(R.id.item_event_heart_icon);
         distance = (TextView) itemView.findViewById(R.id.item_event_distance);
         price = (TextView) itemView.findViewById(R.id.item_event_price);
-
         title = (TextView) itemView.findViewById(R.id.item_event_title);
         title.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
         place = (TextView) itemView.findViewById(R.id.item_event_place);
@@ -96,7 +96,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
 
         cover = (ImageView) itemView.findViewById(R.id.item_event_cover);
 
-        heart_icon.setOnClickListener(new View.OnClickListener() {
+        heart_icon_frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

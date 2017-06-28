@@ -3,6 +3,7 @@ package br.com.brasolia;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -77,7 +78,7 @@ public class BSEventActivity extends AppCompatActivity {
 
         //region SCREEN ELEMENTS
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
-        qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
+        //qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
         recyclerViewImages = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
@@ -95,12 +96,15 @@ public class BSEventActivity extends AppCompatActivity {
         TextView secondAddressTitle = (TextView) findViewById(R.id.secondAddressTitle);
         TextView eventFullAddress = (TextView) findViewById(R.id.eventFullAddress);
         TextView eventDescription = (TextView) findViewById(R.id.eventDescription);
+        eventDescription.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
         TextView eventDate = (TextView) findViewById(R.id.eventDate);
+        eventDate.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
         ImageView staticMapImage = (ImageView) findViewById(R.id.map_photo);
         TextView tvEventPrice = (TextView) findViewById(R.id.tvMaleTicketPrice);
         ImageView eventCover = (ImageView) findViewById(R.id.eventCover);
         TextView eventName = (TextView) findViewById(R.id.eventName);
-        TextView addressTitle = (TextView) findViewById(R.id.addressTitle);
+        eventName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_semibold.ttf"));
+        //TextView addressTitle = (TextView) findViewById(R.id.addressTitle);
         TextView rating = (TextView) findViewById(R.id.activity_event_rating);
         CircleImageView brasolia = (CircleImageView) findViewById(R.id.profile_picture_event);
 
@@ -138,7 +142,7 @@ public class BSEventActivity extends AppCompatActivity {
             }
 
             eventName.setText(event.getName());
-            addressTitle.setText(event.getLocality());
+            //addressTitle.setText(event.getLocality());
             secondAddressTitle.setText(event.getLocality());
             eventFullAddress.setText(event.getAddress());
             eventDescription.setText(event.getDescription());
@@ -398,12 +402,12 @@ public class BSEventActivity extends AppCompatActivity {
                         } else
                             mountRecyclerComments(false);
 
-                        if (comments.size() == 0)
-                            qtd_comments.setVisibility(View.GONE);
-                        else {
-                            qtd_comments.setVisibility(View.VISIBLE);
-                            qtd_comments.setText(Integer.toString(comments.size()));
-                        }
+//                        if (comments.size() == 0)
+//                            qtd_comments.setVisibility(View.GONE);
+//                        else {
+//                            qtd_comments.setVisibility(View.VISIBLE);
+//                            qtd_comments.setText(Integer.toString(comments.size()));
+//                        }
 
                     } else {
                         Log.d("getComments", "server error");

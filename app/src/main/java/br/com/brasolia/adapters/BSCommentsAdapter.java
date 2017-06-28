@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
+import br.com.brasolia.util.DateUtil;
 
 /**
  * Created by cayke on 12/04/17.
@@ -70,8 +70,9 @@ class BSCommentsViewHolder extends RecyclerView.ViewHolder {
     public void bindComment(BSComment comment) {
         name.setText(comment.getOwner().getfName() + " " + comment.getOwner().getlName());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-        date.setText(formatter.format(comment.getCreateAt()));
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+//        date.setText(formatter.format(comment.getCreateAt()));
+        date.setText(DateUtil.getTimeAgo(comment.getCreateAt().getTime()));
 
         tvComment.setText(comment.getMessage());
 
