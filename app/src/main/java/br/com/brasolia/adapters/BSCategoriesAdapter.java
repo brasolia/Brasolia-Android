@@ -1,6 +1,7 @@
 package br.com.brasolia.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -99,6 +100,8 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
         }
 
         void bindCategory(final BSCategory category) {
+            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -107,6 +110,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, width, new Callback() {
                     @Override
                     public void onSuccess() {
+                        textView.setTypeface(type);
                         textView.setText(category.getName());
                     }
 
@@ -120,6 +124,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 300, 300, new Callback() {
                     @Override
                     public void onSuccess() {
+                        textView.setTypeface(type);
                         textView.setText(category.getName());
                     }
 
@@ -149,6 +154,8 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
         }
 
         void bindCategory(final BSCategory category) {
+            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -158,6 +165,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, height, new Callback() {
                     @Override
                     public void onSuccess() {
+                        textView.setTypeface(type);
                         textView.setText(category.getName());
                     }
 
@@ -171,6 +179,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 600, 300, new Callback() {
                     @Override
                     public void onSuccess() {
+                        textView.setTypeface(type);
                         textView.setText(category.getName());
                     }
 
