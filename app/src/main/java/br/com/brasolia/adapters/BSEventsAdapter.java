@@ -80,8 +80,6 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     public BSEventViewHolder(View itemView) {
         super(itemView);
 
-        //heheheh
-
         context = itemView.getContext();
         heart_icon_frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout_item_event_heart_icon);
         heart_icon = (ImageView) itemView.findViewById(R.id.item_event_heart_icon);
