@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,9 +28,12 @@ import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.R;
 import br.com.brasolia.SearchEventsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
+import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSCategory;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +49,7 @@ public class BSCategoryFragment extends Fragment {
     RecyclerView recyclerView;
     private LinearLayout btSearch;
     private LinearLayout btProfile;
+    private CircleImageView image_profile;
 
     private FragmentDataAndConnectionHandler dataAndConnectionHandler;
     private boolean isLoading = false;
@@ -85,7 +90,15 @@ public class BSCategoryFragment extends Fragment {
         //SCREEN ELEMENTS -----------------------------------------------------------------
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerCategories);
         btSearch = (LinearLayout) rootView.findViewById(R.id.fragment_categories_search);
+        image_profile = (CircleImageView) rootView.findViewById(R.id.image_profile);
         btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
+
+        if(BrasoliaApplication.getUser() != null){
+            BSUser user = BrasoliaApplication.getUser();
+            Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
+            picasso.setIndicatorsEnabled(false);
+            picasso.load(user.getImageKey()).resize(500, 500).into(image_profile);
+        }
         // --------------------------------------------------------------------------------
 
         btSearch.setOnClickListener(new View.OnClickListener() {
