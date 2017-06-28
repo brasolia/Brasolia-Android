@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ext="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -24,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
+                android:textSize="20sp"
                 android:text="Sugestões"
                 android:textColor="#fff" />
 
@@ -46,9 +48,9 @@
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="20dp">
 
-        <com.bluejamesbond.text.DocumentView xmlns:ext="http://schemas.android.com/apk/res-auto"
+        <com.bluejamesbond.text.DocumentView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             ext:documentView_antialias="true"
@@ -60,15 +62,17 @@
             ext:documentView_textAlignment="justified"
             ext:documentView_textColor="#000"
             ext:documentView_textFormat="plain"
-            ext:documentView_textSize="16sp"
+            ext:documentView_textSize="18sp"
             ext:documentView_textSubPixel="true"
             ext:documentView_wordSpacingMultiplier="1.0" />
 
         <EditText
             android:id="@+id/edit_texto"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:hint="Escreva o que gostaria de nos dizer..."
+            android:layout_marginTop="30dp"
             android:background="#FFFFFF"
             android:focusable="false"
             android:gravity="top"
@@ -85,8 +89,8 @@
 
         <Button
             android:id="@+id/sendSuggestion"
+            android:layout_marginTop="20dp"
             android:layout_width="125dp"
-
             android:layout_height="50dp"
             android:layout_gravity="right"
             android:background="#1a1a1a"

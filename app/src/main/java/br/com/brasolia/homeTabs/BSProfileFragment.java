@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -23,11 +25,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import br.com.brasolia.Connectivity.BSConnection;
+import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.MessageActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSUser;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by cayke on 12/04/17.
@@ -35,7 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BSProfileFragment extends Fragment {
     TextView tvNameProfile;
-    LinearLayout shareBrasolia, reviewBrasolia, facebook, instagram, sendMessage;
+    LinearLayout shareBrasolia, reviewBrasolia, facebook, instagram, sendMessage, logout;
     CircleImageView profilePicture;
 
     Context mContext;
@@ -54,11 +61,41 @@ public class BSProfileFragment extends Fragment {
         facebook = (LinearLayout) rootView.findViewById(R.id.fragment_profile_follow_face);
         instagram = (LinearLayout) rootView.findViewById(R.id.fragment_profile_follow_insta);
         sendMessage = (LinearLayout) rootView.findViewById(R.id.fragment_profile_send_message);
+        logout = (LinearLayout) rootView.findViewById(R.id.fragment_profile_logout);
         profilePicture = (CircleImageView) rootView.findViewById(R.id.profile_picture);
 
         //endregion
 
         //region listeners
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (BrasoliaApplication.getUser() == null) {
+                    Toast.makeText(mContext, "Você não está logado!", Toast.LENGTH_SHORT).show();
+                }else{
+                    BSRequests requests = BSConnection.createService(BSRequests.class);
+                    Call<JsonObject> call = requests.logOutUser();
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            if(response.isSuccessful()){
+                                tvNameProfile.setText("");
+                                profilePicture.setImageDrawable(getContext().getResources().getDrawable(R.drawable.profile));
+                                BrasoliaApplication.setUser(null);
+                                BSUser.removeUserFromDevice();
+                                Toast.makeText(getContext(), "Logout realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+
         shareBrasolia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

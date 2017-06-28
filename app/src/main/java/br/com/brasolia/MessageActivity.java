@@ -39,8 +39,6 @@ public class MessageActivity extends AppCompatActivity {
         final View line = (View) findViewById(R.id.lineSuggestion);
         // ----------------------------------------------------------------------
 
-        etComment.setHint("Escreva o que gostaria de nos dizer...");
-
         etComment.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

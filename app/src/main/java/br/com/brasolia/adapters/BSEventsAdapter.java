@@ -88,9 +88,9 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
         title = (TextView) itemView.findViewById(R.id.item_event_title);
         title.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
         place = (TextView) itemView.findViewById(R.id.item_event_place);
-        //place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_thin.ttf"));
+        place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
         date = (TextView) itemView.findViewById(R.id.item_event_date);
-        //date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_thin.ttf"));
+        date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
 
         frameLayout = (FrameLayout) itemView.findViewById(R.id.item_event_frameLayout);
 
