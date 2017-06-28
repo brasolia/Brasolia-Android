@@ -102,7 +102,7 @@ public class BSProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/brasolia/?fref=ts"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/319921444873986"));
                     startActivity(intent);
                 } catch (Exception e) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/brasolia")));
