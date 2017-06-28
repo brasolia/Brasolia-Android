@@ -57,7 +57,7 @@ class BSSearchViewHolder extends RecyclerView.ViewHolder {
     }
 
     void bindEvent(BSEvent event) {
-        BSImageStorage.setEventImageNamed(event.getCoverImageKey(), imgEvent, 200,200);
+        BSImageStorage.setEventImageNamed(event.getCoverImageKey(), imgEvent, 200,200, null);
 
         tvTitle.setText(event.getName());
         tvPlace.setText(event.getLocality());

@@ -10,29 +10,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
         >
 
-        <Button
+        <LinearLayout
             android:id="@+id/fragment_categories_search"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_search_white"
-            />
+            android:gravity="center"
+            >
+            
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search_white"
+                />
+        </LinearLayout>
 
-        <Button
+        <LinearLayout
             android:id="@+id/fragment_categories_config"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_setting_white"
-            />
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_setting_white"
+                />
+            </LinearLayout>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

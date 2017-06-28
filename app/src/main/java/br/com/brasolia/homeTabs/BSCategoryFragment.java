@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.gson.JsonObject;
 
@@ -43,8 +43,8 @@ public class BSCategoryFragment extends Fragment {
 
     AppActivity context;
     RecyclerView recyclerView;
-    private Button btSearch;
-    private Button btProfile;
+    private LinearLayout btSearch;
+    private LinearLayout btProfile;
 
     private FragmentDataAndConnectionHandler dataAndConnectionHandler;
     private boolean isLoading = false;
@@ -84,8 +84,8 @@ public class BSCategoryFragment extends Fragment {
 
         //SCREEN ELEMENTS -----------------------------------------------------------------
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerCategories);
-        btSearch = (Button) rootView.findViewById(R.id.fragment_categories_search);
-        btProfile = (Button) rootView.findViewById(R.id.fragment_categories_config);
+        btSearch = (LinearLayout) rootView.findViewById(R.id.fragment_categories_search);
+        btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
         // --------------------------------------------------------------------------------
 
         btSearch.setOnClickListener(new View.OnClickListener() {

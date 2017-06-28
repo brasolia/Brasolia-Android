@@ -118,7 +118,7 @@ public class BSEventActivity extends AppCompatActivity {
 
         //region Set Values on Screen
         if (event != null) {
-            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), eventCover, 750, 500);
+            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), eventCover, 750, 500, null);
 
             if (event.getPrices().size() > 0) {
                 BSEventPrice price = event.getPrices().get(0);

@@ -200,7 +200,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             frameLayout.getLayoutParams().width = width;
             frameLayout.getLayoutParams().height = height;
 
-            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height);
+            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height, null);
         }
 
         switch (choice) {

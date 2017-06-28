@@ -38,10 +38,10 @@ public class BSImagesCarrouselAdapter extends RecyclerView.Adapter<BSImagesCarro
             ((AppCompatActivity) holder.context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
             int width = displaymetrics.widthPixels/3;
 
-            BSImageStorage.setEventImageNamed(images.get(position), holder.imageView, width, width);
+            BSImageStorage.setEventImageNamed(images.get(position), holder.imageView, width, width, null);
         }
         else {
-            BSImageStorage.setEventImageNamed(images.get(position), holder.imageView, 200, 200);
+            BSImageStorage.setEventImageNamed(images.get(position), holder.imageView, 200, 200, null);
         }
     }
 

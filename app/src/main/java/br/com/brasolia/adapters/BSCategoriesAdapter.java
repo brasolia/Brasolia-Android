@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+
 import java.util.List;
 
 import br.com.brasolia.Connectivity.BSImageStorage;
@@ -91,22 +93,41 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
 
             imageView = (ImageView) itemView.findViewById(R.id.item_category_imageview);
             textView = (TextView) itemView.findViewById(R.id.item_category_textview);
+            textView.setText("");
 
             context = itemView.getContext();
         }
 
-        void bindCategory(BSCategory category) {
-            textView.setText(category.getName());
-
+        void bindCategory(final BSCategory category) {
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int width = displaymetrics.widthPixels/2;
 
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, width);
+                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, width, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        textView.setText(category.getName());
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
             else {
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 300, 300);
+                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 300, 300, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        textView.setText(category.getName());
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
         }
     }
@@ -122,23 +143,42 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
 
             imageView = (ImageView) itemView.findViewById(R.id.item_category_imageview);
             textView = (TextView) itemView.findViewById(R.id.item_category_textview);
+            textView.setText("");
 
             context = itemView.getContext();
         }
 
-        void bindCategory(BSCategory category) {
-            textView.setText(category.getName());
-
+        void bindCategory(final BSCategory category) {
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int width = displaymetrics.widthPixels;
                 int height = (int) (width*0.49);
 
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, height);
+                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, height, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        textView.setText(category.getName());
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
             else {
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 600, 300);
+                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 600, 300, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        textView.setText(category.getName());
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
             }
         }
     }
