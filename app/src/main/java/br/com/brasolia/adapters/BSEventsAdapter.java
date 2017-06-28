@@ -3,6 +3,7 @@ package br.com.brasolia.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -83,9 +84,14 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
         heart_icon = (ImageView) itemView.findViewById(R.id.item_event_heart_icon);
         distance = (TextView) itemView.findViewById(R.id.item_event_distance);
         price = (TextView) itemView.findViewById(R.id.item_event_price);
+
         title = (TextView) itemView.findViewById(R.id.item_event_title);
+        title.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
         place = (TextView) itemView.findViewById(R.id.item_event_place);
+        //place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_thin.ttf"));
         date = (TextView) itemView.findViewById(R.id.item_event_date);
+        //date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_thin.ttf"));
+
         frameLayout = (FrameLayout) itemView.findViewById(R.id.item_event_frameLayout);
 
         cover = (ImageView) itemView.findViewById(R.id.item_event_cover);

@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -160,28 +159,28 @@ public class BSEventsFragment extends Fragment {
 
         //HORARIO
         if (selectedMenu == 1) {
-            Picasso.with(getContext()).load(R.drawable.ic_hour_white).into(imageView1);
+            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_white));
             relativeLayout1.setBackgroundResource(R.color.black);
         } else {
-            Picasso.with(getContext()).load(R.drawable.ic_hour_black).into(imageView1);
+            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_black));
             relativeLayout1.setBackgroundResource(R.color.white);
         }
 
         //LOCALIZAÇÃO
         if (selectedMenu == 2) {
-            Picasso.with(getContext()).load(R.drawable.ic_distance_white).into(imageView2);
+            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_white));
             relativeLayout2.setBackgroundResource(R.color.black);
         } else {
-            Picasso.with(getContext()).load(R.drawable.ic_distance_black).into(imageView2);
+            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_black));
             relativeLayout2.setBackgroundResource(R.color.white);
         }
 
         //PREÇO
         if (selectedMenu == 3) {
-            Picasso.with(getContext()).load(R.drawable.ic_price_white).into(imageView3);
+            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_white));
             relativeLayout3.setBackgroundResource(R.color.black);
         } else {
-            Picasso.with(getContext()).load(R.drawable.ic_price_black).into(imageView3);
+            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_black));
             relativeLayout3.setBackgroundResource(R.color.white);
         }
 
