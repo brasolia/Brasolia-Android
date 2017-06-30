@@ -10,6 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -49,7 +53,6 @@ public class BSEventsFragment extends Fragment {
     ImageView imageView1, imageView2, imageView3;
     RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
     private LinearLayout bottomBar;
-
     private ImageView backToCategories;
 
     Call<JsonObject> call;
@@ -268,16 +271,32 @@ public class BSEventsFragment extends Fragment {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
+
                 }
 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
 
-                    if (dy > 0)
-                        bottomBar.setVisibility(View.GONE);
-                    else
-                        bottomBar.setVisibility(View.VISIBLE);
+                    if (dy > 0) {
+                        if (bottomBar.getVisibility() == View.VISIBLE) {
+
+                            Animation fadeOut = new AlphaAnimation(1, 0);
+                            fadeOut.setInterpolator(new AccelerateInterpolator());
+                            fadeOut.setDuration(1000);
+                            bottomBar.setAnimation(fadeOut);
+                            bottomBar.setVisibility(View.GONE);
+                        }
+                    } else {
+                        if(bottomBar.getVisibility() == View.GONE){
+
+                            Animation fadeIn = new AlphaAnimation(0, 1);
+                            fadeIn.setInterpolator(new DecelerateInterpolator());
+                            fadeIn.setDuration(1000);
+                            bottomBar.setAnimation(fadeIn);
+                            bottomBar.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             });
 
