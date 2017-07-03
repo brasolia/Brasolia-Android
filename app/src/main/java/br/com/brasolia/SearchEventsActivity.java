@@ -96,6 +96,7 @@ public class SearchEventsActivity extends Activity {
                 }
                 else {
                     searchTipTextView.setVisibility(View.VISIBLE);
+                    tvStatus.setVisibility(View.GONE);
                 }
             }
 
