@@ -23,7 +23,7 @@ public class DateUtil {
         }
 
         long now = new Date().getTime();
-        if (time > now || time <= 0) {
+        if (time <= 0) {
             return null;
         }
 
