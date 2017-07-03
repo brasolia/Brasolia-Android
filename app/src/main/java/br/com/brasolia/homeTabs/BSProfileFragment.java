@@ -36,6 +36,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.GONE;
+
 /**
  * Created by cayke on 12/04/17.
  */
@@ -63,6 +65,10 @@ public class BSProfileFragment extends Fragment {
         sendMessage = (LinearLayout) rootView.findViewById(R.id.fragment_profile_send_message);
         logout = (LinearLayout) rootView.findViewById(R.id.fragment_profile_logout);
         profilePicture = (CircleImageView) rootView.findViewById(R.id.profile_picture);
+
+        if(BrasoliaApplication.getUser() == null){
+            logout.setVisibility(View.GONE);
+        }
 
         //endregion
 

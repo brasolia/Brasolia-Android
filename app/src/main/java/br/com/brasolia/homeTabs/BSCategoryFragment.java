@@ -94,6 +94,8 @@ public class BSCategoryFragment extends Fragment {
         btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
 
         if(BrasoliaApplication.getUser() != null){
+            btProfile.getLayoutParams().width = 100;
+            btProfile.getLayoutParams().height = 100;
             image_profile.getLayoutParams().width = 90;
             image_profile.getLayoutParams().height = 90;
             BSUser user = BrasoliaApplication.getUser();

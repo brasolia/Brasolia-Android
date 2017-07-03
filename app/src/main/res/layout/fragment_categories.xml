@@ -7,9 +7,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -32,6 +32,7 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
             android:gravity="center">
 
             <de.hdodenhof.circleimageview.CircleImageView
