@@ -101,6 +101,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
 
         void bindCategory(final BSCategory category) {
             final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+            textView.setText("");
 
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -155,6 +156,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
 
         void bindCategory(final BSCategory category) {
             final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+            textView.setText("");
 
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();

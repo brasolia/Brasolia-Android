@@ -268,11 +268,6 @@
             android:layout_height="1dp"
             android:background="@color/colorAccent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
-
         <LinearLayout
             android:id="@+id/fragment_profile_logout"
 
