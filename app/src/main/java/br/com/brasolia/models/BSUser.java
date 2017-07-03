@@ -89,6 +89,12 @@ public class BSUser {
         return lName;
     }
 
+    public String getName() {
+        String completeName = fName + " " + lName;
+        String[] splited = completeName.split("\\s+");
+        return splited[0] + " " + splited[splited.length-1];
+    }
+
     public String getImageKey() {
         return imageKey;
     }

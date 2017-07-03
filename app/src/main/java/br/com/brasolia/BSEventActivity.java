@@ -1,6 +1,5 @@
 package br.com.brasolia;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -9,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSEventPrice;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.AlertUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -57,12 +59,12 @@ public class BSEventActivity extends AppCompatActivity {
     private RecyclerView recyclerViewImages, recyclerViewComments;
     private EditText editText;
     private Button btSendMessage;
+    private CircleImageView ivUser;
 
     private TextView qtd_comments;
     private TextView showMore;
 
     private boolean liked;
-    private ProgressDialog loading;
 
     private BSEvent event;
     private List<BSComment> comments;
@@ -78,7 +80,8 @@ public class BSEventActivity extends AppCompatActivity {
 
         //region SCREEN ELEMENTS
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
-        //qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
+        qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
+        qtd_comments.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
         recyclerViewImages = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
@@ -90,6 +93,7 @@ public class BSEventActivity extends AppCompatActivity {
         imageButtonNomeLista = (ImageButton) findViewById(R.id.imageButtonNomeLista);
         editText = (EditText) findViewById(R.id.userComment);
         btSendMessage = (Button) findViewById(R.id.sendComment);
+        ivUser = (CircleImageView) findViewById(R.id.activity_event_user_image);
 
         tvDistance = (TextView) findViewById(R.id.tvEventDistance);
         tvDistance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
@@ -104,7 +108,6 @@ public class BSEventActivity extends AppCompatActivity {
         ImageView eventCover = (ImageView) findViewById(R.id.eventCover);
         TextView eventName = (TextView) findViewById(R.id.eventName);
         eventName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_semibold.ttf"));
-        //TextView addressTitle = (TextView) findViewById(R.id.addressTitle);
         TextView rating = (TextView) findViewById(R.id.activity_event_rating);
         CircleImageView brasolia = (CircleImageView) findViewById(R.id.profile_picture_event);
 
@@ -112,13 +115,6 @@ public class BSEventActivity extends AppCompatActivity {
         imageButtonComprarIngresso.setVisibility(View.GONE);
         imageButtonNomeLista.setVisibility(View.GONE);
         //endregion
-
-        loading = new ProgressDialog(this);
-        loading.setTitle("Aguarde");
-        loading.setMessage("Carregando comentários...");
-        loading.setCancelable(false);
-        loading.setCanceledOnTouchOutside(false);
-
 
         //region Set Values on Screen
         if (event != null) {
@@ -186,7 +182,8 @@ public class BSEventActivity extends AppCompatActivity {
         final ImageView likeEvent = (ImageView) findViewById(R.id.likeEvent);
 
         //region get if user liked event
-        if (BrasoliaApplication.getUser() != null) {
+        BSUser user = BrasoliaApplication.getUser();
+        if (user != null) {
             BSRequests requests = BSConnection.createService(BSRequests.class);
             Call<JsonObject> call = requests.getLikeEvent(event.getId());
 
@@ -214,6 +211,17 @@ public class BSEventActivity extends AppCompatActivity {
             });
         }
         //endregion
+
+        //region Comments area handle
+        btSendMessage.setVisibility(View.GONE);
+        if (user != null) {
+            Picasso.with(this).load(BrasoliaApplication.getUser().getImageKey()).resize(120, 120).into(ivUser);
+        }
+        else {
+            Picasso.with(this).load(R.drawable.profile).resize(120, 120).into(ivUser);
+        }
+        //endregion
+
 
         //region buttons listeners
 
@@ -298,15 +306,6 @@ public class BSEventActivity extends AppCompatActivity {
             }
         });
 
-        //todo mudar
-        btHour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
-
         btSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,6 +313,29 @@ public class BSEventActivity extends AppCompatActivity {
             }
         });
         //endregion
+
+        //region Comment' edit text listener
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (i1 == 0) {
+                    ivUser.setVisibility(View.GONE);
+                    btSendMessage.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editText.getText().toString().equals("")) {
+                    ivUser.setVisibility(View.VISIBLE);
+                    btSendMessage.setVisibility(View.GONE);
+                }
+            }
+        });
 
         //region maps
         RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
@@ -395,20 +417,12 @@ public class BSEventActivity extends AppCompatActivity {
                             comments.add(new BSComment(dictionary));
                         }
 
-                        Log.d("getComments", "success");
+                        updateCommentsQuantityLabel();
                         if (comments.size() > 5) {
                             showMore.setVisibility(View.VISIBLE);
                             mountRecyclerComments(false);
                         } else
                             mountRecyclerComments(false);
-
-//                        if (comments.size() == 0)
-//                            qtd_comments.setVisibility(View.GONE);
-//                        else {
-//                            qtd_comments.setVisibility(View.VISIBLE);
-//                            qtd_comments.setText(Integer.toString(comments.size()));
-//                        }
-
                     } else {
                         Log.d("getComments", "server error");
                     }
@@ -463,6 +477,15 @@ public class BSEventActivity extends AppCompatActivity {
             editText.setEnabled(false);
             makeComment(editText.getText().toString());
         }
+    }
+
+    private void updateCommentsQuantityLabel() {
+        if (comments.size() == 0)
+            qtd_comments.setText("Sem comentários.");
+        else if (comments.size() == 1)
+            qtd_comments.setText("1 comentário.");
+        else
+            qtd_comments.setText(String.format(Locale.getDefault(), "%d comentários.", comments.size()));
     }
 }
 

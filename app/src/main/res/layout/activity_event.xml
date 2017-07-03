@@ -383,23 +383,41 @@
             android:layout_height="1dp"
             android:background="@color/colorAccent" />
 
+        <TextView
+            android:id="@+id/activity_event_qtd_comments"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+
+            android:text="Carregando comentários..."
+            android:textSize="13sp"
+            />
+
         <LinearLayout
             android:id="@+id/fieldTypeComment"
 
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
 
             android:orientation="horizontal"
 
-            android:padding="10dp">
+            android:layout_margin="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/activity_event_user_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                />
 
             <EditText
                 android:id="@+id/userComment"
 
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.75"
+                android:layout_height="40dp"
+                android:layout_weight="1"
 
                 android:background="#E8E9E8"
                 android:hint="@string/leave_comment"
@@ -412,9 +430,9 @@
             <Button
                 android:id="@+id/sendComment"
 
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
 
                 android:background="#808080"
                 android:text="ENVIAR"

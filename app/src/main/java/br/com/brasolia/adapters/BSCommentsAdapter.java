@@ -68,10 +68,8 @@ class BSCommentsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindComment(BSComment comment) {
-        name.setText(comment.getOwner().getfName() + " " + comment.getOwner().getlName());
+        name.setText(comment.getOwner().getName());
 
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-//        date.setText(formatter.format(comment.getCreateAt()));
         date.setText(DateUtil.getTimeAgo(comment.getCreateAt().getTime()));
 
         tvComment.setText(comment.getMessage());
