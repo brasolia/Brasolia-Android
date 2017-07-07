@@ -263,6 +263,7 @@ public class BSEventsFragment extends Fragment {
 
             }
 
+
             recyclerView.setHasFixedSize(true);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);
@@ -279,6 +280,7 @@ public class BSEventsFragment extends Fragment {
                     super.onScrolled(recyclerView, dx, dy);
 
                     if (dy > 0) {
+
                         if (bottomBar.getVisibility() == View.VISIBLE) {
 
                             Animation fadeOut = new AlphaAnimation(1, 0);
@@ -288,6 +290,7 @@ public class BSEventsFragment extends Fragment {
                             bottomBar.setVisibility(View.GONE);
                         }
                     } else {
+
                         if(bottomBar.getVisibility() == View.GONE){
 
                             Animation fadeIn = new AlphaAnimation(0, 1);

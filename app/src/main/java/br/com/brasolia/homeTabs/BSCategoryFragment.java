@@ -2,11 +2,13 @@ package br.com.brasolia.homeTabs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,10 +96,10 @@ public class BSCategoryFragment extends Fragment {
         btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
 
         if(BrasoliaApplication.getUser() != null){
-            btProfile.getLayoutParams().width = 100;
-            btProfile.getLayoutParams().height = 100;
-            image_profile.getLayoutParams().width = 90;
-            image_profile.getLayoutParams().height = 90;
+            btProfile.getLayoutParams().width = convertDpToPixel(50, context);
+            btProfile.getLayoutParams().height = convertDpToPixel(50, context);
+            image_profile.getLayoutParams().width = convertDpToPixel(45, context);
+            image_profile.getLayoutParams().height = convertDpToPixel(45, context);
             BSUser user = BrasoliaApplication.getUser();
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
             picasso.setIndicatorsEnabled(false);
@@ -135,6 +137,13 @@ public class BSCategoryFragment extends Fragment {
         mountRecycler();
 
         return rootView;
+    }
+
+    public static int convertDpToPixel(int dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int px = dp * ((int)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px;
     }
 
     @Override
