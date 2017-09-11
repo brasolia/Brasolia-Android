@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import br.com.brasolia.models.NewBSEvent;
+import br.com.brasolia.models.NewBSImage;
+import br.com.brasolia.models.NewBSVenue;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -99,41 +101,41 @@ public interface BSRequests {
     //----------------------------------------------------------------------------------------------
     //GET ALL VENUES
     @GET ("api/BSB/venues")
-    Call<List<NewBSEvent>> getAllVenues();
+    Call<List<NewBSVenue>> getAllVenues();
 
     //GET VENUE BY ID
     @GET ("api/BSB/venues/{venue_id}")
-    Call<List<NewBSEvent>> getVenueById(@Path("venue_id") int venue_id);
+    Call<List<NewBSVenue>> getVenueById(@Path("venue_id") int venue_id);
 
     //----------------------------------------------------------------------------------------------
 
     //GET ALL CITIES
-    @GET ("api/BSB/cities")
+    @GET ("api/cities")
     Call<List<NewBSEvent>> getAllCities();
 
     //GET CITY BY ID
-    @GET ("api/BSB/cities/{city_id}")
+    @GET ("api/cities/{city_id}")
     Call<List<NewBSEvent>> getCityById(@Path("city_id") int city_id);
 
     //----------------------------------------------------------------------------------------------
 
     //GET ALL CATEGORY TYPES
-    @GET ("api/BSB/category-types")
+    @GET ("api/category-types")
     Call<List<NewBSEvent>> getAllCategoryTypes();
 
     //GET CATEGORY TYPES BY ID
-    @GET ("api/BSB/category-types/{categoryTypes_id}")
+    @GET ("api/category-types/{categoryTypes_id}")
     Call<List<NewBSEvent>> getCategoryTypeById(@Path("categoryTypes_id") int categoryTypes_id);
 
     //----------------------------------------------------------------------------------------------
 
     //GET ALL IMAGES
-    @GET ("api/BSB/images")
-    Call<List<NewBSEvent>> getAllImages();
+    @GET ("api/images")
+    Call<List<NewBSImage>> getAllImages();
 
     //GET IMAGE BY ID
-    @GET ("api/BSB/images/{image_id}")
-    Call<List<NewBSEvent>> getImageById(@Path("image_id") int image_id);
+    @GET ("api/images/{image_id}")
+    Call<List<NewBSImage>> getImageById(@Path("image_id") int image_id);
 
     //----------------------------------------------------------------------------------------------
 

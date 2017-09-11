@@ -27,11 +27,13 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.List;
 
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.models.BSUser;
+import br.com.brasolia.models.NewBSEvent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -118,10 +120,9 @@ public class BSLoginActivity extends AppCompatActivity {
         btNoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(BSLoginActivity.this, AppActivity.class));
-                finish();
+                //startActivity(new Intent(BSLoginActivity.this, AppActivity.class));
+                //finish();
 
-                /*
                 BSRequests requests = BSConnection.createNewService(BSRequests.class);
                 Call<List<NewBSEvent>> call = requests.getAllEvents();
                 call.enqueue(new Callback<List<NewBSEvent>>() {
@@ -139,8 +140,6 @@ public class BSLoginActivity extends AppCompatActivity {
                         Toast.makeText(BSLoginActivity.this, "Falha na request", Toast.LENGTH_SHORT).show();
                     }
                 });
-                */
-                
             }
         });
 
