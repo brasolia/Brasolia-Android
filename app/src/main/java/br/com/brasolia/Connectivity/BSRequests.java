@@ -2,11 +2,16 @@ package br.com.brasolia.Connectivity;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
+import br.com.brasolia.models.NewBSEvent;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -74,4 +79,71 @@ public interface BSRequests {
     @FormUrlEncoded
     @POST("pmessage.json")
     Call<JsonObject> sendSugestion(@Field("message") String message);
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// NOVAS REQUESTS - BRASOLIA 2.0 /////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //GET ALL EVENTS
+    @GET ("api/BSB/events")
+    Call<List<NewBSEvent>> getAllEvents();
+
+    //GET EVENT BY ID
+    @GET ("api/BSB/events/{event_id}")
+    Call<List<NewBSEvent>> getEventById(@Path("event_id") int event_id);
+
+    //----------------------------------------------------------------------------------------------
+    //GET ALL VENUES
+    @GET ("api/BSB/venues")
+    Call<List<NewBSEvent>> getAllVenues();
+
+    //GET VENUE BY ID
+    @GET ("api/BSB/venues/{venue_id}")
+    Call<List<NewBSEvent>> getVenueById(@Path("venue_id") int venue_id);
+
+    //----------------------------------------------------------------------------------------------
+
+    //GET ALL CITIES
+    @GET ("api/BSB/cities")
+    Call<List<NewBSEvent>> getAllCities();
+
+    //GET CITY BY ID
+    @GET ("api/BSB/cities/{city_id}")
+    Call<List<NewBSEvent>> getCityById(@Path("city_id") int city_id);
+
+    //----------------------------------------------------------------------------------------------
+
+    //GET ALL CATEGORY TYPES
+    @GET ("api/BSB/category-types")
+    Call<List<NewBSEvent>> getAllCategoryTypes();
+
+    //GET CATEGORY TYPES BY ID
+    @GET ("api/BSB/category-types/{categoryTypes_id}")
+    Call<List<NewBSEvent>> getCategoryTypeById(@Path("categoryTypes_id") int categoryTypes_id);
+
+    //----------------------------------------------------------------------------------------------
+
+    //GET ALL IMAGES
+    @GET ("api/BSB/images")
+    Call<List<NewBSEvent>> getAllImages();
+
+    //GET IMAGE BY ID
+    @GET ("api/BSB/images/{image_id}")
+    Call<List<NewBSEvent>> getImageById(@Path("image_id") int image_id);
+
+    //----------------------------------------------------------------------------------------------
+
+    //LOGIN
+    @POST ("login")
+    Call<JsonObject> doLogin (@Header("Authorization") String authorization);
+
+    //USER (ME)
+    @GET("api/BSB/user")
+    Call<String> getUser(@Header("Authorization") String authorization);
+
+    //----------------------------------------------------------------------------------------------
 }

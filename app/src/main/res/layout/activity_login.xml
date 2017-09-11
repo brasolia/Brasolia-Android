@@ -103,15 +103,15 @@
             android:layout_width="150dp"
 
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
 
             android:layout_marginBottom="40dp"
             android:gravity="center"
 
             android:text="@string/enter_no_login"
             android:textColor="#fff"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
