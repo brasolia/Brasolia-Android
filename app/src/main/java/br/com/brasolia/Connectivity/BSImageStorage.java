@@ -46,6 +46,10 @@ public class BSImageStorage {
         setImageWithPathToImageViewDownloadingIfNecessary(serverUrl, imageView, 0, width, height, callback);
     }
 
+    public static void setImage(String imageKey, ImageView imageView, int width, int height, Callback callback) {
+        setImageWithPathToImageViewDownloadingIfNecessary(imageKey, imageView, 0, width, height, callback);
+    }
+
     private static void setImageWithPathToImageViewDownloadingIfNecessary(String imageURL, ImageView imageView, int placeholder, int width, int height, Callback callback) {
         Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
         picasso.setIndicatorsEnabled(false);

@@ -10,44 +10,54 @@ import java.util.Map;
  */
 
 public class BSCategory implements Parcelable {
+    public enum Size {
+        big, small
+    }
+
     private String id;
+    private String franchise;
     private String name;
-    private String image;
-    private int order;
+    private int position;
+    private Size size;
+    private String url_image;
 
-    public BSCategory(Map<String, Object> dictionary) {
-        Map<String, Object> temp = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
-        if (temp != null)
-            id = (String) BSDictionary.getValueWithKeyAndType(temp, "$oid", String.class);
-        else
-            id = (String) BSDictionary.getValueWithKeyAndType(dictionary, "$oid", String.class);
+    public BSCategory(String id, Map<String, Object> dictionary) {
+        this.id = id;
 
+        franchise = (String) BSDictionary.getValueWithKeyAndType(dictionary, "franchise", String.class);
         name = (String) BSDictionary.getValueWithKeyAndType(dictionary, "name", String.class);
-        image = (String) BSDictionary.getValueWithKeyAndType(dictionary, "image", String.class);
-        try {
-            order = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "order", Double.class)).intValue();
-        }
-        catch (Exception e) {
-            order = 0;
-        }
+        position = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "position", Double.class)).intValue();
+        String size = (String) BSDictionary.getValueWithKeyAndType(dictionary, "size", String.class);
+        if (size.equals("big"))
+            this.size = Size.big;
+        else
+            this.size = Size.small;
+        url_image = (String) BSDictionary.getValueWithKeyAndType(dictionary, "url_image", String.class);
     }
 
     public String getId() {
         return id;
     }
 
+    public String getFranchise() {
+        return franchise;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getImage() {
-        return image;
+    public int getPosition() {
+        return position;
     }
 
-    public int getOrder() {
-        return order;
+    public Size getSize() {
+        return size;
     }
 
+    public String getUrl_image() {
+        return url_image;
+    }
 
     @Override
     public int describeContents() {
@@ -57,19 +67,24 @@ public class BSCategory implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
+        dest.writeString(this.franchise);
         dest.writeString(this.name);
-        dest.writeString(this.image);
-        dest.writeInt(this.order);
+        dest.writeInt(this.position);
+        dest.writeInt(this.size == null ? -1 : this.size.ordinal());
+        dest.writeString(this.url_image);
     }
 
     protected BSCategory(Parcel in) {
         this.id = in.readString();
+        this.franchise = in.readString();
         this.name = in.readString();
-        this.image = in.readString();
-        this.order = in.readInt();
+        this.position = in.readInt();
+        int tmpSize = in.readInt();
+        this.size = tmpSize == -1 ? null : Size.values()[tmpSize];
+        this.url_image = in.readString();
     }
 
-    public static final Parcelable.Creator<BSCategory> CREATOR = new Parcelable.Creator<BSCategory>() {
+    public static final Creator<BSCategory> CREATOR = new Creator<BSCategory>() {
         @Override
         public BSCategory createFromParcel(Parcel source) {
             return new BSCategory(source);

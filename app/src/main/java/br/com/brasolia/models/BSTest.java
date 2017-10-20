@@ -473,41 +473,7 @@ public class BSTest {
         });
     }
 
-    private static void getCategories() {
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        Call<JsonObject> call = requests.getCategories();
 
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
-
-                        ArrayList<BSCategory> array = new ArrayList<BSCategory>();
-                        for (Map<String, Object> dictionary : data) {
-                            BSCategory category = new BSCategory(dictionary);
-                            array.add(category);
-                        }
-
-                        Log.d("getCategories", "success");
-                    }
-                    else {
-                        Log.d("getCategories", "server error");
-                    }
-                }
-                else {
-                    Log.d("getCategories", "conection failure");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("getCategories", "conection failure");
-            }
-        });
-    }
 
     private static void getEvents() {
         BSRequests requests = BSConnection.createService(BSRequests.class);

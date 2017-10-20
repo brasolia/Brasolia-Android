@@ -14,19 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import br.com.brasolia.AppActivity;
 import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSRequests;
-import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.Connectivity.BSEndpoint;
 import br.com.brasolia.R;
 import br.com.brasolia.SearchEventsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
@@ -158,8 +159,8 @@ public class BSCategoryFragment extends Fragment {
     private void getCategories() {
         isLoading = true;
 
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        call = requests.getCategories();
+        BSEndpoint endpoint = BSConnection.createService(BSEndpoint.class);
+        Call<JsonObject> call = endpoint.getCategories();
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -167,32 +168,35 @@ public class BSCategoryFragment extends Fragment {
                 isLoading = false;
 
                 if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
+                    Object responseObject = new Gson().fromJson(response.body(), Object.class);
 
+                    try {
+                        Map<String, Object> result = (Map<String, Object>) responseObject;
                         categories = new ArrayList<BSCategory>();
-                        for (Map<String, Object> dictionary : data) {
-                            BSCategory category = new BSCategory(dictionary);
-                            categories.add(category);
+
+                        Iterator it = result.entrySet().iterator();
+                        while (it.hasNext()) {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            categories.add(new BSCategory((String) pair.getKey(), (Map<String, Object>) pair.getValue()));
+                            it.remove(); // avoids a ConcurrentModificationException
                         }
 
                         Collections.sort(categories, new Comparator<BSCategory>() {
                             @Override
                             public int compare(BSCategory category, BSCategory t1) {
-                                return category.getOrder() - t1.getOrder();
+                                return category.getPosition() - t1.getPosition();
                             }
                         });
 
                         mountRecycler();
                         dataAndConnectionHandler.showMainView();
                     }
-                    else {
+                    catch (Exception e) {
                         dataAndConnectionHandler.showExceptionLayout();
                     }
                 }
                 else {
-                    dataAndConnectionHandler.showInternetOffLayout();
+                    dataAndConnectionHandler.showExceptionLayout();
                 }
             }
 

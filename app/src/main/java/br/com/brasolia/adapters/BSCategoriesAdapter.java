@@ -38,7 +38,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position == 0 || position == 1)
+                if (getItemViewType(position) == VIEW_TYPE_RECTANGULAR)
                     return spanCount;
                 else
                     return spanCount/2;
@@ -53,7 +53,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == 1)
+        if (categories.get(position).getSize() == BSCategory.Size.big)
             return VIEW_TYPE_RECTANGULAR;
         else
             return VIEW_TYPE_SQUARE;
@@ -108,7 +108,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int width = displaymetrics.widthPixels/2;
 
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, width, new Callback() {
+                BSImageStorage.setImage(category.getUrl_image(), imageView, width, width, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -122,7 +122,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 });
             }
             else {
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 300, 300, new Callback() {
+                BSImageStorage.setImage(category.getUrl_image(), imageView, 300, 300, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -164,7 +164,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 int width = displaymetrics.widthPixels;
                 int height = (int) (width*0.49);
 
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, width, height, new Callback() {
+                BSImageStorage.setImage(category.getUrl_image(), imageView, width, height, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -178,7 +178,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 });
             }
             else {
-                BSImageStorage.setCategoryImageNamed(category.getImage(), imageView, 600, 300, new Callback() {
+                BSImageStorage.setImage(category.getUrl_image(), imageView, 600, 300, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);

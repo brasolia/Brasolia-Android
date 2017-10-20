@@ -14,8 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class BSConnection {
-    private static final String API_BASE_URL = "http://52.67.150.108/api/BSB/";
-    private static final String NEW_API_BASE_URL = "https://culturamobile.vapor.cloud/";
+    private static final String API_BASE_URL = "https://cultura-mobile.firebaseio.com/";
 
     private static OkHttpClient client() {
         CookieManager cookieManager = new CookieManager(new PersistentCookieStore(BrasoliaApplication.getAppContext()), CookiePolicy.ACCEPT_ALL);
@@ -31,18 +30,5 @@ public class BSConnection {
 
     public static <S> S createService(Class<S> serviceClass) {
         return builder.create(serviceClass);
-    }
-
-    // NEW SERVICE WITH NEW API_BASE_URL
-
-    private static Retrofit NewBuilder = new Retrofit.Builder()
-            .baseUrl(NEW_API_BASE_URL)
-            .client(client())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-
-    public static <S> S createNewService(Class<S> serviceClass) {
-        return NewBuilder.create(serviceClass);
     }
 }

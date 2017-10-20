@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 
 import br.com.brasolia.homeTabs.BSCategoryFragment;
+import br.com.brasolia.models.BSTest;
+import br.com.brasolia.models.BSTestEndpoint;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
 import br.com.brasolia.util.PermissionUtil;
@@ -29,7 +32,7 @@ public class AppActivity extends AppCompatActivity implements LocationUtil.Locat
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //todo comentar antes de upar
-        //BSTest.init();
+        BSTestEndpoint.test();
         //BSUser.removeUserFromDevice();
 
         super.onCreate(savedInstanceState);
