@@ -221,11 +221,11 @@ public class BSCategoryFragment extends Fragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    BSEventsFragment eventsFragment = new BSEventsFragment();
+                    BSItemsFragment itemsFragment = new BSItemsFragment();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("category", categories.get(position));
-                    eventsFragment.setArguments(bundle);
-                    context.pushFragment(eventsFragment, "BSEventsFragment");
+                    itemsFragment.setArguments(bundle);
+                    context.pushFragment(itemsFragment, "BSItemsFragment");
                 }
             });
         }

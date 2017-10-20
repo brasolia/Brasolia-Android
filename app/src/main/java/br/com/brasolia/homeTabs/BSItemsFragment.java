@@ -1,7 +1,6 @@
 package br.com.brasolia.homeTabs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,23 +17,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import br.com.brasolia.AppActivity;
-import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSRequests;
-import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.Connectivity.BSEndpoint;
 import br.com.brasolia.R;
-import br.com.brasolia.adapters.BSEventsAdapter;
+import br.com.brasolia.adapters.BSItemsAdapter;
 import br.com.brasolia.models.BSCategory;
-import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.models.BSItem;
+import br.com.brasolia.models.BSVenue;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
 import retrofit2.Call;
@@ -45,7 +43,7 @@ import retrofit2.Response;
  * Created by cayke on 11/04/17.
  */
 
-public class BSEventsFragment extends Fragment {
+public class BSItemsFragment extends Fragment {
 
     AppActivity mContext;
 
@@ -56,7 +54,7 @@ public class BSEventsFragment extends Fragment {
     private ImageView backToCategories;
 
     Call<JsonObject> call;
-    List<BSEvent> events;
+    List<BSItem> items;
     BSCategory filterCategory;
     int selectedFilter = 1;
 
@@ -80,7 +78,7 @@ public class BSEventsFragment extends Fragment {
             filterCategory = bundle.getParcelable("category");
         }
 
-        getEventsFromCategory(filterCategory);
+        getItemsFromCategory(filterCategory);
     }
 
     @Nullable
@@ -135,7 +133,7 @@ public class BSEventsFragment extends Fragment {
         dataAndConnectionHandler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getEventsFromCategory(filterCategory);
+                getItemsFromCategory(filterCategory);
                 dataAndConnectionHandler.showLoadingLayout();
             }
         });
@@ -190,11 +188,11 @@ public class BSEventsFragment extends Fragment {
         mountRecycler(selectedFilter);
     }
 
-    private void getEventsFromCategory(BSCategory category) {
+    private void getItemsFromCategory(BSCategory category) {
         isLoading = true;
 
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        Call<JsonObject> call = requests.getEventsByCategory(category.getId());
+        BSEndpoint endpoint = BSConnection.createService(BSEndpoint.class);
+        Call<JsonObject> call = endpoint.getItemsFromCategory("\"cat" + category.getId() + "\"");
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -202,21 +200,31 @@ public class BSEventsFragment extends Fragment {
                 isLoading = false;
 
                 if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
+                    Object responseObject = new Gson().fromJson(response.body(), Object.class);
 
-                        events = new ArrayList<>();
-                        for (Map<String, Object> dictionary : data) {
-                            events.add(new BSEvent(dictionary));
+                    try {
+                        Map<String, Object> result = (Map<String, Object>) responseObject;
+                        items = new ArrayList<>();
+
+                        Iterator it = result.entrySet().iterator();
+                        while (it.hasNext()) {
+                            Map.Entry pair = (Map.Entry)it.next();
+                            if (((Map<String, Object>) pair.getValue()).get("type").equals("venue"))
+                                items.add(new BSVenue((String) pair.getKey(), (Map<String, Object>) pair.getValue()));
+                            else {
+                                //todo
+                            }
+                            it.remove(); // avoids a ConcurrentModificationException
                         }
 
                         mountRecycler(selectedFilter);
                         dataAndConnectionHandler.showMainView();
-                    } else {
+                    }
+                    catch (Exception e) {
                         dataAndConnectionHandler.showExceptionLayout();
                     }
-                } else {
+                }
+                else {
                     dataAndConnectionHandler.showExceptionLayout();
                 }
             }
@@ -231,43 +239,43 @@ public class BSEventsFragment extends Fragment {
     }
 
     private void mountRecycler(int choice) {
-        if (events != null) {
+        if (items != null) {
 
-            switch (choice) {
-
-                case 1:
-                    Collections.sort(events, new Comparator<BSEvent>() {
-                        @Override
-                        public int compare(BSEvent o1, BSEvent o2) {
-                            return Long.valueOf(o1.getStartHour().getTime()).compareTo(o2.getStartHour().getTime());
-                        }
-                    });
-                    break;
-
-                case 2:
-                    Collections.sort(events, new Comparator<BSEvent>() {
-                        public int compare(BSEvent obj1, BSEvent obj2) {
-                            return Double.valueOf(obj1.getDistance()).compareTo(Double.valueOf(obj2.getDistance()));
-                        }
-                    });
-                    break;
-
-                case 3:
-                    Collections.sort(events, new Comparator<BSEvent>() {
-                        public int compare(BSEvent obj1, BSEvent obj2) {
-                            return Double.valueOf(obj1.getPrices().get(0).getPrice()).compareTo(Double.valueOf(obj2.getPrices().get(0).getPrice()
-                            ));
-                        }
-                    });
-                    break;
-
-            }
+//            switch (choice) {
+//
+//                case 1:
+//                    Collections.sort(events, new Comparator<BSEvent>() {
+//                        @Override
+//                        public int compare(BSEvent o1, BSEvent o2) {
+//                            return Long.valueOf(o1.getStartHour().getTime()).compareTo(o2.getStartHour().getTime());
+//                        }
+//                    });
+//                    break;
+//
+//                case 2:
+//                    Collections.sort(events, new Comparator<BSEvent>() {
+//                        public int compare(BSEvent obj1, BSEvent obj2) {
+//                            return Double.valueOf(obj1.getDistance()).compareTo(Double.valueOf(obj2.getDistance()));
+//                        }
+//                    });
+//                    break;
+//
+//                case 3:
+//                    Collections.sort(events, new Comparator<BSEvent>() {
+//                        public int compare(BSEvent obj1, BSEvent obj2) {
+//                            return Double.valueOf(obj1.getPrices().get(0).getPrice()).compareTo(Double.valueOf(obj2.getPrices().get(0).getPrice()
+//                            ));
+//                        }
+//                    });
+//                    break;
+//
+//            }
 
 
             recyclerView.setHasFixedSize(true);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new BSEventsAdapter(events, choice));
+            recyclerView.setAdapter(new BSItemsAdapter(items, choice));
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -306,9 +314,10 @@ public class BSEventsFragment extends Fragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Intent i = new Intent(getActivity(), BSEventActivity.class);
-                    i.putExtra("event", events.get(position));
-                    startActivity(i);
+                    //todo
+//                    Intent i = new Intent(getActivity(), BSEventActivity.class);
+//                    i.putExtra("event", items.get(position));
+//                    startActivity(i);
                 }
             });
         }

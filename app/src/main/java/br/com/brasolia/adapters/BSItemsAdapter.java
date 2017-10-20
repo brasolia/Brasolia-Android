@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +27,7 @@ import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
-import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.AlertUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,19 +37,19 @@ import retrofit2.Response;
  * Created by cayke on 11/04/17.
  */
 
-public class BSEventsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
+public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
 
-    private List<BSEvent> events;
+    private List<BSItem> items;
     private int choice;
 
-    public BSEventsAdapter(List<BSEvent> events, int choice) {
-        this.events = events;
+    public BSItemsAdapter(List<BSItem> items, int choice) {
+        this.items = items;
         this.choice = choice;
     }
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return items.size();
     }
 
     @Override
@@ -61,8 +60,8 @@ public class BSEventsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
 
     @Override
     public void onBindViewHolder(final BSEventViewHolder holder, int position) {
-        holder.setEvent(events.get(position));
-        holder.bindEvent(events.get(position), choice);
+        holder.setItem(items.get(position));
+        holder.bindItem(items.get(position), choice);
     }
 }
 
@@ -75,9 +74,9 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     private Context context;
     private FrameLayout heart_icon_frameLayout;
     private boolean liked;
-    private BSEvent event;
+    private BSItem item;
 
-    public BSEventViewHolder(View itemView) {
+    public BSEventViewHolder(final View itemView) {
         super(itemView);
 
         context = itemView.getContext();
@@ -111,7 +110,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                         heart_icon.setImageResource(R.drawable.ic_love);
 
                     BSRequests requests = BSConnection.createService(BSRequests.class);
-                    Call<JsonObject> call = requests.likeEvent(event.getId(), liked);
+                    Call<JsonObject> call = requests.likeEvent(item.getId(), liked);
 
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
@@ -155,20 +154,20 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                 });
     }
 
-    public void setEvent(BSEvent event){
-        this.event = event;
+    public void setItem(BSItem item){
+        this.item = item;
     }
 
-    public BSEvent getEvent(){
-        return event;
+    public BSItem getItem(){
+        return item;
     }
 
-    public void bindEvent(BSEvent event, int choice) {
+    public void bindItem(BSItem item, int choice) {
 
         //region get if user liked event
         if (BrasoliaApplication.getUser() != null) {
             BSRequests requests = BSConnection.createService(BSRequests.class);
-            Call<JsonObject> call = requests.getLikeEvent(getEvent().getId());
+            Call<JsonObject> call = requests.getLikeEvent(getItem().getId());
 
             call.enqueue(new Callback<JsonObject>() {
                 @Override
@@ -206,7 +205,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             frameLayout.getLayoutParams().width = width;
             frameLayout.getLayoutParams().height = height;
 
-            BSImageStorage.setEventImageNamed(event.getCoverImageKey(), cover, width, height, null);
+            BSImageStorage.setImage(item.getThumb(), cover, width, height, null);
         }
 
         switch (choice) {
@@ -216,32 +215,35 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                 break;
             case 2:
                 price.setVisibility(View.GONE);
-                if (event.getDistance() > 100)
+                if (item.getDistance() > 100)
                     distance.setVisibility(View.GONE);
                 else
-                    distance.setText(String.format(Locale.getDefault(), "%.2fkm", event.getDistance()));
+                    distance.setText(String.format(Locale.getDefault(), "%.2fkm", item.getDistance()));
                 break;
             case 3:
                 distance.setVisibility(View.GONE);
                 break;
         }
 
-        if (event.getPrices().get(0).getPrice() == 0)
-            price.setText("Gratuito");
-        else
-            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
+        //todo
+        price.setText("Money icons here");
+//        if (event.getPrices().get(0).getPrice() == 0)
+//            price.setText("Gratuito");
+//        else
+//            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
         
-        title.setText(event.getName());
-        place.setText(event.getLocality());
+        title.setText(item.getName());
+        place.setText(item.getAddress());
 
-        if (event.getStartHour().getDay() == event.getEndHour().getDay() &&
-                event.getStartHour().getMonth() == event.getEndHour().getMonth()) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
-            date.setText(formatter.format(event.getStartHour()));
-        }
-        else {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
-            date.setText(formatter.format(event.getStartHour()) + " a " + formatter.format(event.getEndHour()));
-        }
+        //todo horario
+//        if (event.getStartHour().getDay() == event.getEndHour().getDay() &&
+//                event.getStartHour().getMonth() == event.getEndHour().getMonth()) {
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+//            date.setText(formatter.format(event.getStartHour()));
+//        }
+//        else {
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+//            date.setText(formatter.format(event.getStartHour()) + " a " + formatter.format(event.getEndHour()));
+//        }
     }
 }
