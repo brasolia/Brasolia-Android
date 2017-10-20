@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<br.com.brasolia.util.SquareFrameLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     >
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/item_category_imageview"
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        app:riv_corner_radius="5dp"
-
-        android:scaleType="fitCenter"
-        />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/blackTranslucent2"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         >
 
-        <TextView
-            android:id="@+id/item_category_textview"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/item_category_imageview"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-            android:text="@string/category_name"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:textAlignment="center"
+            app:riv_corner_radius="5dp"
+
+            android:scaleType="fitCenter"
             />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blackTranslucent2"
+            >
 
+            <TextView
+                android:id="@+id/item_category_textview"
 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="8dp"
 
+                android:text="@string/category_name"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textAlignment="center"
+                />
 
-</br.com.brasolia.util.SquareFrameLayout>
+        </RelativeLayout>
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>
