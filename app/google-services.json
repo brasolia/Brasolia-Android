@@ -1,33 +1,27 @@
 {
   "project_info": {
-    "project_number": "244336476947",
-    "project_id": "brasolia-2ea71"
+    "project_number": "1072915832581",
+    "firebase_url": "https://cultura-mobile.firebaseio.com",
+    "project_id": "cultura-mobile",
+    "storage_bucket": "cultura-mobile.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:244336476947:android:21ace2c00bae6f89",
+        "mobilesdk_app_id": "1:1072915832581:android:21ace2c00bae6f89",
         "android_client_info": {
           "package_name": "br.com.brasolia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "244336476947-4mlfa9jmlhl30to0fra8nb8uu43c1cl8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "br.com.brasolia",
-            "certificate_hash": "325CF803EFB8A1C558C6EFA707A630BA7D12BE94"
-          }
-        },
-        {
-          "client_id": "244336476947-7mfgse79kimsih5glpfn50fiajifgdrj.apps.googleusercontent.com",
+          "client_id": "1072915832581-0aps1h7r5pvp8a2ukpn5f4nf750vvv7a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB0F7XosWAYVNVoX7g4MKXKQUzCTBTmT8k"
+          "current_key": "AIzaSyABTxyIXZeVh56bTA7cYYs8sW5iwpwkkek"
         }
       ],
       "services": {
@@ -39,7 +33,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

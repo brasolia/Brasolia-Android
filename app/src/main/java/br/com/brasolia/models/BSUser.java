@@ -47,7 +47,7 @@ public class BSUser {
         editor.putString("gender", gender);
         editor.apply();
 
-        BrasoliaApplication.setUser(this);
+//        BrasoliaApplication.setUser(this);
     }
 
     public static BSUser loadUserFromDevice() {

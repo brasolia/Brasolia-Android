@@ -17,7 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -25,18 +27,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.MessageActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
-import br.com.brasolia.models.BSUser;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.view.View.GONE;
 
 /**
  * Created by cayke on 12/04/17.
@@ -66,7 +60,7 @@ public class BSProfileFragment extends Fragment {
         logout = (LinearLayout) rootView.findViewById(R.id.fragment_profile_logout);
         profilePicture = (CircleImageView) rootView.findViewById(R.id.profile_picture);
 
-        if(BrasoliaApplication.getUser() == null){
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
             logout.setVisibility(View.GONE);
         }
 
@@ -76,29 +70,14 @@ public class BSProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BrasoliaApplication.getUser() == null) {
-                    Toast.makeText(mContext, "Você não está logado!", Toast.LENGTH_SHORT).show();
-                }else{
-                    BSRequests requests = BSConnection.createService(BSRequests.class);
-                    Call<JsonObject> call = requests.logOutUser();
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if(response.isSuccessful()){
-                                tvNameProfile.setText("");
-                                profilePicture.setImageDrawable(getContext().getResources().getDrawable(R.drawable.profile));
-                                BrasoliaApplication.setUser(null);
-                                BSUser.removeUserFromDevice();
-                                Toast.makeText(getContext(), "Logout realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
 
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-                }
+                tvNameProfile.setText("");
+                profilePicture.setImageDrawable(getContext().getResources().getDrawable(R.drawable.profile));
+                logout.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Logout realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -186,13 +165,13 @@ public class BSProfileFragment extends Fragment {
     }
 
     public void updateUserInfo() {
-        if (BrasoliaApplication.getUser() != null) {
-            BSUser user = BrasoliaApplication.getUser();
-            tvNameProfile.setText(user.getfName() + " " + user.getlName());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            tvNameProfile.setText(user.getDisplayName());
 
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
             picasso.setIndicatorsEnabled(false);
-            picasso.load(user.getImageKey()).resize(500, 500).into(profilePicture);
+            picasso.load(user.getPhotoUrl()).resize(500, 500).into(profilePicture);
         }
         else {
             tvNameProfile.setText("");

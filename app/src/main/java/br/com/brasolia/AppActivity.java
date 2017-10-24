@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.List;
 
 import br.com.brasolia.homeTabs.BSCategoryFragment;
@@ -31,6 +33,8 @@ public class AppActivity extends AppCompatActivity implements LocationUtil.Locat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        FirebaseAnalytics.getInstance(this);
+
         //todo comentar antes de upar
         BSTestEndpoint.test();
         //BSUser.removeUserFromDevice();

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class SearchEventsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
+
         setContentView(R.layout.activity_search_events);
 
         // SCREEN ELEMENTS -------------------------------------------------------------------------

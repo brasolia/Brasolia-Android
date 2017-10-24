@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.com.brasolia.models.BSEvent;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -26,6 +27,9 @@ public class EventMapActivity extends FragmentActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
+
         setContentView(R.layout.activity_event_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager()

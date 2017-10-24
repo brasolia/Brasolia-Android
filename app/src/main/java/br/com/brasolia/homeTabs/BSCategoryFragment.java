@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -33,7 +34,6 @@ import br.com.brasolia.SearchEventsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSCategory;
-import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -96,15 +96,14 @@ public class BSCategoryFragment extends Fragment {
         image_profile = (CircleImageView) rootView.findViewById(R.id.image_profile);
         btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
 
-        if(BrasoliaApplication.getUser() != null){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
             btProfile.getLayoutParams().width = convertDpToPixel(50, context);
             btProfile.getLayoutParams().height = convertDpToPixel(50, context);
             image_profile.getLayoutParams().width = convertDpToPixel(45, context);
             image_profile.getLayoutParams().height = convertDpToPixel(45, context);
-            BSUser user = BrasoliaApplication.getUser();
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
             picasso.setIndicatorsEnabled(false);
-            picasso.load(user.getImageKey()).resize(500, 500).into(image_profile);
+            picasso.load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).resize(500, 500).into(image_profile);
         }
         // --------------------------------------------------------------------------------
 

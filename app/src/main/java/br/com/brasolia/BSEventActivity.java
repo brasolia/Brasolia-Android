@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +42,6 @@ import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSEventPrice;
-import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.AlertUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -72,6 +73,8 @@ public class BSEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_event);
 
@@ -182,8 +185,7 @@ public class BSEventActivity extends AppCompatActivity {
         final ImageView likeEvent = (ImageView) findViewById(R.id.likeEvent);
 
         //region get if user liked event
-        BSUser user = BrasoliaApplication.getUser();
-        if (user != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             BSRequests requests = BSConnection.createService(BSRequests.class);
             Call<JsonObject> call = requests.getLikeEvent(event.getId());
 
@@ -214,8 +216,8 @@ public class BSEventActivity extends AppCompatActivity {
 
         //region Comments area handle
         btSendMessage.setVisibility(View.GONE);
-        if (user != null) {
-            Picasso.with(this).load(BrasoliaApplication.getUser().getImageKey()).resize(120, 120).into(ivUser);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Picasso.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).resize(120, 120).into(ivUser);
         }
         else {
             Picasso.with(this).load(R.drawable.profile).resize(120, 120).into(ivUser);
@@ -238,7 +240,7 @@ public class BSEventActivity extends AppCompatActivity {
         btLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BrasoliaApplication.getUser() == null) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     toLikeUserShouldLogin();
                 } else {
                     liked = !liked;
@@ -471,7 +473,7 @@ public class BSEventActivity extends AppCompatActivity {
     }
 
     private void sendMessage() {
-        if (BrasoliaApplication.getUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             toLikeUserShouldLogin();
         } else {
             editText.setEnabled(false);

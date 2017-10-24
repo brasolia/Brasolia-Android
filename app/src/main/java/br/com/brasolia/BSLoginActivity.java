@@ -3,38 +3,33 @@ package br.com.brasolia;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.gson.JsonObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 import java.util.Arrays;
-
-import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSRequests;
-import br.com.brasolia.Connectivity.BSResponse;
-import br.com.brasolia.models.BSUser;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by cayke on 12/04/17.
@@ -46,12 +41,15 @@ public class BSLoginActivity extends AppCompatActivity {
     private ProgressDialog loading;
     private boolean alreadyCameFromApp;
     private ImageView login_background;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseAnalytics.getInstance(this);
         FacebookSdk.sdkInitialize(this);
+        mAuth = FirebaseAuth.getInstance();
 
         setContentView(R.layout.activity_login);
 
@@ -71,42 +69,17 @@ public class BSLoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                BSUser user = new BSUser();
-                                String fbID = null;
-                                try {
-                                    fbID = object.getString("id");
-                                    user.setEmail(object.getString("email"));
-                                    user.setfName(object.getString("first_name"));
-                                    user.setlName(object.getString("last_name"));
-                                    user.setGender(object.getString("gender"));
-                                    user.setImageKey(object.getJSONObject("picture").getJSONObject("data").getString("url"));
-
-                                    logUser(user, fbID);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    showLoginError();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender,first_name,last_name,picture.type(large)");
-                request.setParameters(parameters);
-                request.executeAsync();
+                handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                loading.dismiss();
+                showLoginError();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                loading.dismiss();
+                showLoginError();
             }
         });
 
@@ -147,82 +120,6 @@ public class BSLoginActivity extends AppCompatActivity {
         Toast.makeText(this, "Erro ao fazer login, tente novamente mais tarde.", Toast.LENGTH_LONG).show();
     }
 
-    private void showLoginInternetFailure() {
-        loading.dismiss();
-        Toast.makeText(this, "Falha de conexao. Conecte-se a internet e  tente novamente.", Toast.LENGTH_LONG).show();
-    }
-
-    private void logUser(final BSUser user, final String fbID) {
-        LoginManager.getInstance().logOut();
-
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        Call<JsonObject> call = requests.logUser(user.getEmail(), fbID, null, "on");
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                         user.saveUser();
-
-                        //todo enviar imagem do user
-
-                        goToMainApp();
-                    }
-                    else {
-                        registerUser(user, fbID);
-                    }
-                }
-                else {
-                    Log.d("logUser", "conection failure");
-                    showLoginInternetFailure();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("logUser", "conection failure");
-                showLoginInternetFailure();
-            }
-        });
-    }
-
-    private void registerUser(final BSUser user, String fbID) {
-        BSRequests requests = BSConnection.createService(BSRequests.class);
-        Call<JsonObject> call = requests.register(user.getEmail(), fbID, null, user.getfName(), user.getlName());
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    BSResponse bsResponse = new BSResponse(response.body());
-                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                        user.saveUser();
-
-                        //todo enviar imagem do user
-
-                        goToMainApp();
-                    }
-                    else {
-                        showLoginError();
-                        Log.d("registerUser", "server error");
-                    }
-                }
-                else {
-                    showLoginInternetFailure();
-                    Log.d("registerUser", "conection failure");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                showLoginInternetFailure();
-                Log.d("registerUser", "conection failure");
-            }
-        });
-    }
-
     private void goToMainApp() {
         if (alreadyCameFromApp)
             finish();
@@ -231,5 +128,26 @@ public class BSLoginActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            goToMainApp();
+                        } else {
+                            Toast.makeText(BSLoginActivity.this, "Autenticação falhou. Erro:" + task.getException(),
+                                    Toast.LENGTH_LONG).show();
+
+                            LoginManager.getInstance().logOut();
+
+                            if (loading != null)
+                                loading.dismiss();
+                        }
+                    }
+                });
     }
 }

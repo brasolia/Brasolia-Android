@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -26,7 +27,6 @@ import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.R;
-import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.AlertUtil;
 import retrofit2.Call;
@@ -99,7 +99,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
 
-                if (BrasoliaApplication.getUser() == null) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                     toLikeUserShouldLogin();
                 }
                 else {
@@ -165,7 +165,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     public void bindItem(BSItem item, int choice) {
 
         //region get if user liked event
-        if (BrasoliaApplication.getUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             BSRequests requests = BSConnection.createService(BSRequests.class);
             Call<JsonObject> call = requests.getLikeEvent(getItem().getId());
 

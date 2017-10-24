@@ -6,11 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import br.com.brasolia.application.BrasoliaApplication;
 
 /**
  * Created by cayke on 26/06/17.
@@ -23,6 +24,8 @@ public class BSSplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_splash);
 
@@ -57,7 +60,8 @@ public class BSSplashActivity extends AppCompatActivity {
     }
 
     private void goToMainApp() {
-        if (BrasoliaApplication.getUser() != null) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
             Intent i = new Intent(this, AppActivity.class);
             startActivity(i);
         } else {

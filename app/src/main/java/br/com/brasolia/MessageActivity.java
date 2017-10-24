@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonObject;
 
 import br.com.brasolia.Connectivity.BSConnection;
@@ -30,6 +31,9 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
+
         setContentView(R.layout.activity_message);
 
         // screen elements ------------------------------------------------------
