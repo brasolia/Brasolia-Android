@@ -3,6 +3,8 @@ package br.com.brasolia.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.blankj.utilcode.util.Utils;
+
 /**
  * Created by Matheus on 19/07/2016.
  */
@@ -16,6 +18,8 @@ public class BrasoliaApplication extends Application {
         super.onCreate();
 
         BrasoliaApplication.context =  getApplicationContext();
+
+        Utils.init(this);
 
     }
 

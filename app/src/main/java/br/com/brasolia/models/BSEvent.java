@@ -81,7 +81,7 @@ public class BSEvent implements Parcelable {
         categories = new ArrayList<>();
         if (categoriesArray != null) {
             for (Map<String, Object> category: categoriesArray) {
-                categories.add(new BSCategory("hue", category));
+                //categories.add(new BSCategory("hue", category));
             }
         }
 

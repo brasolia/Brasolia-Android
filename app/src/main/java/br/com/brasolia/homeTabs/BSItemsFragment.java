@@ -192,7 +192,7 @@ public class BSItemsFragment extends Fragment {
         isLoading = true;
 
         BSEndpoint endpoint = BSConnection.createService(BSEndpoint.class);
-        Call<JsonObject> call = endpoint.getItemsFromCategory("\"cat" + category.getId() + "\"");
+        //Call<JsonObject> call = endpoint.getItemsFromCategory("\"cat" + category.getId() + "\"");
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

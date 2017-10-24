@@ -43,7 +43,7 @@ public class BSTestEndpoint {
                         Iterator it = result.entrySet().iterator();
                         while (it.hasNext()) {
                             Map.Entry pair = (Map.Entry)it.next();
-                            categories.add(new BSCategory((String) pair.getKey(), (Map<String, Object>) pair.getValue()));
+                            //categories.add(new BSCategory((String) pair.getKey(), (Map<String, Object>) pair.getValue()));
                             it.remove(); // avoids a ConcurrentModificationException
                         }
                     }

@@ -3,8 +3,6 @@ package br.com.brasolia.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Map;
-
 /**
  * Created by cayke on 07/04/17.
  */
@@ -14,29 +12,17 @@ public class BSCategory implements Parcelable {
         big, small
     }
 
-    private String id;
+    private String key;
     private String franchise;
     private String name;
     private int position;
     private Size size;
     private String url_image;
 
-    public BSCategory(String id, Map<String, Object> dictionary) {
-        this.id = id;
+    public BSCategory() {}
 
-        franchise = (String) BSDictionary.getValueWithKeyAndType(dictionary, "franchise", String.class);
-        name = (String) BSDictionary.getValueWithKeyAndType(dictionary, "name", String.class);
-        position = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "position", Double.class)).intValue();
-        String size = (String) BSDictionary.getValueWithKeyAndType(dictionary, "size", String.class);
-        if (size.equals("big"))
-            this.size = Size.big;
-        else
-            this.size = Size.small;
-        url_image = (String) BSDictionary.getValueWithKeyAndType(dictionary, "url_image", String.class);
-    }
-
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     public String getFranchise() {
@@ -59,6 +45,7 @@ public class BSCategory implements Parcelable {
         return url_image;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,7 +53,7 @@ public class BSCategory implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeString(this.key);
         dest.writeString(this.franchise);
         dest.writeString(this.name);
         dest.writeInt(this.position);
@@ -75,7 +62,7 @@ public class BSCategory implements Parcelable {
     }
 
     protected BSCategory(Parcel in) {
-        this.id = in.readString();
+        this.key = in.readString();
         this.franchise = in.readString();
         this.name = in.readString();
         this.position = in.readInt();
