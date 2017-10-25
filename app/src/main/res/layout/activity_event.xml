@@ -115,30 +115,17 @@
 
         <!-- Rating and price -->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:padding="16dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_picture_event"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:src="@drawable/brasolia_logo_preto" />
-
-            <TextView
-                android:id="@+id/activity_event_rating"
-
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="1"
-
-                android:text="8.5/10" />
 
             <TextView
                 android:id="@+id/tvMaleTicketPrice"
@@ -149,10 +136,10 @@
 
                 android:layout_centerVertical="true"
 
-                android:text="R$ 30+"
+                android:text="$$$"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

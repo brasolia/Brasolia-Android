@@ -108,7 +108,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 int width = displaymetrics.widthPixels/2;
 
-                BSImageStorage.setImage(category.getUrl_image(), imageView, width, width, new Callback() {
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(category.getUrl_image(), imageView, 0, width, width, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -122,7 +122,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 });
             }
             else {
-                BSImageStorage.setImage(category.getUrl_image(), imageView, 300, 300, new Callback() {
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(category.getUrl_image(), imageView, 0, 300, 300, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -164,7 +164,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 int width = displaymetrics.widthPixels;
                 int height = (int) (width*0.49);
 
-                BSImageStorage.setImage(category.getUrl_image(), imageView, width, height, new Callback() {
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(category.getUrl_image(), imageView, 0, width, height, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
@@ -178,7 +178,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                 });
             }
             else {
-                BSImageStorage.setImage(category.getUrl_image(), imageView, 600, 300, new Callback() {
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(category.getUrl_image(), imageView, 0, 600, 300, new Callback() {
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);

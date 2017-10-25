@@ -86,7 +86,7 @@
             </activity><![CDATA[>
         ]]>
         <activity
-            android:name=".Activities.BSEventActivity"
+            android:name=".Activities.BSItemActivity"
             android:screenOrientation="portrait"
             android:theme="@style/EventTheme" />
         <!--
@@ -113,7 +113,7 @@
             android:theme="@style/MessageTheme" />
 
         <activity
-            android:name=".Activities.SearchEventsActivity"
+            android:name=".Activities.SearchItemsActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible"
             android:theme="@style/Theme.Transparent"/>
 

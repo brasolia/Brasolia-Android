@@ -20,12 +20,12 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import br.com.brasolia.Activities.AppActivity;
-import br.com.brasolia.Activities.BSEventActivity;
+import br.com.brasolia.Activities.BSItemActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSItemsAdapter;
 import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSItem;
-import br.com.brasolia.models.BSRequestService;
+import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.util.BSConnectionFragment;
 import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
@@ -263,7 +263,7 @@ public class BSItemsFragment extends BSConnectionFragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Intent i = new Intent(getActivity(), BSEventActivity.class);
+                    Intent i = new Intent(getActivity(), BSItemActivity.class);
                     i.putExtra("item", items.get(position));
                     startActivity(i);
                 }

@@ -18,6 +18,7 @@ public class BSFirebaseListenerRef {
     }
 
     public void detach() {
-        query.removeEventListener(listener);
+        if (query != null && listener != null)
+            query.removeEventListener(listener);
     }
 }

@@ -7,23 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.R;
-import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.models.BSItem;
 
 /**
  * Created by cayke on 13/04/17.
  */
 
 public class BSSearchAdapter extends RecyclerView.Adapter<BSSearchViewHolder> {
-    private List<BSEvent> events;
+    private List<BSItem> items;
 
-    public BSSearchAdapter(List<BSEvent> events) {
-        this.events = events;
+    public BSSearchAdapter(List<BSItem> items) {
+        this.items = items;
     }
 
     @Override
@@ -34,12 +32,12 @@ public class BSSearchAdapter extends RecyclerView.Adapter<BSSearchViewHolder> {
 
     @Override
     public void onBindViewHolder(BSSearchViewHolder holder, int position) {
-        holder.bindEvent(events.get(position));
+        holder.bindEvent(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return items.size();
     }
 }
 
@@ -56,15 +54,15 @@ class BSSearchViewHolder extends RecyclerView.ViewHolder {
         tvDate = (TextView) itemView.findViewById(R.id.tvDateEventSearch);
     }
 
-    void bindEvent(BSEvent event) {
-        BSImageStorage.setEventImageNamed(event.getCoverImageKey(), imgEvent, 200,200, null);
+    void bindEvent(BSItem item) {
+        BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(item.getThumb(), imgEvent, 0, 200,200, null);
 
-        tvTitle.setText(event.getName());
-        tvPlace.setText(event.getLocality());
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(event.getStartHour());
-        tvDate.setText(formatter.format(calendar.getTime()));
+        tvTitle.setText(item.getName());
+//        tvPlace.setText(item.getLocality());
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(item.getStartHour());
+//        tvDate.setText(formatter.format(calendar.getTime()));
     }
 }

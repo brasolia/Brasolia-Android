@@ -21,11 +21,11 @@ import java.util.List;
 
 import br.com.brasolia.Activities.AppActivity;
 import br.com.brasolia.R;
-import br.com.brasolia.Activities.SearchEventsActivity;
+import br.com.brasolia.Activities.SearchItemsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSCategory;
-import br.com.brasolia.models.BSRequestService;
+import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.util.BSConnectionFragment;
 import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
@@ -101,7 +101,7 @@ public class BSCategoryFragment extends BSConnectionFragment {
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getActivity(), SearchEventsActivity.class);
+                Intent it = new Intent(getActivity(), SearchItemsActivity.class);
                 startActivity(it);
             }
         });

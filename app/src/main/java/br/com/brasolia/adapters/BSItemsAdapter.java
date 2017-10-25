@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Locale;
 
 import br.com.brasolia.Activities.BSLoginActivity;
-import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSImageStorage;
-import br.com.brasolia.Connectivity.BSRequests;
-import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.R;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.AlertUtil;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by cayke on 11/04/17.
@@ -109,29 +101,29 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                     else
                         heart_icon.setImageResource(R.drawable.ic_love);
 
-                    BSRequests requests = BSConnection.createService(BSRequests.class);
-                    Call<JsonObject> call = requests.likeEvent(item.getId(), liked);
-
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
-                                BSResponse bsResponse = new BSResponse(response.body());
-                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                                    Log.d("likeEvent", "success");
-                                } else {
-                                    Log.d("likeEvent", "server error");
-                                }
-                            } else {
-                                Log.d("likeEvent", "conection failure");
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Log.d("likeEvent", "conection failure");
-                        }
-                    });
+//                    BSRequests requests = BSConnection.createService(BSRequests.class);
+//                    Call<JsonObject> call = requests.likeEvent(item.getId(), liked);
+//
+//                    call.enqueue(new Callback<JsonObject>() {
+//                        @Override
+//                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                            if (response.isSuccessful()) {
+//                                BSResponse bsResponse = new BSResponse(response.body());
+//                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+//                                    Log.d("likeEvent", "success");
+//                                } else {
+//                                    Log.d("likeEvent", "server error");
+//                                }
+//                            } else {
+//                                Log.d("likeEvent", "conection failure");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<JsonObject> call, Throwable t) {
+//                            Log.d("likeEvent", "conection failure");
+//                        }
+//                    });
                 }
             }
         });
@@ -166,33 +158,33 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
 
         //region get if user liked event
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            BSRequests requests = BSConnection.createService(BSRequests.class);
-            Call<JsonObject> call = requests.getLikeEvent(getItem().getId());
-
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    if (response.isSuccessful()) {
-                        BSResponse bsResponse = new BSResponse(response.body());
-                        if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-                            liked = (boolean) bsResponse.getData();
-                            if (liked)
-                                heart_icon.setImageResource(R.drawable.ic_love_filled);
-                            else
-                                heart_icon.setImageResource(R.drawable.ic_love);
-                        } else {
-                            liked = false;
-                        }
-                    } else {
-                        liked = false;
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
+//            BSRequests requests = BSConnection.createService(BSRequests.class);
+//            Call<JsonObject> call = requests.getLikeEvent(getItem().getId());
+//
+//            call.enqueue(new Callback<JsonObject>() {
+//                @Override
+//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                    if (response.isSuccessful()) {
+//                        BSResponse bsResponse = new BSResponse(response.body());
+//                        if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+//                            liked = (boolean) bsResponse.getData();
+//                            if (liked)
+//                                heart_icon.setImageResource(R.drawable.ic_love_filled);
+//                            else
+//                                heart_icon.setImageResource(R.drawable.ic_love);
+//                        } else {
+//                            liked = false;
+//                        }
+//                    } else {
+//                        liked = false;
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<JsonObject> call, Throwable t) {
+//                    t.printStackTrace();
+//                }
+//            });
         }
         //endregion
 
@@ -205,7 +197,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             frameLayout.getLayoutParams().width = width;
             frameLayout.getLayoutParams().height = height;
 
-            BSImageStorage.setImage(item.getThumb(), cover, width, height, null);
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(item.getThumb(), cover,0, width, height, null);
         }
 
         switch (choice) {

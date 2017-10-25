@@ -10,4 +10,6 @@ public interface BSDataUpdated {
     void categoriesUpdated(boolean success, List<BSCategory> categories);
 
     void itemsUpdated(boolean success, List<BSItem> items);
+
+    void commentsUpdated(boolean success, List<BSComment> comments);
 }

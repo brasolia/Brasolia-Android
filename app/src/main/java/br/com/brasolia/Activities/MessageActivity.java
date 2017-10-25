@@ -13,16 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.gson.JsonObject;
 
-import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSRequests;
-import br.com.brasolia.Connectivity.BSResponse;
 import br.com.brasolia.R;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
     CircleImageView btcloseSuggestions;
@@ -89,36 +82,36 @@ public class MessageActivity extends AppCompatActivity {
                     Toast.makeText(MessageActivity.this, "Escreva algo", Toast.LENGTH_LONG).show();
 
                 else{
-                    BSRequests requests = BSConnection.createService(BSRequests.class);
-                    Call<JsonObject> call = requests.sendSugestion(message);
-
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
-                                BSResponse bsResponse = new BSResponse(response.body());
-                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-
-                                    Toast.makeText(MessageActivity.this, "Obrigado pela participação", Toast.LENGTH_LONG).show();
-                                    finish();
-                                }
-                                else {
-                                    Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            }
-                            else {
-                                Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
+//                    BSRequests requests = BSConnection.createService(BSRequests.class);
+//                    Call<JsonObject> call = requests.sendSugestion(message);
+//
+//                    call.enqueue(new Callback<JsonObject>() {
+//                        @Override
+//                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                            if (response.isSuccessful()) {
+//                                BSResponse bsResponse = new BSResponse(response.body());
+//                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
+//
+//                                    Toast.makeText(MessageActivity.this, "Obrigado pela participação", Toast.LENGTH_LONG).show();
+//                                    finish();
+//                                }
+//                                else {
+//                                    Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
+//                                            .show();
+//                                }
+//                            }
+//                            else {
+//                                Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
+//                                        .show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<JsonObject> call, Throwable t) {
+//                            Toast.makeText(MessageActivity.this, "Falha ao enviar sugestão, tente novamente.", Toast.LENGTH_LONG)
+//                                    .show();
+//                        }
+//                    });
                 }
             }
         });
