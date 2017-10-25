@@ -1,5 +1,8 @@
 package br.com.brasolia.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +12,7 @@ import br.com.brasolia.AppActivity;
  * Created by cayke on 20/10/17.
  */
 
-public abstract class BSItem  {
+public abstract class BSItem implements Parcelable {
     private String id;
     private String address;
     private String description;
@@ -112,5 +115,44 @@ public abstract class BSItem  {
 
     public Double getDistance() {
         return distance;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.description);
+        dest.writeStringList(this.images);
+        dest.writeString(this.thumb);
+        dest.writeValue(this.latitude);
+        dest.writeValue(this.longitude);
+        dest.writeValue(this.distance);
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeInt(this.price_tier);
+        dest.writeString(this.url);
+        dest.writeString(this.website);
+    }
+
+    protected BSItem(Parcel in) {
+        this.id = in.readString();
+        this.address = in.readString();
+        this.description = in.readString();
+        this.images = in.createStringArrayList();
+        this.thumb = in.readString();
+        this.latitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.longitude = (Double) in.readValue(Double.class.getClassLoader());
+        this.distance = (Double) in.readValue(Double.class.getClassLoader());
+        this.name = in.readString();
+        this.phone = in.readString();
+        this.price_tier = in.readInt();
+        this.url = in.readString();
+        this.website = in.readString();
     }
 }

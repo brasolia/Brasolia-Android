@@ -12,7 +12,7 @@ public class BSCategory implements Parcelable {
         big, small
     }
 
-    private String key;
+    private String id;
     private String franchise;
     private String name;
     private int position;
@@ -21,8 +21,12 @@ public class BSCategory implements Parcelable {
 
     public BSCategory() {}
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFranchise() {
@@ -53,7 +57,7 @@ public class BSCategory implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.key);
+        dest.writeString(this.id);
         dest.writeString(this.franchise);
         dest.writeString(this.name);
         dest.writeInt(this.position);
@@ -62,7 +66,7 @@ public class BSCategory implements Parcelable {
     }
 
     protected BSCategory(Parcel in) {
-        this.key = in.readString();
+        this.id = in.readString();
         this.franchise = in.readString();
         this.name = in.readString();
         this.position = in.readInt();

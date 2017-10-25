@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -27,18 +25,18 @@ import br.com.brasolia.SearchEventsActivity;
 import br.com.brasolia.adapters.BSCategoriesAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSCategory;
-import br.com.brasolia.models.BSDataUpdated;
 import br.com.brasolia.models.BSRequestService;
+import br.com.brasolia.util.BSConnectionFragment;
+import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
 
 /**
  * Created by cayke on 11/04/17.
  */
 
-public class BSCategoryFragment extends Fragment implements BSDataUpdated {
+public class BSCategoryFragment extends BSConnectionFragment {
     private static final int DEFAULT_SPAN_COUNT = 2;
 
     AppActivity context;
@@ -50,13 +48,13 @@ public class BSCategoryFragment extends Fragment implements BSDataUpdated {
     private FragmentDataAndConnectionHandler dataAndConnectionHandler;
     private boolean isLoading = false;
 
-    Call<JsonObject> call;
+    BSFirebaseListenerRef mRef;
     List<BSCategory> categories;
 
     @Override
     public void onDestroy() {
-        if (call != null)
-            call.cancel();
+        if (mRef != null)
+            mRef.detach();
 
         super.onDestroy();
     }
@@ -144,7 +142,7 @@ public class BSCategoryFragment extends Fragment implements BSDataUpdated {
     private void getCategories() {
         isLoading = true;
 
-        BSRequestService.getCategories(this);
+        mRef = BSRequestService.getCategories(this);
     }
 
     private void mountRecycler() {

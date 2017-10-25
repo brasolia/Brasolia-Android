@@ -1,9 +1,9 @@
 package br.com.brasolia.homeTabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,33 +17,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import br.com.brasolia.AppActivity;
-import br.com.brasolia.Connectivity.BSConnection;
-import br.com.brasolia.Connectivity.BSEndpoint;
+import br.com.brasolia.BSEventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSItemsAdapter;
 import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSItem;
-import br.com.brasolia.models.BSVenue;
+import br.com.brasolia.models.BSRequestService;
+import br.com.brasolia.util.BSConnectionFragment;
+import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
 import br.com.brasolia.util.ItemClickSupport;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by cayke on 11/04/17.
  */
 
-public class BSItemsFragment extends Fragment {
+public class BSItemsFragment extends BSConnectionFragment {
 
     AppActivity mContext;
 
@@ -53,7 +45,6 @@ public class BSItemsFragment extends Fragment {
     private LinearLayout bottomBar;
     private ImageView backToCategories;
 
-    Call<JsonObject> call;
     List<BSItem> items;
     BSCategory filterCategory;
     int selectedFilter = 1;
@@ -61,13 +52,7 @@ public class BSItemsFragment extends Fragment {
     private FragmentDataAndConnectionHandler dataAndConnectionHandler;
     private boolean isLoading = false;
 
-    @Override
-    public void onDestroy() {
-        if (call != null)
-            call.cancel();
-
-        super.onDestroy();
-    }
+    BSFirebaseListenerRef mRef;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +64,14 @@ public class BSItemsFragment extends Fragment {
         }
 
         getItemsFromCategory(filterCategory);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mRef != null)
+            mRef.detach();
+
+        super.onDestroy();
     }
 
     @Nullable
@@ -191,51 +184,7 @@ public class BSItemsFragment extends Fragment {
     private void getItemsFromCategory(BSCategory category) {
         isLoading = true;
 
-        BSEndpoint endpoint = BSConnection.createService(BSEndpoint.class);
-        //Call<JsonObject> call = endpoint.getItemsFromCategory("\"cat" + category.getId() + "\"");
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                isLoading = false;
-
-                if (response.isSuccessful()) {
-                    Object responseObject = new Gson().fromJson(response.body(), Object.class);
-
-                    try {
-                        Map<String, Object> result = (Map<String, Object>) responseObject;
-                        items = new ArrayList<>();
-
-                        Iterator it = result.entrySet().iterator();
-                        while (it.hasNext()) {
-                            Map.Entry pair = (Map.Entry)it.next();
-                            if (((Map<String, Object>) pair.getValue()).get("type").equals("venue"))
-                                items.add(new BSVenue((String) pair.getKey(), (Map<String, Object>) pair.getValue()));
-                            else {
-                                //todo
-                            }
-                            it.remove(); // avoids a ConcurrentModificationException
-                        }
-
-                        mountRecycler(selectedFilter);
-                        dataAndConnectionHandler.showMainView();
-                    }
-                    catch (Exception e) {
-                        dataAndConnectionHandler.showExceptionLayout();
-                    }
-                }
-                else {
-                    dataAndConnectionHandler.showExceptionLayout();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                isLoading = false;
-
-                dataAndConnectionHandler.showInternetOffLayout();
-            }
-        });
+        mRef = BSRequestService.getItemsFromCategory(category, this);
     }
 
     private void mountRecycler(int choice) {
@@ -314,12 +263,26 @@ public class BSItemsFragment extends Fragment {
             ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    //todo
-//                    Intent i = new Intent(getActivity(), BSEventActivity.class);
-//                    i.putExtra("event", items.get(position));
-//                    startActivity(i);
+                    Intent i = new Intent(getActivity(), BSEventActivity.class);
+                    i.putExtra("item", items.get(position));
+                    startActivity(i);
                 }
             });
+        }
+    }
+
+
+    @Override
+    public void itemsUpdated(boolean success, List<BSItem> items) {
+        isLoading = false;
+
+        if (success) {
+            this.items = items;
+            mountRecycler(selectedFilter);
+            dataAndConnectionHandler.showMainView();
+        }
+        else {
+            dataAndConnectionHandler.showExceptionLayout();
         }
     }
 }

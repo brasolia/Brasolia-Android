@@ -42,6 +42,7 @@ import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSEventPrice;
+import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.AlertUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -67,7 +68,7 @@ public class BSEventActivity extends AppCompatActivity {
 
     private boolean liked;
 
-    private BSEvent event;
+    private BSItem item;
     private List<BSComment> comments;
 
     @Override
@@ -78,7 +79,7 @@ public class BSEventActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_event);
 
-        event = getIntent().getParcelableExtra("event");
+        item = getIntent().getParcelableExtra("item");
 
 
         //region SCREEN ELEMENTS
