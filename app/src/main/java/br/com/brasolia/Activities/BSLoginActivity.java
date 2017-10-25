@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -30,6 +30,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
+
+import br.com.brasolia.R;
 
 /**
  * Created by cayke on 12/04/17.

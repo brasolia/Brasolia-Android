@@ -1,4 +1,4 @@
-package br.com.brasolia.homeTabs;
+package br.com.brasolia.Activities.AppActivityFragments;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import br.com.brasolia.MessageActivity;
+import br.com.brasolia.Activities.MessageActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
 import de.hdodenhof.circleimageview.CircleImageView;

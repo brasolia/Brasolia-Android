@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,11 +36,11 @@ import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSCommentsAdapter;
 import br.com.brasolia.adapters.BSImagesCarrouselAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
-import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSEventPrice;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.AlertUtil;

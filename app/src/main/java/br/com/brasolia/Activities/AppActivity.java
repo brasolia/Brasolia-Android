@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,10 +15,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
 
-import br.com.brasolia.homeTabs.BSCategoryFragment;
-import br.com.brasolia.models.BSTest;
-import br.com.brasolia.models.BSTestEndpoint;
-import br.com.brasolia.models.BSUser;
+import br.com.brasolia.R;
+import br.com.brasolia.Activities.AppActivityFragments.BSCategoryFragment;
 import br.com.brasolia.util.AlertUtil;
 import br.com.brasolia.util.LocationUtil;
 import br.com.brasolia.util.PermissionUtil;
@@ -33,13 +31,9 @@ public class AppActivity extends AppCompatActivity implements LocationUtil.Locat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        FirebaseAnalytics.getInstance(this);
-
-        //todo comentar antes de upar
-        BSTestEndpoint.test();
-        //BSUser.removeUserFromDevice();
-
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_app_container);
 

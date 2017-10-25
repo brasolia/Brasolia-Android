@@ -1,4 +1,4 @@
-package br.com.brasolia.homeTabs;
+package br.com.brasolia.Activities.AppActivityFragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +19,8 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
-import br.com.brasolia.AppActivity;
-import br.com.brasolia.BSEventActivity;
+import br.com.brasolia.Activities.AppActivity;
+import br.com.brasolia.Activities.BSEventActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSItemsAdapter;
 import br.com.brasolia.models.BSCategory;

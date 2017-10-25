@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +27,7 @@ import java.util.Map;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSRequests;
 import br.com.brasolia.Connectivity.BSResponse;
+import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSSearchAdapter;
 import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.util.ItemClickSupport;

@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import br.com.brasolia.R;
 
 /**
  * Created by cayke on 26/06/17.

@@ -21,7 +21,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Locale;
 
-import br.com.brasolia.BSLoginActivity;
+import br.com.brasolia.Activities.BSLoginActivity;
 import br.com.brasolia.Connectivity.BSConnection;
 import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequests;

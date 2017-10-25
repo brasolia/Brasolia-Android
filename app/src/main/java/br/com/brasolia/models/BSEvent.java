@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import br.com.brasolia.AppActivity;
+import br.com.brasolia.Activities.AppActivity;
 
 /**
  * Created by cayke on 10/04/17.

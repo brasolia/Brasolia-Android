@@ -1,4 +1,4 @@
-package br.com.brasolia;
+package br.com.brasolia.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import br.com.brasolia.R;
 import br.com.brasolia.models.BSEvent;
 import de.hdodenhof.circleimageview.CircleImageView;
 
