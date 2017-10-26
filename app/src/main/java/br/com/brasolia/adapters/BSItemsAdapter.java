@@ -1,12 +1,11 @@
 package br.com.brasolia.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
-import br.com.brasolia.Activities.BSLoginActivity;
 import br.com.brasolia.Connectivity.BSImageStorage;
+import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.R;
 import br.com.brasolia.models.BSItem;
-import br.com.brasolia.util.AlertUtil;
+import br.com.brasolia.util.BSAlertUtil;
+import br.com.brasolia.util.BSFirebaseListenerRef;
+import br.com.brasolia.util.BSRecyclerViewHolderDataObserver;
 
 /**
  * Created by cayke on 11/04/17.
@@ -57,7 +60,7 @@ public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
     }
 }
 
-class BSEventViewHolder extends RecyclerView.ViewHolder {
+class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
 
     private FrameLayout frameLayout;
     private ImageView heart_icon;
@@ -92,7 +95,7 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                    toLikeUserShouldLogin();
+                    BSAlertUtil.toLikeUserShouldLogin();
                 }
                 else {
                     liked = !liked;
@@ -101,49 +104,15 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
                     else
                         heart_icon.setImageResource(R.drawable.ic_love);
 
-//                    BSRequests requests = BSConnection.createService(BSRequests.class);
-//                    Call<JsonObject> call = requests.likeEvent(item.getId(), liked);
-//
-//                    call.enqueue(new Callback<JsonObject>() {
-//                        @Override
-//                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                            if (response.isSuccessful()) {
-//                                BSResponse bsResponse = new BSResponse(response.body());
-//                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//                                    Log.d("likeEvent", "success");
-//                                } else {
-//                                    Log.d("likeEvent", "server error");
-//                                }
-//                            } else {
-//                                Log.d("likeEvent", "conection failure");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<JsonObject> call, Throwable t) {
-//                            Log.d("likeEvent", "conection failure");
-//                        }
-//                    });
+                    try {
+                        BSRequestService.likeItem(liked, item, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    }
+                    catch (Exception e) {
+                        Log.d("BSItemsAdapter", e.toString());
+                    }
                 }
             }
         });
-    }
-
-    private void toLikeUserShouldLogin() {
-        AlertUtil.confirm(context, "Entrar", context.getString(R.string.liked_logout), "Cancelar", "Conectar",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                Intent i = new Intent(context, BSLoginActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.putExtra("cameFromApp", true);
-                                context.startActivity(i);
-                                break;
-                        }
-                    }
-                });
     }
 
     public void setItem(BSItem item){
@@ -155,38 +124,13 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindItem(BSItem item, int choice) {
+        if (mRef!= null && mRef.get() != null)
+            mRef.get().detach();
 
-        //region get if user liked event
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            BSRequests requests = BSConnection.createService(BSRequests.class);
-//            Call<JsonObject> call = requests.getLikeEvent(getItem().getId());
-//
-//            call.enqueue(new Callback<JsonObject>() {
-//                @Override
-//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                    if (response.isSuccessful()) {
-//                        BSResponse bsResponse = new BSResponse(response.body());
-//                        if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//                            liked = (boolean) bsResponse.getData();
-//                            if (liked)
-//                                heart_icon.setImageResource(R.drawable.ic_love_filled);
-//                            else
-//                                heart_icon.setImageResource(R.drawable.ic_love);
-//                        } else {
-//                            liked = false;
-//                        }
-//                    } else {
-//                        liked = false;
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<JsonObject> call, Throwable t) {
-//                    t.printStackTrace();
-//                }
-//            });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            mRef = new WeakReference<BSFirebaseListenerRef>(BSRequestService.isItemLikedByUser(item, user.getUid(), this));
         }
-        //endregion
 
         if (context instanceof AppCompatActivity) {
             DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -237,5 +181,15 @@ class BSEventViewHolder extends RecyclerView.ViewHolder {
 //            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
 //            date.setText(formatter.format(event.getStartHour()) + " a " + formatter.format(event.getEndHour()));
 //        }
+    }
+
+    @Override
+    public void itemLikeUpdated(boolean success, boolean liked) {
+        item.setLiked(liked);
+
+        if (liked)
+            heart_icon.setImageResource(R.drawable.ic_love_filled);
+        else
+            heart_icon.setImageResource(R.drawable.ic_love);
     }
 }

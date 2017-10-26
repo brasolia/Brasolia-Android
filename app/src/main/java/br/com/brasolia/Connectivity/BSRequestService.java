@@ -2,6 +2,7 @@ package br.com.brasolia.Connectivity;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,10 +11,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import br.com.brasolia.models.BSCategory;
+import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSDataUpdated;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.models.BSVenue;
@@ -153,5 +156,92 @@ public class BSRequestService {
         query.addValueEventListener(listener);
 
         return new BSFirebaseListenerRef(query, listener);
+    }
+
+    public static BSFirebaseListenerRef isItemLikedByUser(BSItem item, String userID, final BSDataUpdated interestedObject) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("favorites");
+        final Query query = ref.child(userID).child("items").child(item.getId());
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (interestedObject != null)
+                        try {
+                            interestedObject.itemLikeUpdated(true, (Boolean) dataSnapshot.getValue());
+                        }
+                        catch (Exception e) {
+                            interestedObject.itemLikeUpdated(false, false);
+                        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                if (interestedObject != null)
+                    interestedObject.itemLikeUpdated(false, false);
+            }
+        };
+
+        query.addValueEventListener(listener);
+
+        return new BSFirebaseListenerRef(query, listener);
+    }
+
+    public static void likeItem(boolean like, BSItem item, String userID) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("favorites/" + userID + "/items/" + item.getId());
+        ref.setValue(like);
+    }
+
+    public static BSFirebaseListenerRef getCommentsForItem(BSItem item, final BSDataUpdated interestedObject) {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("comments");
+        Query query = ref.orderByChild("item").equalTo(item.getId());
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    List<BSComment> comments = new ArrayList<>();
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        try {
+                            Map dict = (Map) child.getValue();
+                            String id = child.getKey();
+                            comments.add(new BSComment(id, dict));
+                        }
+                        catch (Exception e) {
+                            Log.d("BSRequestService", e.toString());
+                        }
+                    }
+
+                    if (interestedObject != null)
+                        interestedObject.commentsUpdated(true, comments);
+                }
+                else {
+                    if (interestedObject != null)
+                        interestedObject.commentsUpdated(true, null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                if (interestedObject != null)
+                    interestedObject.commentsUpdated(false, null);
+            }
+        };
+
+        query.addValueEventListener(listener);
+
+        return new BSFirebaseListenerRef(query, listener);
+    }
+
+    public static void makeComment(String comment, FirebaseUser user, BSItem item, long timestamp) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("comments");
+        DatabaseReference commentRef = ref.push();
+
+        Map<String, Object> commentObj = new HashMap<>();
+        commentObj.put("item", item.getId());
+        commentObj.put("message", comment);
+        commentObj.put("timestamp", timestamp);
+        commentObj.put("user", user.getUid());
+
+        commentRef.updateChildren(commentObj);
     }
 }

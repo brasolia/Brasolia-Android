@@ -9,20 +9,21 @@ import java.util.Map;
 
 public class BSComment {
     String id;
-    String eventID;
+    String itemID;
+    String ownerID;
     BSUser owner;
-    Date createAt;
+    Date createdAt;
     String message;
 
-    public BSComment(Map<String, Object> dictionary) {
-        Map<String, Object> idDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "id", Map.class);
-        id = (String) BSDictionary.getValueWithKeyAndType(idDict, "$oid", String.class);
+    public BSComment(String id, Map<String, Object> dictionary) {
+        this.id = id;
 
-        Map<String, Object> eventDict = (Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "event", Map.class);
-        eventID = (String) BSDictionary.getValueWithKeyAndType(eventDict, "$oid", String.class);
+        itemID = (String) BSDictionary.getValueWithKeyAndType(dictionary, "item", String.class);
 
-        owner = new BSUser((Map<String, Object>) BSDictionary.getValueWithKeyAndType(dictionary, "user", Map.class));
-        createAt = BSDate.getDateWithKey("created_at", dictionary);
+        ownerID = (String) BSDictionary.getValueWithKeyAndType(dictionary, "user", String.class);
+
+        long timestamp = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "timestamp", Double.class)).longValue();
+        createdAt = BSDate.getDate(timestamp);
 
         message = (String) BSDictionary.getValueWithKeyAndType(dictionary, "message", String.class);
     }
@@ -31,16 +32,20 @@ public class BSComment {
         return id;
     }
 
-    public String getEventID() {
-        return eventID;
+    public String getItemID() {
+        return itemID;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
     }
 
     public BSUser getOwner() {
         return owner;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public String getMessage() {

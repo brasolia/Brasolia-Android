@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.blankj.utilcode.util.FragmentUtils;
+
 import java.util.List;
 
 import br.com.brasolia.Activities.AppActivity;
@@ -279,10 +281,13 @@ public class BSItemsFragment extends BSConnectionFragment {
         if (success) {
             this.items = items;
             mountRecycler(selectedFilter);
-            dataAndConnectionHandler.showMainView();
+
+            if (FragmentUtils.getTop(this.getFragmentManager()) == this)
+                dataAndConnectionHandler.showMainView();
         }
         else {
-            dataAndConnectionHandler.showExceptionLayout();
+            if (FragmentUtils.getTop(this.getFragmentManager()) == this)
+                dataAndConnectionHandler.showExceptionLayout();
         }
     }
 }

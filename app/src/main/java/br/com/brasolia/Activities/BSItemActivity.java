@@ -1,6 +1,5 @@
 package br.com.brasolia.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -21,20 +20,25 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import br.com.brasolia.Connectivity.BSImageStorage;
+import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSCommentsAdapter;
 import br.com.brasolia.adapters.BSImagesCarrouselAdapter;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSItem;
-import br.com.brasolia.util.AlertUtil;
+import br.com.brasolia.util.BSAlertUtil;
 import br.com.brasolia.util.BSConnectionActivity;
+import br.com.brasolia.util.BSFirebaseListenerRef;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -43,9 +47,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BSItemActivity extends BSConnectionActivity {
 
-    private TextView tvDistance, tvPhone;
-    private ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
-    private LinearLayout btShare, btCall, btHour, btLike;
     private RecyclerView recyclerViewImages, recyclerViewComments;
     private EditText editText;
     private Button btSendMessage;
@@ -54,10 +55,18 @@ public class BSItemActivity extends BSConnectionActivity {
     private TextView qtd_comments;
     private TextView showMore;
 
-    private boolean liked;
-
     private BSItem item;
     private List<BSComment> comments;
+
+    BSFirebaseListenerRef mRef;
+
+    @Override
+    protected void onDestroy() {
+        if (mRef != null)
+            mRef.detach();
+
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +80,10 @@ public class BSItemActivity extends BSConnectionActivity {
 
 
         //region SCREEN ELEMENTS
+        TextView tvDistance, tvPhone;
+        ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
+        LinearLayout btShare, btCall, btHour, btLike;
+
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
         qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
         qtd_comments.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
@@ -162,35 +175,9 @@ public class BSItemActivity extends BSConnectionActivity {
 
         final ImageView likeEvent = (ImageView) findViewById(R.id.likeEvent);
 
-        //region get if user liked event
-//        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            BSRequests requests = BSConnection.createService(BSRequests.class);
-//            Call<JsonObject> call = requests.getLikeEvent(event.getId());
-//
-//            call.enqueue(new Callback<JsonObject>() {
-//                @Override
-//                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                    if (response.isSuccessful()) {
-//                        BSResponse bsResponse = new BSResponse(response.body());
-//                        if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//                            liked = (boolean) bsResponse.getData();
-//                            if (liked)
-//                                likeEvent.setImageResource(R.drawable.ic_love_filled);
-//                        } else {
-//                            liked = false;
-//                        }
-//                    } else {
-//                        liked = false;
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<JsonObject> call, Throwable t) {
-//                    t.printStackTrace();
-//                }
-//            });
-//        }
-        //endregion
+        if (item.isLiked()) {
+            likeEvent.setImageResource(R.drawable.ic_love_filled);
+        }
 
         //region Comments area handle
         btSendMessage.setVisibility(View.GONE);
@@ -215,44 +202,26 @@ public class BSItemActivity extends BSConnectionActivity {
             }
         });
 
-//        btLike.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//                    toLikeUserShouldLogin();
-//                } else {
-//                    liked = !liked;
-//                    if (liked)
-//                        likeEvent.setImageResource(R.drawable.event_heart_pressed);
-//                    else
-//                        likeEvent.setImageResource(R.drawable.event_heart);
-//
-//                    BSRequests requests = BSConnection.createService(BSRequests.class);
-//                    Call<JsonObject> call = requests.likeEvent(event.getId(), liked);
-//
-//                    call.enqueue(new Callback<JsonObject>() {
-//                        @Override
-//                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                            if (response.isSuccessful()) {
-//                                BSResponse bsResponse = new BSResponse(response.body());
-//                                if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//                                    Log.d("likeEvent", "success");
-//                                } else {
-//                                    Log.d("likeEvent", "server error");
-//                                }
-//                            } else {
-//                                Log.d("likeEvent", "conection failure");
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<JsonObject> call, Throwable t) {
-//                            Log.d("likeEvent", "conection failure");
-//                        }
-//                    });
-//                }
-//            }
-//        });
+        btLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    BSAlertUtil.toLikeUserShouldLogin();
+                } else {
+                    item.setLiked(!item.isLiked());
+
+                    BSRequestService.likeItem(item.isLiked(), item, user.getUid());
+
+                    if (item.isLiked()) {
+                        likeEvent.setImageResource(R.drawable.ic_love_filled);
+                    }
+                    else {
+                        likeEvent.setImageResource(R.drawable.ic_love);
+                    }
+                }
+            }
+        });
 
         btShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,7 +246,7 @@ public class BSItemActivity extends BSConnectionActivity {
 
                 String phone = item.getPhone();
 
-                if (phone != null && !phone.equals("?") && phone.length() >= 8 && phone != "") {
+                if (phone != null && !phone.equals("?") && phone.length() >= 8 && !phone.equals("")) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel:" + phone));
                     startActivity(intent);
@@ -338,23 +307,6 @@ public class BSItemActivity extends BSConnectionActivity {
         });
     }
 
-    private void toLikeUserShouldLogin() {
-        AlertUtil.confirm(this, "Entrar", getString(R.string.liked_logout), "Cancelar", "Conectar",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                Intent i = new Intent(BSItemActivity.this, BSLoginActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.putExtra("cameFromApp", true);
-                                startActivity(i);
-                                break;
-                        }
-                    }
-                });
-    }
-
     private void mountRecyclerImages() {
         if (item.getImages() != null && item.getImages().size() > 0) {
             recyclerViewImages.setHasFixedSize(true);
@@ -381,90 +333,54 @@ public class BSItemActivity extends BSConnectionActivity {
     }
 
     private void getComments() {
-//        BSRequests requests = BSConnection.createService(BSRequests.class);
-//        Call<JsonObject> call = requests.getComments(event.getId(), 1, 1000);
-//
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                if (response.isSuccessful()) {
-//                    BSResponse bsResponse = new BSResponse(response.body());
-//                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//                        ArrayList<Map<String, Object>> data = (ArrayList<Map<String, Object>>) bsResponse.getData();
-//
-//                        comments = new ArrayList<BSComment>();
-//                        for (Map<String, Object> dictionary : data) {
-//                            comments.add(new BSComment(dictionary));
-//                        }
-//
-//                        updateCommentsQuantityLabel();
-//                        if (comments.size() > 5) {
-//                            showMore.setVisibility(View.VISIBLE);
-//                            mountRecyclerComments(false);
-//                        } else
-//                            mountRecyclerComments(false);
-//                    } else {
-//                        Log.d("getComments", "server error");
-//                    }
-//                } else {
-//                    Log.d("getComments", "conection failure");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Log.d("getComments", "conection failure");
-//            }
-//        });
+        mRef = BSRequestService.getCommentsForItem(item, this);
     }
 
     private void makeComment(String comment) {
-//        BSRequests requests = BSConnection.createService(BSRequests.class);
-//        Call<JsonObject> call = requests.makeComment(event.getId(), comment);
-//
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                if (response.isSuccessful()) {
-//                    BSResponse bsResponse = new BSResponse(response.body());
-//                    if (bsResponse.getStatus() == BSResponse.ResponseStatus.BSResponseSuccess) {
-//
-//                        getComments();
-//                        editText.setText("");
-//                        editText.setEnabled(true);
-//                    } else {
-//                        Toast.makeText(BSItemActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
-//                        editText.setEnabled(true);
-//                    }
-//                } else {
-//                    Toast.makeText(BSItemActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
-//                    editText.setEnabled(true);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Toast.makeText(BSItemActivity.this, "Erro. Nao foi possivel enviar comentário", Toast.LENGTH_LONG).show();
-//                editText.setEnabled(true);
-//            }
-//        });
+        Date today = new Date();
+        BSRequestService.makeComment(comment, FirebaseAuth.getInstance().getCurrentUser(), item, today.getTime());
+        editText.setText("");
+        editText.setEnabled(true);
+        btSendMessage.setEnabled(true);
     }
 
     private void sendMessage() {
-//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//            toLikeUserShouldLogin();
-//        } else {
-//            editText.setEnabled(false);
-//            makeComment(editText.getText().toString());
-//        }
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            BSAlertUtil.toLikeUserShouldLogin();
+        } else {
+            editText.setEnabled(false);
+            btSendMessage.setEnabled(false);
+            makeComment(editText.getText().toString());
+        }
     }
 
     private void updateCommentsQuantityLabel() {
-        if (comments.size() == 0)
+        if (comments == null || comments.size() == 0)
             qtd_comments.setText("Sem comentários.");
         else if (comments.size() == 1)
             qtd_comments.setText("1 comentário.");
         else
             qtd_comments.setText(String.format(Locale.getDefault(), "%d comentários.", comments.size()));
+    }
+
+    @Override
+    public void commentsUpdated(boolean success, List<BSComment> comments) {
+        if (success && comments != null) {
+
+            Collections.reverse(comments);
+            this.comments = comments;
+
+                    updateCommentsQuantityLabel();
+            mountRecyclerComments(false);
+
+            if (comments.size() > 5) {
+                showMore.setVisibility(View.VISIBLE);
+            } else {
+                showMore.setVisibility(View.GONE);
+            }
+        }
+        else {
+            updateCommentsQuantityLabel();
+        }
     }
 }

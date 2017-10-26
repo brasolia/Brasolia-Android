@@ -12,4 +12,6 @@ public interface BSDataUpdated {
     void itemsUpdated(boolean success, List<BSItem> items);
 
     void commentsUpdated(boolean success, List<BSComment> comments);
+
+    void itemLikeUpdated(boolean success, boolean liked);
 }

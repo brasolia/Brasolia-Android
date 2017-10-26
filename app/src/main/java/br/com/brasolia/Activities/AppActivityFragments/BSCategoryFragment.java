@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.FragmentUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -182,10 +183,13 @@ public class BSCategoryFragment extends BSConnectionFragment {
             });
 
             mountRecycler();
-            dataAndConnectionHandler.showMainView();
+
+            if (FragmentUtils.getTop(this.getFragmentManager()) == this)
+                dataAndConnectionHandler.showMainView();
         }
         else {
-            dataAndConnectionHandler.showExceptionLayout();
+            if (FragmentUtils.getTop(this.getFragmentManager()) == this)
+                dataAndConnectionHandler.showExceptionLayout();
         }
     }
 }

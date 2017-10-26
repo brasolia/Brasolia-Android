@@ -26,6 +26,7 @@ public abstract class BSItem implements Parcelable {
     private int price_tier;
     private String url;
     private String website;
+    private boolean liked;
 
     public BSItem(String id, Map<String, Object> dictionary) {
         this.id = id;
@@ -42,6 +43,8 @@ public abstract class BSItem implements Parcelable {
         price_tier = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "price_tier", Double.class)).intValue();
         url = (String) BSDictionary.getValueWithKeyAndType(dictionary, "url", String.class);
         website = (String) BSDictionary.getValueWithKeyAndType(dictionary, "website", String.class);
+
+        liked = false;
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -117,6 +120,14 @@ public abstract class BSItem implements Parcelable {
         return distance;
     }
 
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
 
     @Override
     public int describeContents() {
@@ -138,6 +149,7 @@ public abstract class BSItem implements Parcelable {
         dest.writeInt(this.price_tier);
         dest.writeString(this.url);
         dest.writeString(this.website);
+        dest.writeByte(this.liked ? (byte) 1 : (byte) 0);
     }
 
     protected BSItem(Parcel in) {
@@ -154,5 +166,6 @@ public abstract class BSItem implements Parcelable {
         this.price_tier = in.readInt();
         this.url = in.readString();
         this.website = in.readString();
+        this.liked = in.readByte() != 0;
     }
 }

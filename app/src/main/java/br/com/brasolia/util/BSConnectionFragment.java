@@ -28,4 +28,9 @@ public class BSConnectionFragment extends Fragment implements BSDataUpdated {
     public void commentsUpdated(boolean success, List<BSComment> comments) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void itemLikeUpdated(boolean success, boolean liked) {
+        throw new UnsupportedOperationException();
+    }
 }

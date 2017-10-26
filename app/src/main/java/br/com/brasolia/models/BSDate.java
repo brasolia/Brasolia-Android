@@ -12,4 +12,10 @@ public class BSDate {
         Map<String, Object> endHourDict = (Map<String, Object>) dictionary.get(key);
         return new Date(((Double) endHourDict.get("$date")).longValue());
     }
+
+    public static Date getDate(long timestamp) {
+        Date date = new Date();
+        date.setTime(timestamp);
+        return date;
+    }
 }

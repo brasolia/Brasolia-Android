@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.com.brasolia.R;
-import br.com.brasolia.models.BSEvent;
+import br.com.brasolia.models.BSItem;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EventMapActivity extends FragmentActivity  {
@@ -36,13 +36,13 @@ public class EventMapActivity extends FragmentActivity  {
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
 
-        final BSEvent event = getIntent().getParcelableExtra("eventMap");
+        final BSItem item = getIntent().getParcelableExtra("eventMap");
 
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                LatLng eventMarker = new LatLng(event.getLatitute(), event.getLongitude());
-                googleMap.addMarker(new MarkerOptions().position(eventMarker).title(event.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.brasolia_marker)));
+                LatLng eventMarker = new LatLng(item.getLatitude(), item.getLongitude());
+                googleMap.addMarker(new MarkerOptions().position(eventMarker).title(item.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.brasolia_marker)));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventMarker, 15));
             }
         });
@@ -55,12 +55,12 @@ public class EventMapActivity extends FragmentActivity  {
             }
         });
 
-        if(event != null) {
+        if(item != null) {
             RelativeLayout openGoogleMaps = (RelativeLayout) findViewById(R.id.open_maps);
             openGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + event.getLatitute() + "," +  event.getLongitude()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + item.getLatitude() + "," +  item.getLongitude()));
                 startActivity(intent);
                 }
             });

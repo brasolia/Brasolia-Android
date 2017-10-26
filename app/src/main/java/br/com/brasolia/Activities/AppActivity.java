@@ -33,7 +33,7 @@ public class AppActivity extends AppCompatActivity implements LocationUtil.Locat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseAnalytics.getInstance(this);
+//        FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_app_container);
 

@@ -14,6 +14,7 @@ import java.util.List;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
+import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.DateUtil;
 
 /**
@@ -68,17 +69,19 @@ class BSCommentsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindComment(BSComment comment) {
-        name.setText(comment.getOwner().getName());
+        BSUser owner = comment.getOwner();
+        if (owner != null) {
+            name.setText(comment.getOwner().getName());
+            if (!comment.getOwner().getImageKey().equals("")) {
+                Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
+                picasso.setIndicatorsEnabled(false);
+                picasso.load(comment.getOwner().getImageKey()).resize(100, 100).into(imageView);
+            }
+        }
 
-        date.setText(DateUtil.getTimeAgo(comment.getCreateAt().getTime()));
+        date.setText(DateUtil.getTimeAgo(comment.getCreatedAt().getTime()));
 
         tvComment.setText(comment.getMessage());
-
-        if (!comment.getOwner().getImageKey().equals("")) {
-            Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
-            picasso.setIndicatorsEnabled(false);
-            picasso.load(comment.getOwner().getImageKey()).resize(100, 100).into(imageView);
-        }
     }
 
 }
