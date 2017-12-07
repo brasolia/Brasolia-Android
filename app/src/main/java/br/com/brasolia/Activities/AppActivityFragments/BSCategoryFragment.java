@@ -2,6 +2,7 @@ package br.com.brasolia.Activities.AppActivityFragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FragmentUtils;
@@ -89,14 +91,18 @@ public class BSCategoryFragment extends BSConnectionFragment {
         btProfile = (LinearLayout) rootView.findViewById(R.id.fragment_categories_config);
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            btProfile.getLayoutParams().width = ConvertUtils.dp2px(50);
-            btProfile.getLayoutParams().height = ConvertUtils.dp2px(50);
-            image_profile.getLayoutParams().width = ConvertUtils.dp2px(50);
-            image_profile.getLayoutParams().height = ConvertUtils.dp2px(50);
+            btProfile.getLayoutParams().width = ConvertUtils.dp2px(36);
+            btProfile.getLayoutParams().height = ConvertUtils.dp2px(36);
+            image_profile.getLayoutParams().width = ConvertUtils.dp2px(36);
+            image_profile.getLayoutParams().height = ConvertUtils.dp2px(36);
             Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
             picasso.setIndicatorsEnabled(false);
             picasso.load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).resize(500, 500).into(image_profile);
         }
+
+        TextView textView = (TextView) rootView.findViewById(R.id.fragment_categories_search_text);
+        final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf");
+        textView.setTypeface(type);
         // --------------------------------------------------------------------------------
 
         btSearch.setOnClickListener(new View.OnClickListener() {

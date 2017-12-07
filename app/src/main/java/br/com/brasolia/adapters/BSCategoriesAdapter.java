@@ -100,7 +100,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
         }
 
         void bindCategory(final BSCategory category) {
-            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_bold.ttf");
             textView.setText("");
 
             if (context instanceof AppCompatActivity) {
@@ -112,7 +112,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
-                        textView.setText(category.getName());
+                        textView.setText(category.getName().toUpperCase());
                     }
 
                     @Override
@@ -126,7 +126,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
-                        textView.setText(category.getName());
+                        textView.setText(category.getName().toUpperCase());
                     }
 
                     @Override
@@ -155,7 +155,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
         }
 
         void bindCategory(final BSCategory category) {
-            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf");
+            final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_bold.ttf");
             textView.setText("");
 
             if (context instanceof AppCompatActivity) {
@@ -168,7 +168,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
-                        textView.setText(category.getName());
+                        textView.setText(category.getName().toUpperCase());
                     }
 
                     @Override
@@ -182,7 +182,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     @Override
                     public void onSuccess() {
                         textView.setTypeface(type);
-                        textView.setText(category.getName());
+                        textView.setText(category.getName().toUpperCase());
                     }
 
                     @Override
