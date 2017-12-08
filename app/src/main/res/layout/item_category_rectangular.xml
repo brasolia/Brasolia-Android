@@ -5,9 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
+    android:background="@color/black_background"
     >
 
     <FrameLayout
@@ -30,20 +32,12 @@
             android:scaleType="fitCenter"
             />
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:background="@color/blackTranslucent2"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            app:riv_corner_radius="5dp"
-
-            android:scaleType="fitCenter"
-            />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/item_category_mask"
+
+            android:background="@drawable/rounded_category"
             >
 
             <TextView

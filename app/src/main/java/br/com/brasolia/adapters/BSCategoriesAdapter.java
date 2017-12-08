@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -86,6 +87,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
     private class BSCategorySquareViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
+        RelativeLayout mask;
 
         private Context context;
 
@@ -95,13 +97,14 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
             imageView = (ImageView) itemView.findViewById(R.id.item_category_imageview);
             textView = (TextView) itemView.findViewById(R.id.item_category_textview);
             textView.setText("");
+            mask = (RelativeLayout) itemView.findViewById(R.id.item_category_mask);
 
             context = itemView.getContext();
         }
 
         void bindCategory(final BSCategory category) {
             final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_bold.ttf");
-            textView.setText("");
+            mask.setVisibility(View.INVISIBLE);
 
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -113,6 +116,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     public void onSuccess() {
                         textView.setTypeface(type);
                         textView.setText(category.getName().toUpperCase());
+                        mask.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -127,6 +131,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     public void onSuccess() {
                         textView.setTypeface(type);
                         textView.setText(category.getName().toUpperCase());
+                        mask.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -141,6 +146,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
     private class BSCategoryRectangularViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
+        RelativeLayout mask;
 
         private Context context;
 
@@ -150,13 +156,14 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
             imageView = (ImageView) itemView.findViewById(R.id.item_category_imageview);
             textView = (TextView) itemView.findViewById(R.id.item_category_textview);
             textView.setText("");
+            mask = (RelativeLayout) itemView.findViewById(R.id.item_category_mask);
 
             context = itemView.getContext();
         }
 
         void bindCategory(final BSCategory category) {
             final Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_bold.ttf");
-            textView.setText("");
+            mask.setVisibility(View.INVISIBLE);
 
             if (context instanceof AppCompatActivity) {
                 DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -169,6 +176,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     public void onSuccess() {
                         textView.setTypeface(type);
                         textView.setText(category.getName().toUpperCase());
+                        mask.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -183,6 +191,7 @@ public class BSCategoriesAdapter extends RecyclerView.Adapter{
                     public void onSuccess() {
                         textView.setTypeface(type);
                         textView.setText(category.getName().toUpperCase());
+                        mask.setVisibility(View.VISIBLE);
                     }
 
                     @Override
