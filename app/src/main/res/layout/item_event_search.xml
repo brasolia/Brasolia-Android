@@ -1,70 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@null"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgEventSearch"
+        app:riv_corner_radius="5dp"
+        android:layout_width="100dp"
         android:layout_height="100dp"
-        android:weightSum="1">
+        android:padding="5dp"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:padding="5dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingRight="10dp">
 
+        <TextView
+            android:id="@+id/tvTitleEventSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Baile do Denis"
+            android:textStyle="bold"
+            />
 
-            <ImageView
-                android:id="@+id/imgEventSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingRight="10dp">
-
-            <TextView
-                android:id="@+id/tvTitleEventSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/white"
-                />
-
-            <TextView
-                android:id="@+id/tvPlaceEventSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingTop="5dp"
-                android:text="hahusashausa"
-                />
+        <TextView
+            android:id="@+id/tvPlaceEventSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estadio Mane Garrincha"
+            android:textColor="@color/white"
+            />
 
 
-            <TextView
-                android:id="@+id/tvDateEventSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingTop="5dp"
-                android:text="ashusah" />
-
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvDateEventSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Sabado - 23h" />
 
     </LinearLayout>
-
 
 </LinearLayout>

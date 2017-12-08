@@ -3,48 +3,49 @@
     android:id="@+id/activity_search_events"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.8"
     android:orientation="vertical"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    >
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/black"
-            >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
 
-            <EditText
-                android:id="@+id/etSearchCategory"
-                android:layout_width="248dp"
-                android:layout_height="match_parent"
-                android:background="#000000"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="30dp"
-                android:paddingRight="35dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF" />
+        <EditText
+            android:id="@+id/etSearchCategory"
+            android:layout_width="248dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="30dp"
+            android:paddingRight="35dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:background="@android:color/transparent"
+            android:textCursorDrawable="@null"
+            />
 
-            <Button
-                android:id="@+id/searchBtn"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="left|center_vertical"
-                android:background="@drawable/search" />
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/search" />
 
-            <TextView
-                android:id="@+id/tvCloseSearchEvents"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right|center_vertical"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:text="CANCELAR"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF" />
+        <TextView
+            android:id="@+id/tvCloseSearchEvents"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:text="CANCELAR"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
 
-        </FrameLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
@@ -56,6 +57,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:background="@null"
         >
 
         <TextView
@@ -76,6 +78,7 @@
             android:id="@+id/activity_search_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@null"
             />
 
 
