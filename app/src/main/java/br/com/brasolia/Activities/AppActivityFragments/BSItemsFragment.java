@@ -15,7 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.FragmentUtils;
 
@@ -23,11 +23,11 @@ import java.util.List;
 
 import br.com.brasolia.Activities.AppActivity;
 import br.com.brasolia.Activities.BSItemActivity;
+import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSItemsAdapter;
 import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.models.BSItem;
-import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.util.BSConnectionFragment;
 import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
@@ -43,9 +43,9 @@ public class BSItemsFragment extends BSConnectionFragment {
 
     RecyclerView recyclerView;
     ImageView imageView1, imageView2, imageView3;
-    RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
+//    RelativeLayout relativeLayout1, relativeLayout2, relativeLayout3;
     private LinearLayout bottomBar;
-    private ImageView backToCategories;
+//    private ImageView backToCategories;
 
     List<BSItem> items;
     BSCategory filterCategory;
@@ -85,43 +85,45 @@ public class BSItemsFragment extends BSConnectionFragment {
         if (context instanceof AppActivity)
             mContext = (AppActivity) context;
 
-        backToCategories = (ImageView) rootView.findViewById(R.id.backToCategories);
+//        backToCategories = (ImageView) rootView.findViewById(R.id.backToCategories);
         bottomBar = (LinearLayout) rootView.findViewById(R.id.bottom_bar);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fragment_events_list_recycler);
         imageView1 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_1);
         imageView2 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_2);
         imageView3 = (ImageView) rootView.findViewById(R.id.fragment_events_list_bottom_imageview_3);
-        relativeLayout1 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_1);
-        relativeLayout2 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_2);
-        relativeLayout3 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_3);
+//        relativeLayout1 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_1);
+//        relativeLayout2 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_2);
+//        relativeLayout3 = (RelativeLayout) rootView.findViewById(R.id.fragment_events_list_bottom_button_3);
+        TextView title = (TextView) rootView.findViewById(R.id.fragment_events_list_title);
+        title.setText(this.filterCategory.getName());
 
-        relativeLayout1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setSelectedMenu(1);
-            }
-        });
+//        relativeLayout1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setSelectedMenu(1);
+//            }
+//        });
+//
+//        relativeLayout2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setSelectedMenu(2);
+//            }
+//        });
+//
+//        relativeLayout3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setSelectedMenu(3);
+//            }
+//        });
 
-        relativeLayout2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setSelectedMenu(2);
-            }
-        });
-
-        relativeLayout3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setSelectedMenu(3);
-            }
-        });
-
-        backToCategories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContext.popFragment();
-            }
-        });
+//        backToCategories.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mContext.popFragment();
+//            }
+//        });
 
         //-------------------- INIT CONNECTION AND EMPTY DATA HANDLER -------------------------------
         dataAndConnectionHandler = new FragmentDataAndConnectionHandler(inflater, container, rootView);
@@ -154,31 +156,31 @@ public class BSItemsFragment extends BSConnectionFragment {
         selectedFilter = selectedMenu;
 
         //HORARIO
-        if (selectedMenu == 1) {
-            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_white));
-            relativeLayout1.setBackgroundResource(R.color.black);
-        } else {
-            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_black));
-            relativeLayout1.setBackgroundResource(R.color.white);
-        }
-
-        //LOCALIZAÇÃO
-        if (selectedMenu == 2) {
-            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_white));
-            relativeLayout2.setBackgroundResource(R.color.black);
-        } else {
-            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_black));
-            relativeLayout2.setBackgroundResource(R.color.white);
-        }
-
-        //PREÇO
-        if (selectedMenu == 3) {
-            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_white));
-            relativeLayout3.setBackgroundResource(R.color.black);
-        } else {
-            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_black));
-            relativeLayout3.setBackgroundResource(R.color.white);
-        }
+//        if (selectedMenu == 1) {
+//            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_white));
+//            relativeLayout1.setBackgroundResource(R.color.black);
+//        } else {
+//            imageView1.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_hour_black));
+//            relativeLayout1.setBackgroundResource(R.color.white);
+//        }
+//
+//        //LOCALIZAÇÃO
+//        if (selectedMenu == 2) {
+//            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_white));
+//            relativeLayout2.setBackgroundResource(R.color.black);
+//        } else {
+//            imageView2.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_distance_black));
+//            relativeLayout2.setBackgroundResource(R.color.white);
+//        }
+//
+//        //PREÇO
+//        if (selectedMenu == 3) {
+//            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_white));
+//            relativeLayout3.setBackgroundResource(R.color.black);
+//        } else {
+//            imageView3.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_price_black));
+//            relativeLayout3.setBackgroundResource(R.color.white);
+//        }
 
         mountRecycler(selectedFilter);
     }

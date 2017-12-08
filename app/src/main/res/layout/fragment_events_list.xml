@@ -1,44 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/black_background"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/fragment_events_list_btn_favorites"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_love"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fragment_events_list_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+
+            android:text="Todos Eventos"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            />
+
+        <LinearLayout
+            android:id="@+id/fragment_events_list_btn_menu"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/menu_hamburguer"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_events_list_recycler"
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fragment_events_list_recycler"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/backToCategories"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="20dp"
-                android:src="@drawable/back_arrow"
-                app:civ_border_color="#FFF"
-                app:civ_border_width="1dp" />
-
-        </RelativeLayout>
-
-    </FrameLayout>
+        android:layout_weight="1"
+        />
 
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="44dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -46,15 +75,16 @@
 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:background="@color/white">
+            >
 
             <ImageView
                 android:id="@+id/fragment_events_list_bottom_imageview_1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/clock_bottom_menu"
+                />
 
         </RelativeLayout>
 
@@ -62,15 +92,15 @@
             android:id="@+id/fragment_events_list_bottom_button_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:background="@color/white">
+            >
 
             <ImageView
                 android:id="@+id/fragment_events_list_bottom_imageview_2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/location_bottom_menu"/>
 
         </RelativeLayout>
 
@@ -79,17 +109,33 @@
 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
             android:layout_weight="1"
-
-            android:background="@color/white">
+            >
 
             <ImageView
                 android:id="@+id/fragment_events_list_bottom_imageview_3"
 
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true" />
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/price_bottom_bar"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_events_list_bottom_button_4"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/fragment_events_list_bottom_imageview_4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/fire_bottom_menu"/>
 
         </RelativeLayout>
 

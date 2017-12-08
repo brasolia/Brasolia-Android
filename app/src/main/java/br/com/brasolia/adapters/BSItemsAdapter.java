@@ -9,14 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +39,15 @@ public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
     private int choice;
 
     public BSItemsAdapter(List<BSItem> items, int choice) {
-        this.items = items;
+        this.items = new ArrayList<>();
+
+        for (BSItem item : items) {
+            this.items.add(item);
+        }
+        for (BSItem item : items) {
+            this.items.add(item);
+        }
+
         this.choice = choice;
     }
 
@@ -62,12 +71,11 @@ public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
 
 class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
 
-    private FrameLayout frameLayout;
     private ImageView heart_icon;
     private ImageView cover;
     private TextView title, place, date, price, distance;
     private Context context;
-    private FrameLayout heart_icon_frameLayout;
+    private LinearLayout heart_icon_frameLayout;
     private boolean liked;
     private BSItem item;
 
@@ -75,18 +83,16 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
         super(itemView);
 
         context = itemView.getContext();
-        heart_icon_frameLayout = (FrameLayout) itemView.findViewById(R.id.frameLayout_item_event_heart_icon);
+        heart_icon_frameLayout = (LinearLayout) itemView.findViewById(R.id.frameLayout_item_event_heart_icon);
         heart_icon = (ImageView) itemView.findViewById(R.id.item_event_heart_icon);
         distance = (TextView) itemView.findViewById(R.id.item_event_distance);
         price = (TextView) itemView.findViewById(R.id.item_event_price);
         title = (TextView) itemView.findViewById(R.id.item_event_title);
-        title.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
+        title.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_bold.ttf"));
         place = (TextView) itemView.findViewById(R.id.item_event_place);
-        place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
+        place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf"));
         date = (TextView) itemView.findViewById(R.id.item_event_date);
-        date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_regular.ttf"));
-
-        frameLayout = (FrameLayout) itemView.findViewById(R.id.item_event_frameLayout);
+        date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_regular.ttf"));
 
         cover = (ImageView) itemView.findViewById(R.id.item_event_cover);
 
@@ -138,9 +144,6 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
             int width = displaymetrics.widthPixels;
             int height = (int) (width * 0.67);
 
-            frameLayout.getLayoutParams().width = width;
-            frameLayout.getLayoutParams().height = height;
-
             BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(item.getThumb(), cover,0, width, height, null);
         }
 
@@ -160,27 +163,10 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
                 distance.setVisibility(View.GONE);
                 break;
         }
-
-        //todo
-        price.setText("Money icons here");
-//        if (event.getPrices().get(0).getPrice() == 0)
-//            price.setText("Gratuito");
-//        else
-//            price.setText(String.format(Locale.getDefault(), "R$%.2f", event.getPrices().get(0).getPrice()));
         
         title.setText(item.getName());
         place.setText(item.getAddress());
 
-        //todo horario
-//        if (event.getStartHour().getDay() == event.getEndHour().getDay() &&
-//                event.getStartHour().getMonth() == event.getEndHour().getMonth()) {
-//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
-//            date.setText(formatter.format(event.getStartHour()));
-//        }
-//        else {
-//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
-//            date.setText(formatter.format(event.getStartHour()) + " a " + formatter.format(event.getEndHour()));
-//        }
     }
 
     @Override
