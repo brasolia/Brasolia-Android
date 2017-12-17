@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,14 +38,7 @@ public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
     private int choice;
 
     public BSItemsAdapter(List<BSItem> items, int choice) {
-        this.items = new ArrayList<>();
-
-        for (BSItem item : items) {
-            this.items.add(item);
-        }
-        for (BSItem item : items) {
-            this.items.add(item);
-        }
+        this.items = items;
 
         this.choice = choice;
     }

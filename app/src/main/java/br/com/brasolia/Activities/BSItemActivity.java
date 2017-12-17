@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,10 +34,11 @@ import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSCommentsAdapter;
-import br.com.brasolia.adapters.BSImagesCarrouselAdapter;
-import br.com.brasolia.application.BrasoliaApplication;
+import br.com.brasolia.adapters.BSItemHoursAdapter;
 import br.com.brasolia.models.BSComment;
+import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSItem;
+import br.com.brasolia.models.BSVenue;
 import br.com.brasolia.util.BSAlertUtil;
 import br.com.brasolia.util.BSConnectionActivity;
 import br.com.brasolia.util.BSFirebaseListenerRef;
@@ -47,7 +50,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BSItemActivity extends BSConnectionActivity {
 
-    private RecyclerView recyclerViewImages, recyclerViewComments;
+    private RecyclerView recyclerViewComments, recyclerViewHours;
+    private SliderLayout sliderShow;
     private EditText editText;
     private Button btSendMessage;
     private CircleImageView ivUser;
@@ -69,6 +73,12 @@ public class BSItemActivity extends BSConnectionActivity {
     }
 
     @Override
+    protected void onStop() {
+        sliderShow.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -82,42 +92,32 @@ public class BSItemActivity extends BSConnectionActivity {
         //region SCREEN ELEMENTS
         TextView tvDistance, tvPhone;
         ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
-        LinearLayout btShare, btCall, btHour, btLike;
+        LinearLayout btShare, btCall, btHour;
+        RelativeLayout btLike;
 
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
         qtd_comments = (TextView) findViewById(R.id.activity_event_qtd_comments);
         qtd_comments.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
-        recyclerViewImages = (RecyclerView) findViewById(R.id.activity_event_photos_recycler);
+        sliderShow = (SliderLayout) findViewById(R.id.slider);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
+        recyclerViewHours = (RecyclerView) findViewById(R.id.activity_event_recycler_hours);
+
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
         btCall = (LinearLayout) findViewById(R.id.activity_event_call);
-        btHour = (LinearLayout) findViewById(R.id.activity_event_hour);
-        btLike = (LinearLayout) findViewById(R.id.buttonLikeEvent);
+        btLike = (RelativeLayout) findViewById(R.id.buttonLikeEvent);
         tvPhone = (TextView) findViewById(R.id.activity_event_textview_phone);
-        imageButtonComprarIngresso = (ImageButton) findViewById(R.id.imageButtonComprarIngresso);
-        imageButtonNomeLista = (ImageButton) findViewById(R.id.imageButtonNomeLista);
         editText = (EditText) findViewById(R.id.userComment);
         btSendMessage = (Button) findViewById(R.id.sendComment);
         ivUser = (CircleImageView) findViewById(R.id.activity_event_user_image);
 
-        tvDistance = (TextView) findViewById(R.id.tvEventDistance);
-        tvDistance.setText(String.format(Locale.getDefault(), "%.2fkm", item.getDistance()));
         TextView secondAddressTitle = (TextView) findViewById(R.id.secondAddressTitle);
-        TextView eventFullAddress = (TextView) findViewById(R.id.eventFullAddress);
         TextView eventDescription = (TextView) findViewById(R.id.eventDescription);
         eventDescription.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
         TextView eventDate = (TextView) findViewById(R.id.eventDate);
-        eventDate.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_regular.ttf"));
-        ImageView staticMapImage = (ImageView) findViewById(R.id.map_photo);
-        TextView tvEventPrice = (TextView) findViewById(R.id.tvMaleTicketPrice);
+        eventDate.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_semibold.ttf"));
         ImageView eventCover = (ImageView) findViewById(R.id.eventCover);
         TextView eventName = (TextView) findViewById(R.id.eventName);
-        eventName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_semibold.ttf"));
-        CircleImageView brasolia = (CircleImageView) findViewById(R.id.profile_picture_event);
-
-
-        imageButtonComprarIngresso.setVisibility(View.GONE);
-        imageButtonNomeLista.setVisibility(View.GONE);
+        eventName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue_bold.ttf"));
         //endregion
 
         //region Set Values on Screen
@@ -129,45 +129,13 @@ public class BSItemActivity extends BSConnectionActivity {
             for (int i =0; i < item.getPrice_tier(); i++) {
                 price_rate += "$";
             }
-            tvEventPrice.setText(price_rate);
 
             eventName.setText(item.getName());
-//            secondAddressTitle.setText(item.getLocality());
-            eventFullAddress.setText(item.getAddress());
             eventDescription.setText(item.getDescription());
             tvPhone.setText(item.getPhone());
 
-            //todo
-//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
-//            eventDate.setText(formatter.format(event.getStartHour()));
-
-            final int zoom = 11; // Requisitado para remover zoom.
-            String staticMapUrl = "http://maps.google.com/maps/api/staticmap?center=" + item.getLatitude() + "," + item.getLongitude() + "&markers=icon:https://s3-us-west-2.amazonaws.com/s.cdpn.io/766702/tag_brasolia_2.png|" + item.getLatitude() + "," + item.getLongitude() + "&zoom=" + zoom + "&size=480x200&sensor=false";
-            Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
-            picasso.setIndicatorsEnabled(false);
-            picasso.load(staticMapUrl).resize(480, 200).into(staticMapImage);
-
-//            if (!event.getTicketLink().isEmpty()) {
-//                imageButtonComprarIngresso.setVisibility(View.VISIBLE);
-//                imageButtonComprarIngresso.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getTicketLink()));
-//                        startActivity(browserIntent);
-//                    }
-//                });
-//            } else if (!event.getListLink().isEmpty()) {
-//                imageButtonNomeLista.setVisibility(View.VISIBLE);
-//                imageButtonNomeLista.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getListLink()));
-//                        startActivity(browserIntent);
-//                    }
-//                });
-//            }
-
             mountRecyclerImages();
+            mountRecyclerHours();
             getComments();
         }
         //endregion
@@ -286,19 +254,19 @@ public class BSItemActivity extends BSConnectionActivity {
             }
         });
 
-        //region maps
-        RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
-        openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(BSItemActivity.this, EventMapActivity.class);
-                i.putExtra("eventMap", item);
-                startActivity(i);
-            }
-        });
-        //endregion
+//        //region maps
+//        RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
+//        openMap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(BSItemActivity.this, EventMapActivity.class);
+//                i.putExtra("eventMap", item);
+//                startActivity(i);
+//            }
+//        });
+//        //endregion
 
-        CircleImageView closeEvent = (CircleImageView) findViewById(R.id.closeEvent);
+        LinearLayout closeEvent = (LinearLayout) findViewById(R.id.closeEvent);
         closeEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,14 +277,29 @@ public class BSItemActivity extends BSConnectionActivity {
 
     private void mountRecyclerImages() {
         if (item.getImages() != null && item.getImages().size() > 0) {
-            recyclerViewImages.setHasFixedSize(true);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recyclerViewImages.setLayoutManager(layoutManager);
-            recyclerViewImages.setAdapter(new BSImagesCarrouselAdapter(item.getImages()));
+            for (String imageURL : item.getImages()) {
+                DefaultSliderView sliderView = new DefaultSliderView(this);
+                sliderView.image(imageURL);
+                sliderShow.addSlider(sliderView);
+            }
         } else {
-            recyclerViewImages.setVisibility(View.GONE);
+            sliderShow.setVisibility(View.GONE);
         }
+    }
+
+    private void mountRecyclerHours() {
+        if (item instanceof BSEvent) {
+            BSEvent event = (BSEvent) item;
+            recyclerViewHours.setAdapter(new BSItemHoursAdapter(event.getSchedule_hours(), null));
+        }
+        else {
+            BSVenue venue = (BSVenue) item;
+            recyclerViewHours.setAdapter(new BSItemHoursAdapter(null, venue.getOperating_hours()));
+        }
+        recyclerViewHours.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewHours.setLayoutManager(layoutManager);
     }
 
     private void mountRecyclerComments(boolean shouldShowMore) {

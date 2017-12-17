@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:layout_marginLeft="10dp"
-    android:background="@color/blackTranslucent2"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     >
 
     <ImageView
         android:id="@+id/item_image_carrousel_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintDimensionRatio="H,377:206"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
