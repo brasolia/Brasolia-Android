@@ -71,7 +71,7 @@ class BSCommentsViewHolder extends RecyclerView.ViewHolder {
     public void bindComment(BSComment comment) {
         BSUser owner = comment.getOwner();
         if (owner != null) {
-            name.setText(comment.getOwner().getName());
+            name.setText(comment.getOwner().getDisplayName());
             if (!comment.getOwner().getImageKey().equals("")) {
                 Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
                 picasso.setIndicatorsEnabled(false);

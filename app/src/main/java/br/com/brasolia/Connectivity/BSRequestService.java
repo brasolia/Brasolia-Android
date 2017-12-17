@@ -236,11 +236,16 @@ public class BSRequestService {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("comments");
         DatabaseReference commentRef = ref.push();
 
+        Map<String, Object> userObj = new HashMap<>();
+        userObj.put("id", user.getUid());
+        userObj.put("name", user.getDisplayName());
+        userObj.put("image", user.getPhotoUrl().toString());
+
         Map<String, Object> commentObj = new HashMap<>();
         commentObj.put("item", item.getId());
         commentObj.put("message", comment);
         commentObj.put("timestamp", timestamp);
-        commentObj.put("user", user.getUid());
+        commentObj.put("user", userObj);
 
         commentRef.updateChildren(commentObj);
     }

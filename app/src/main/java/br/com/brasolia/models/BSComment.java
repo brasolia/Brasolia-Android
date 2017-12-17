@@ -10,7 +10,6 @@ import java.util.Map;
 public class BSComment {
     String id;
     String itemID;
-    String ownerID;
     BSUser owner;
     Date createdAt;
     String message;
@@ -20,12 +19,12 @@ public class BSComment {
 
         itemID = (String) BSDictionary.getValueWithKeyAndType(dictionary, "item", String.class);
 
-        ownerID = (String) BSDictionary.getValueWithKeyAndType(dictionary, "user", String.class);
-
-        long timestamp = ((Double) BSDictionary.getValueWithKeyAndType(dictionary, "timestamp", Double.class)).longValue();
-        createdAt = BSDate.getDate(timestamp);
+        Number timestamp = (Number) BSDictionary.getValueWithKeyAndType(dictionary, "timestamp", Number.class);
+        createdAt = BSDate.getDate(timestamp.longValue());
 
         message = (String) BSDictionary.getValueWithKeyAndType(dictionary, "message", String.class);
+
+        owner = new BSUser((Map<String, Object>) dictionary.get("user"));
     }
 
     public String getId() {
@@ -34,10 +33,6 @@ public class BSComment {
 
     public String getItemID() {
         return itemID;
-    }
-
-    public String getOwnerID() {
-        return ownerID;
     }
 
     public BSUser getOwner() {
