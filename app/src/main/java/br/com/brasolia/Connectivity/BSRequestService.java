@@ -188,6 +188,7 @@ public class BSRequestService {
 
     public static void likeItem(boolean like, BSItem item, String userID) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("favorites/" + userID + "/items/" + item.getId());
+
         ref.setValue(like);
     }
 

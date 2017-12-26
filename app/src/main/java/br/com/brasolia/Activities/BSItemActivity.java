@@ -254,17 +254,17 @@ public class BSItemActivity extends BSConnectionActivity {
             }
         });
 
-//        //region maps
-//        RelativeLayout openMap = (RelativeLayout) findViewById(R.id.map_photo_layout);
-//        openMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(BSItemActivity.this, EventMapActivity.class);
-//                i.putExtra("eventMap", item);
-//                startActivity(i);
-//            }
-//        });
-//        //endregion
+        //region maps
+        LinearLayout openMap = (LinearLayout) findViewById(R.id.activity_event_map);
+        openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(BSItemActivity.this, EventMapActivity.class);
+                i.putExtra("eventMap", item);
+                startActivity(i);
+            }
+        });
+        //endregion
 
         LinearLayout closeEvent = (LinearLayout) findViewById(R.id.closeEvent);
         closeEvent.setOnClickListener(new View.OnClickListener() {

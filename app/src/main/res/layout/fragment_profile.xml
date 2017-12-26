@@ -1,42 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/black_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/black">
+            android:layout_height="wrap_content"
+            >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_picture"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
 
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
+                app:layout_constraintDimensionRatio="H,375:239"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
 
-                android:src="@drawable/profile" />
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:id="@+id/tvNameProfileFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/profile_picture"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                <LinearLayout
+                    android:id="@+id/fragment_profile_back"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    >
 
-                android:text="Cayke Prudente"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+
+                        android:src="@drawable/back" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp"
+                        >
+
+                        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+                            android:id="@+id/fragment_profile_avatar"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="16dp"
+
+                            app:siShape="@drawable/shape_rounded_rectangle"
+                            app:siSquare="true"
+
+                            android:src="@drawable/profile"
+                            />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            
+                            <View
+                                android:id="@+id/anchor"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <View
+                                android:layout_width="100dp"
+                                android:layout_height="5dp"
+
+                                android:layout_below="@id/anchor"
+                                android:layout_marginTop="32dp"
+                                android:layout_centerHorizontal="true"
+
+                                android:background="@color/bs_green_neon"
+
+
+                                />
+
+                        </RelativeLayout>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/fragment_profile_name"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+
+                        android:text="CAYKE PRUDENTE"
+                        android:textColor="@color/bs_green_neon"
+                        android:textSize="21sp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorAccent" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <LinearLayout
             android:id="@+id/fragment_profile_send_message"
@@ -51,10 +139,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_mensagem" />
+                android:src="@drawable/mail_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -63,18 +151,10 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_send_message"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_follow_face"
@@ -89,10 +169,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_fb" />
+                android:src="@drawable/fb_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -101,18 +181,11 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_follow_face"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_follow_insta"
@@ -127,10 +200,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_insta" />
+                android:src="@drawable/insta_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -139,18 +212,11 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_follow_instagram"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_share"
@@ -165,10 +231,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_share" />
+                android:src="@drawable/share_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -177,18 +243,9 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_share"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_rate_app"
@@ -203,10 +260,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_like" />
+                android:src="@drawable/love_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -215,18 +272,10 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_rate_app"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_privacy"
@@ -241,10 +290,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_privacy" />
+                android:src="@drawable/lock_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -253,20 +302,11 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_privacy"
-                android:textColor="@color/black"
-
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 />
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:id="@+id/fragment_profile_logout"
@@ -281,10 +321,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
 
-                android:src="@drawable/ic_logout" />
+                android:src="@drawable/logout_green" />
 
             <TextView
                 android:layout_width="0dp"
@@ -293,12 +333,8 @@
                 android:layout_weight="1"
 
                 android:text="@string/profile_logout"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/right_gray" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
         </LinearLayout>
 
     </LinearLayout>

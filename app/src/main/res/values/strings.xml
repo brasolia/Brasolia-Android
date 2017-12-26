@@ -122,10 +122,10 @@
     <string name="enter_no_login">entrar sem login</string>
     <string name="enter_fb">ENTRAR COM FACEBOOK</string>
 
-    <string name="profile_send_message">Envie-nos uma mensagem</string>
+    <string name="profile_send_message">Envie uma mensagem</string>
     <string name="profile_follow_face">Siga no Facebook</string>
     <string name="profile_follow_instagram">Siga no Instagram</string>
-    <string name="profile_share">Compartilhar</string>
+    <string name="profile_share">Compartilhe</string>
     <string name="profile_rate_app">Avalie nosso app</string>
     <string name="profile_privacy">Política de privacidade</string>
     <string name="profile_logout">Desconectar conta</string>

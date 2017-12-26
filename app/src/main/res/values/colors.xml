@@ -16,4 +16,5 @@
     <color name="bs_lightGray">#EBEAE6</color>
     <color name="bs_black">#000000</color>
     <color name="bs_lightGrayBackground">#F5F5F5</color>
+    <color name="bs_green_neon">#02D176</color>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,10 +14,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +33,6 @@ import java.io.IOException;
 import br.com.brasolia.Activities.MessageActivity;
 import br.com.brasolia.R;
 import br.com.brasolia.application.BrasoliaApplication;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by cayke on 12/04/17.
@@ -39,7 +41,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BSProfileFragment extends Fragment {
     TextView tvNameProfile;
     LinearLayout shareBrasolia, reviewBrasolia, facebook, instagram, sendMessage, logout;
-    CircleImageView profilePicture;
+    ImageView profilePicture;
 
     Context mContext;
 
@@ -47,18 +49,23 @@ public class BSProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(this.getActivity());
+
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         mContext = rootView.getContext();
 
         //region casts
-        tvNameProfile = (TextView) rootView.findViewById(R.id.tvNameProfileFragment);
+        tvNameProfile = (TextView) rootView.findViewById(R.id.fragment_profile_name);
         shareBrasolia = (LinearLayout) rootView.findViewById(R.id.fragment_profile_share);
         reviewBrasolia = (LinearLayout) rootView.findViewById(R.id.fragment_profile_rate_app);
         facebook = (LinearLayout) rootView.findViewById(R.id.fragment_profile_follow_face);
         instagram = (LinearLayout) rootView.findViewById(R.id.fragment_profile_follow_insta);
         sendMessage = (LinearLayout) rootView.findViewById(R.id.fragment_profile_send_message);
         logout = (LinearLayout) rootView.findViewById(R.id.fragment_profile_logout);
-        profilePicture = (CircleImageView) rootView.findViewById(R.id.profile_picture);
+        profilePicture = (ImageView) rootView.findViewById(R.id.fragment_profile_avatar);
+
+        final Typeface type = Typeface.createFromAsset(mContext.getAssets(), "fonts/BebasNeue_bold.ttf");
+        tvNameProfile.setTypeface(type);
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             logout.setVisibility(View.GONE);
@@ -67,6 +74,14 @@ public class BSProfileFragment extends Fragment {
         //endregion
 
         //region listeners
+        LinearLayout back = rootView.findViewById(R.id.fragment_profile_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

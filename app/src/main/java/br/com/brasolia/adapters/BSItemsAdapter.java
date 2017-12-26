@@ -23,6 +23,7 @@ import java.util.Locale;
 import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequestService;
 import br.com.brasolia.R;
+import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.util.BSAlertUtil;
 import br.com.brasolia.util.BSFirebaseListenerRef;
@@ -63,7 +64,7 @@ public class BSItemsAdapter extends RecyclerView.Adapter<BSEventViewHolder> {
 
 class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
 
-    private ImageView heart_icon;
+    private ImageView heart_icon, date_icon;
     private ImageView cover;
     private TextView title, place, date, price, distance;
     private Context context;
@@ -85,6 +86,7 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
         place.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/josefinsans_semibold.ttf"));
         date = (TextView) itemView.findViewById(R.id.item_event_date);
         date.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/BebasNeue_regular.ttf"));
+        date_icon = (ImageView) itemView.findViewById(R.id.item_event_date_icon);
 
         cover = (ImageView) itemView.findViewById(R.id.item_event_cover);
 
@@ -158,6 +160,17 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
         
         title.setText(item.getName());
         place.setText(item.getAddress());
+
+        if (item instanceof BSEvent) {
+            BSEvent event = (BSEvent) item;
+            date.setVisibility(View.VISIBLE);
+            date.setText(event.getCustom_date());
+            date_icon.setVisibility(View.VISIBLE);
+        }
+        else {
+            date_icon.setVisibility(View.GONE);
+            date.setVisibility(View.GONE);
+        }
 
     }
 

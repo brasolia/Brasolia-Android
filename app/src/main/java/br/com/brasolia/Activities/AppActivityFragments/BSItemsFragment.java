@@ -97,6 +97,14 @@ public class BSItemsFragment extends BSConnectionFragment {
         TextView title = (TextView) rootView.findViewById(R.id.fragment_events_list_title);
         title.setText(this.filterCategory.getName());
 
+        LinearLayout categoriesBtn = rootView.findViewById(R.id.fragment_events_list_btn_menu);
+        categoriesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
 //        relativeLayout1.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
