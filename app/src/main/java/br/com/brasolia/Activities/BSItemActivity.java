@@ -150,7 +150,7 @@ public class BSItemActivity extends BSConnectionActivity {
         //region Comments area handle
         btSendMessage.setVisibility(View.GONE);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Picasso.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).resize(120, 120).into(ivUser);
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().getPath(), ivUser, R.drawable.profile, 120, 120, null);
         }
         else {
             Picasso.with(this).load(R.drawable.profile).resize(120, 120).into(ivUser);

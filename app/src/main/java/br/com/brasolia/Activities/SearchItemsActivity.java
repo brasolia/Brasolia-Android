@@ -31,6 +31,7 @@ import java.util.Map;
 
 import br.com.brasolia.R;
 import br.com.brasolia.adapters.BSSearchAdapter;
+import br.com.brasolia.models.BSEvent;
 import br.com.brasolia.models.BSItem;
 import br.com.brasolia.models.BSVenue;
 import br.com.brasolia.util.BSFirebaseListenerRef;
@@ -154,9 +155,8 @@ public class SearchItemsActivity extends Activity {
                             String id = child.getKey();
                             if (dict.get("type").equals("venue"))
                                 items.add(new BSVenue(id, dict));
-                            //todo
-//                        else
-//                            items.add(child.getValue(BSEvent.class));
+                            else if (dict.get("type").equals("event"))
+                                items.add(new BSEvent(id, dict));
                         }
                         catch (Exception e) {
                             Log.d("BSRequestService", e.toString());

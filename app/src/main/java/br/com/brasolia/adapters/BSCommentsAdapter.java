@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
+import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.R;
-import br.com.brasolia.application.BrasoliaApplication;
 import br.com.brasolia.models.BSComment;
 import br.com.brasolia.models.BSUser;
 import br.com.brasolia.util.DateUtil;
@@ -73,9 +71,7 @@ class BSCommentsViewHolder extends RecyclerView.ViewHolder {
         if (owner != null) {
             name.setText(comment.getOwner().getDisplayName());
             if (!comment.getOwner().getImageKey().equals("")) {
-                Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
-                picasso.setIndicatorsEnabled(false);
-                picasso.load(comment.getOwner().getImageKey()).resize(100, 100).into(imageView);
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(comment.getOwner().getImageKey(), imageView, R.drawable.profile, 100, 100, null);
             }
         }
 

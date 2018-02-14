@@ -16,19 +16,18 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FragmentUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import br.com.brasolia.Activities.AppActivity;
-import br.com.brasolia.R;
 import br.com.brasolia.Activities.SearchItemsActivity;
-import br.com.brasolia.adapters.BSCategoriesAdapter;
-import br.com.brasolia.application.BrasoliaApplication;
-import br.com.brasolia.models.BSCategory;
+import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.Connectivity.BSRequestService;
+import br.com.brasolia.R;
+import br.com.brasolia.adapters.BSCategoriesAdapter;
+import br.com.brasolia.models.BSCategory;
 import br.com.brasolia.util.BSConnectionFragment;
 import br.com.brasolia.util.BSFirebaseListenerRef;
 import br.com.brasolia.util.FragmentDataAndConnectionHandler;
@@ -95,9 +94,8 @@ public class BSCategoryFragment extends BSConnectionFragment {
             btProfile.getLayoutParams().height = ConvertUtils.dp2px(36);
             image_profile.getLayoutParams().width = ConvertUtils.dp2px(36);
             image_profile.getLayoutParams().height = ConvertUtils.dp2px(36);
-            Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
-            picasso.setIndicatorsEnabled(false);
-            picasso.load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).resize(500, 500).into(image_profile);
+
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().getPath(), image_profile, R.drawable.profile, 500, 500, null);
         }
 
         TextView textView = (TextView) rootView.findViewById(R.id.fragment_categories_search_text);

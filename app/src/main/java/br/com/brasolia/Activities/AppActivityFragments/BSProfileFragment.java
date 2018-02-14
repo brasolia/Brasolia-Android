@@ -31,8 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import br.com.brasolia.Activities.MessageActivity;
+import br.com.brasolia.Connectivity.BSImageStorage;
 import br.com.brasolia.R;
-import br.com.brasolia.application.BrasoliaApplication;
 
 /**
  * Created by cayke on 12/04/17.
@@ -184,9 +184,9 @@ public class BSProfileFragment extends Fragment {
         if (user != null) {
             tvNameProfile.setText(user.getDisplayName());
 
-            Picasso picasso = Picasso.with(BrasoliaApplication.getAppContext());
-            picasso.setIndicatorsEnabled(false);
-            picasso.load(user.getPhotoUrl()).resize(500, 500).into(profilePicture);
+
+            //todo firebase genertates a facebook profile picture url that expires, we need to search a workaround for this
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(user.getPhotoUrl().getPath(), profilePicture, R.drawable.profile, 500, 500, null);
         }
         else {
             tvNameProfile.setText("");
