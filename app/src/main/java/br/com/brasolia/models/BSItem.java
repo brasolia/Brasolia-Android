@@ -15,6 +15,7 @@ import br.com.brasolia.Activities.AppActivity;
 public abstract class BSItem implements Parcelable {
     private String id;
     private String address;
+    private String address_search;
     private String description;
     private List<String> images;
     private String thumb;
@@ -32,6 +33,7 @@ public abstract class BSItem implements Parcelable {
         this.id = id;
 
         address = (String) BSDictionary.getValueWithKeyAndType(dictionary, "address", String.class);
+        address_search = (String) BSDictionary.getValueWithKeyAndType(dictionary, "address_search", String.class);
         description = (String) BSDictionary.getValueWithKeyAndType(dictionary, "description", String.class);
         thumb = (String) BSDictionary.getValueWithKeyAndType(dictionary, "thumb", String.class);
         images = (List) BSDictionary.getValueWithKeyAndType(dictionary, "images", List.class);
@@ -74,6 +76,10 @@ public abstract class BSItem implements Parcelable {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getAddressSearch() {
+        return address_search;
     }
 
     public String getDescription() {
@@ -138,6 +144,7 @@ public abstract class BSItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.address);
+        dest.writeString(this.address_search);
         dest.writeString(this.description);
         dest.writeStringList(this.images);
         dest.writeString(this.thumb);
@@ -155,6 +162,7 @@ public abstract class BSItem implements Parcelable {
     protected BSItem(Parcel in) {
         this.id = in.readString();
         this.address = in.readString();
+        this.address_search = in.readString();
         this.description = in.readString();
         this.images = in.createStringArrayList();
         this.thumb = in.readString();

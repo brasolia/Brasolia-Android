@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -90,9 +89,9 @@ public class BSItemActivity extends BSConnectionActivity {
 
 
         //region SCREEN ELEMENTS
-        TextView tvDistance, tvPhone;
-        ImageButton imageButtonComprarIngresso, imageButtonNomeLista;
-        LinearLayout btShare, btCall, btHour;
+        TextView tvStartPrice, tvPhone;
+        LinearLayout btShare, btCall, buy_bar;
+        RelativeLayout btnBuyTicket;
         RelativeLayout btLike;
 
         showMore = (TextView) findViewById(R.id.activity_event_showMore);
@@ -101,11 +100,14 @@ public class BSItemActivity extends BSConnectionActivity {
         sliderShow = (SliderLayout) findViewById(R.id.slider);
         recyclerViewComments = (RecyclerView) findViewById(R.id.activity_event_recycler_comments);
         recyclerViewHours = (RecyclerView) findViewById(R.id.activity_event_recycler_hours);
+        buy_bar = findViewById(R.id.activity_event_buy_bar);
 
         btShare = (LinearLayout) findViewById(R.id.activity_event_share);
         btCall = (LinearLayout) findViewById(R.id.activity_event_call);
         btLike = (RelativeLayout) findViewById(R.id.buttonLikeEvent);
+        btnBuyTicket = findViewById(R.id.activity_event_buy_button);
         tvPhone = (TextView) findViewById(R.id.activity_event_textview_phone);
+        tvStartPrice = findViewById(R.id.activity_event_buy_price);
         editText = (EditText) findViewById(R.id.userComment);
         btSendMessage = (Button) findViewById(R.id.sendComment);
         ivUser = (CircleImageView) findViewById(R.id.activity_event_user_image);
@@ -118,6 +120,8 @@ public class BSItemActivity extends BSConnectionActivity {
         ImageView eventCover = (ImageView) findViewById(R.id.eventCover);
         TextView eventName = (TextView) findViewById(R.id.eventName);
         eventName.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue_bold.ttf"));
+        TextView buy = (TextView) findViewById(R.id.activity_event_buy_text);
+        buy.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue_bold.ttf"));
         //endregion
 
         //region Set Values on Screen
@@ -132,11 +136,16 @@ public class BSItemActivity extends BSConnectionActivity {
 
             eventName.setText(item.getName());
             eventDescription.setText(item.getDescription());
+            secondAddressTitle.setText(item.getAddressSearch());
             tvPhone.setText(item.getPhone());
 
             mountRecyclerImages();
             mountRecyclerHours();
             getComments();
+
+            if (item instanceof BSVenue) {
+                buy_bar.setVisibility(View.GONE);
+            }
         }
         //endregion
 
@@ -150,7 +159,7 @@ public class BSItemActivity extends BSConnectionActivity {
         //region Comments area handle
         btSendMessage.setVisibility(View.GONE);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().getPath(), ivUser, R.drawable.profile, 120, 120, null);
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString(), ivUser, R.drawable.profile, 120, 120, null);
         }
         else {
             Picasso.with(this).load(R.drawable.profile).resize(120, 120).into(ivUser);
@@ -190,6 +199,27 @@ public class BSItemActivity extends BSConnectionActivity {
                 }
             }
         });
+
+        if (item instanceof BSEvent) {
+            BSEvent event = (BSEvent) item;
+
+            if (item.getUrl().length() > "http://".length()) {
+                btnBuyTicket.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(item.getUrl()));
+                        startActivity(i);
+                    }
+                });
+            }
+            tvStartPrice.setText(event.getCustomPrice());
+            tvStartPrice.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/josefinsans_semibold.ttf"));
+            eventDate.setText(event.getCustomDate());
+        }
+        else {
+            eventDate.setVisibility(View.INVISIBLE);
+        }
 
         btShare.setOnClickListener(new View.OnClickListener() {
             @Override

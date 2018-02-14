@@ -1,407 +1,467 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
 
-        <!-- Event cover -->
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <!-- Event cover -->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                app:layout_constraintDimensionRatio="H,377:302"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+
+                    app:layout_constraintDimensionRatio="H,377:302"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    >
+
+                    <ImageView
+                        android:id="@+id/eventCover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/blackTranslucent2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_alignParentTop="true"
+
+                            android:orientation="horizontal"
+                            >
+
+                            <LinearLayout
+                                android:id="@+id/closeEvent"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+
+                                    android:src="@drawable/back" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="1dp"/>
+
+                            <LinearLayout
+                                android:id="@+id/activity_event_share"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:gravity="center"
+                                >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+
+                                    android:src="@drawable/share" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/buttonLikeEvent"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_marginLeft="8dp"
+                                android:gravity="center_vertical"
+                                >
+
+                                <ImageView
+                                    android:id="@+id/likeEvent"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:src="@drawable/ic_love" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/eventName"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_above="@+id/eventDate"
+
+                            android:text="BRASILIA TATTOO FESTIVAL"
+                            android:textColor="#fff"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/eventDate"
+
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_marginBottom="24dp"
+
+                            android:textColor="#fff"
+                            android:textSize="16sp"
+                            android:text="03,04 e 05 de novembro / 2017"/>
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!-- Descricao -->
+            <TextView
+                android:id="@+id/eventDescription"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+
+                android:textSize="18sp"
+                android:text="@string/lorem_ipsum"
+                android:textColor="@color/bs_black"
+                />
+
+
+            <!-- Localizacao -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
                 >
 
-                <ImageView
-                    android:id="@+id/eventCover"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:background="@color/black_background"
+
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/gps"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activity_event_map"
+
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:background="@color/blackTranslucent2">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_alignParentTop="true"
+                    android:gravity="center_vertical"
 
-                        android:orientation="horizontal"
-                        >
-
-                        <LinearLayout
-                            android:id="@+id/closeEvent"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:gravity="center_vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-
-                                android:src="@drawable/back" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="1dp"/>
-
-                        <LinearLayout
-                            android:id="@+id/activity_event_share"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:gravity="center"
-                            >
-
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-
-                                android:src="@drawable/share" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/buttonLikeEvent"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
-                            android:layout_marginLeft="8dp"
-                            android:gravity="center_vertical"
-                            >
-
-                            <ImageView
-                                android:id="@+id/likeEvent"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:src="@drawable/ic_love" />
-
-                        </RelativeLayout>
-
-
-                    </LinearLayout>
+                    android:background="@color/bs_lightGrayBackground"
+                    >
 
                     <TextView
-                        android:id="@+id/eventName"
+                        android:id="@+id/secondAddressTitle"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_above="@+id/eventDate"
+                        android:layout_marginLeft="8dp"
 
-                        android:text="BRASILIA TATTOO FESTIVAL"
-                        android:textColor="#fff"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
+                        android:text="Centro de convencoes ulisses guimaraes"
+                        android:textColor="@color/bs_black"
+                        android:textSize="16sp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Telefone -->
+            <LinearLayout
+                android:id="@+id/activity_event_call"
+
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+
+                    android:background="@color/black_background"
+
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/phone"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center_vertical"
+
+                    android:background="@color/bs_lightGrayBackground"
+
+                    android:orientation="vertical"
+                    >
 
                     <TextView
-                        android:id="@+id/eventDate"
-
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginLeft="8dp"
 
-                        android:textColor="#fff"
-                        android:textSize="16sp"
-                        android:text="03,04 e 05 de novembro / 2017"/>
+                        android:textColor="@color/bs_black"
+                        android:textSize="12sp"
+                        android:text="Telefone de contato:"
+                        />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/activity_event_textview_phone"
 
-            </FrameLayout>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
 
-        </android.support.constraint.ConstraintLayout>
+                        android:text="(61) 99161-3871"
+                        android:textColor="@color/bs_black"
+                        android:textSize="18sp"
+                        />
 
-        <!-- Descricao -->
-        <TextView
-            android:id="@+id/eventDescription"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-
-            android:textSize="18sp"
-            android:text="@string/lorem_ipsum"
-            android:textColor="@color/bs_black"
-            />
-
-
-        <!-- Localizacao -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="16dp"
-            >
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-
-                android:background="@color/black_background"
-
-                android:gravity="center"
-                >
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/gps"
-                    />
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/activity_event_map"
-
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-
-                android:gravity="center_vertical"
-
-                android:background="@color/bs_lightGrayBackground"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 >
 
-                <TextView
-                    android:id="@+id/secondAddressTitle"
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider"
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
 
-                    android:text="Centro de convencoes ulisses guimaraes"
-                    android:textColor="@color/bs_black"
-                    android:textSize="16sp"
+                    app:layout_constraintDimensionRatio="H,377:206"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     />
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
-        </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:background="@color/colorAccent" />
 
-        <!-- Telefone -->
-        <LinearLayout
-            android:id="@+id/activity_event_call"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
 
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="16dp"
-            >
-
-            <LinearLayout
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-
-                android:background="@color/black_background"
-
-                android:gravity="center"
-                >
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/phone"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-
-                android:gravity="center_vertical"
-
-                android:background="@color/bs_lightGrayBackground"
-
-                android:orientation="vertical"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-
-                    android:textColor="@color/bs_black"
-                    android:textSize="12sp"
-                    android:text="Telefone de contato:"
-                    />
-
-                <TextView
-                    android:id="@+id/activity_event_textview_phone"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-
-                    android:text="(61) 99161-3871"
-                    android:textColor="@color/bs_black"
-                    android:textSize="18sp"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/slider"
-
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-
-                app:layout_constraintDimensionRatio="H,377:206"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="PROGRAMAÇÃO"
+                android:textColor="@color/bs_black"
                 />
 
-        </android.support.constraint.ConstraintLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_event_recycler_hours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/colorAccent" />
+            </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="24dp"
+                android:background="@color/colorAccent" />
 
-            android:text="PROGRAMAÇÃO"
-            android:textColor="@color/bs_black"
-            />
+            <TextView
+                android:id="@+id/activity_event_qtd_comments"
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_event_recycler_hours"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-        </android.support.v7.widget.RecyclerView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="24dp"
-            android:background="@color/colorAccent" />
-
-        <TextView
-            android:id="@+id/activity_event_qtd_comments"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-
-            android:text="Carregando comentários..."
-            android:textSize="13sp"
-            />
-
-        <LinearLayout
-            android:id="@+id/fieldTypeComment"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal"
-
-            android:layout_margin="10dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/activity_event_user_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="10dp"
-                />
-
-            <EditText
-                android:id="@+id/userComment"
-
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-
-                android:background="#E8E9E8"
-                android:hint="@string/leave_comment"
-
-                android:inputType="text"
-
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-            <Button
-                android:id="@+id/sendComment"
-
-                android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
 
-                android:background="#808080"
-                android:text="ENVIAR"
-                android:textColor="#fff" />
+                android:text="Carregando comentários..."
+                android:textSize="13sp"
+                />
+
+            <LinearLayout
+                android:id="@+id/fieldTypeComment"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal"
+
+                android:layout_margin="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/activity_event_user_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    />
+
+                <EditText
+                    android:id="@+id/userComment"
+
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+
+                    android:background="#E8E9E8"
+                    android:hint="@string/leave_comment"
+
+                    android:inputType="text"
+
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+                <Button
+                    android:id="@+id/sendComment"
+
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+
+                    android:background="#808080"
+                    android:text="ENVIAR"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorAccent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_event_recycler_comments"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/activity_event_showMore"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/forward"
+                android:paddingLeft="50dp"
+                android:paddingRight="15dp"
+                android:text="Ver mais..."
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:visibility="gone" />
         </LinearLayout>
+    </ScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/colorAccent" />
+    <LinearLayout
+        android:id="@+id/activity_event_buy_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_event_recycler_comments"
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent">
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/activity_event_buy_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="24dp"
 
-        <TextView
-            android:id="@+id/activity_event_showMore"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:drawableRight="@drawable/forward"
-            android:paddingLeft="50dp"
-            android:paddingRight="15dp"
-            android:text="Ver mais..."
-            android:textColor="#000"
-            android:textSize="18sp"
-            android:visibility="gone" />
+                android:text="A partir de R$15,00"
+                android:textColor="@color/bs_black"
+                android:textSize="18sp"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_event_buy_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+
+            android:background="@color/bs_green_neon"
+            >
+
+            <TextView
+                android:id="@+id/activity_event_buy_text"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:text="COMPRAR"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                />
+
+
+        </RelativeLayout>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

@@ -184,9 +184,8 @@ public class BSProfileFragment extends Fragment {
         if (user != null) {
             tvNameProfile.setText(user.getDisplayName());
 
-
             //todo firebase genertates a facebook profile picture url that expires, we need to search a workaround for this
-            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(user.getPhotoUrl().getPath(), profilePicture, R.drawable.profile, 500, 500, null);
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(user.getPhotoUrl().toString(), profilePicture, R.drawable.profile, 500, 500, null);
         }
         else {
             tvNameProfile.setText("");

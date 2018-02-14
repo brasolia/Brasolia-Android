@@ -95,7 +95,7 @@ public class BSCategoryFragment extends BSConnectionFragment {
             image_profile.getLayoutParams().width = ConvertUtils.dp2px(36);
             image_profile.getLayoutParams().height = ConvertUtils.dp2px(36);
 
-            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().getPath(), image_profile, R.drawable.profile, 500, 500, null);
+            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString(), image_profile, R.drawable.profile, 500, 500, null);
         }
 
         TextView textView = (TextView) rootView.findViewById(R.id.fragment_categories_search_text);

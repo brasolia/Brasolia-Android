@@ -164,7 +164,7 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
         if (item instanceof BSEvent) {
             BSEvent event = (BSEvent) item;
             date.setVisibility(View.VISIBLE);
-            date.setText(event.getCustom_date());
+            date.setText(event.getCustomDate());
             date_icon.setVisibility(View.VISIBLE);
         }
         else {

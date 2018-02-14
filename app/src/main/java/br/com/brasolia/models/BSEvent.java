@@ -14,11 +14,13 @@ import java.util.Map;
 public class BSEvent extends BSItem {
     private List<BSScheduleHour> schedule_hours;
     private String custom_date;
+    private String custom_price;
 
     public BSEvent(String id, Map<String, Object> dictionary) {
         super(id, dictionary);
 
         custom_date = (String) BSDictionary.getValueWithKeyAndType(dictionary, "custom_date", String.class);
+        custom_price = (String) BSDictionary.getValueWithKeyAndType(dictionary, "custom_price", String.class);
 
         List<Map<String, Object>> hours = (List) BSDictionary.getValueWithKeyAndType(dictionary, "schedule_hours", List.class);
         schedule_hours = new ArrayList<>();
@@ -32,8 +34,12 @@ public class BSEvent extends BSItem {
         return schedule_hours;
     }
 
-    public String getCustom_date() {
+    public String getCustomDate() {
         return custom_date;
+    }
+
+    public String getCustomPrice() {
+        return custom_price;
     }
 
 
@@ -47,12 +53,14 @@ public class BSEvent extends BSItem {
         super.writeToParcel(dest, flags);
         dest.writeTypedList(this.schedule_hours);
         dest.writeString(this.custom_date);
+        dest.writeString(this.custom_price);
     }
 
     protected BSEvent(Parcel in) {
         super(in);
         this.schedule_hours = in.createTypedArrayList(BSScheduleHour.CREATOR);
         this.custom_date = in.readString();
+        this.custom_price = in.readString();
     }
 
     public static final Creator<BSEvent> CREATOR = new Creator<BSEvent>() {
