@@ -138,7 +138,12 @@ class BSEventViewHolder extends BSRecyclerViewHolderDataObserver {
             int width = displaymetrics.widthPixels;
             int height = (int) (width * 0.67);
 
-            BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(item.getThumb(), cover,0, width, height, null);
+            try {
+                BSImageStorage.setImageWithPathToImageViewDownloadingIfNecessary(item.getThumb(), cover, 0, width, height, null);
+            }
+            catch (Exception exception) {
+                Log.d("BSITEMSADAPTER", exception.getMessage());
+            }
         }
 
         switch (choice) {
